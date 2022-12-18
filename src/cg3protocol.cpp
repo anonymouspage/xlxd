@@ -358,8 +358,15 @@ void CG3Protocol::IcmpTask(void)
 
     if ((iIcmpType = m_IcmpRawSocket.IcmpReceive(&Buffer, &Ip, 20)) != -1)
     {
+#ifdef __linux__
         if (iIcmpType == ICMP_DEST_UNREACH)
+#elif __APPLE__ && __MACH__
+        if (iIcmpType == ICMP_UNREACH)
+#else
+#error Need to determine correct value for ICMP unreachable macro.
+#endif
         {
+
                 CClients *clients = g_Reflector.GetClients();
 
                 int index = -1;
