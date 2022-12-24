@@ -1,6 +1,9 @@
+# testing
 CC=g++
-CFLAGS=-c -std=c++11 -pthread
-LDFLAGS=-std=c++11 -pthread
+CFLAGS=-g -fsanitize=thread -c -std=c++11 -pthread
+LDFLAGS=-fsanitize=thread -std=c++11 -pthread
+#CFLAGS=-c -std=c++11 -pthread
+#LDFLAGS=-std=c++11 -pthread
 SOURCES=$(wildcard *.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=xlxd
