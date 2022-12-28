@@ -50,8 +50,8 @@ public:
     void Close(void);
     
     // get
-    uint8 GetCodecIn(void) const;
-    uint8 GetCodecOut(void) const;
+    uint8_t GetCodecIn(void) const;
+    uint8_t GetCodecOut(void) const;
     int   GetChannelIn(void) const          { return m_iChannelIn; }
     int   GetChannelOut(void) const         { return m_iChannelOut; }
     int   GetSpeechGain(void) const         { return m_iSpeechGain; }

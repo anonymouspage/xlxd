@@ -50,13 +50,13 @@ public:
     
     // set
     void SetCallsign(const char *);
-    void SetCallsign(const uint8 *, int);
+    void SetCallsign(const uint8_t *, int);
     
     // modify
-    void PatchCallsign(int, const uint8 *, int);
+    void PatchCallsign(int, const uint8_t *, int);
     
     // get
-    void GetCallsign(uint8 *) const;
+    void GetCallsign(uint8_t *) const;
     void GetCallsignString(char *) const;
     
     // compare

@@ -116,8 +116,8 @@ void CWiresxCmdHandler::Task(void)
 {
     CWiresxInfo Info;
     CWiresxCmd  Cmd;
-    uint32  uiNodeTxFreq;
-    uint32  uiNodeRxFreq;
+    uint32_t  uiNodeTxFreq;
+    uint32_t  uiNodeRxFreq;
     char cModule;
     bool bCmd;
     
@@ -231,16 +231,16 @@ void CWiresxCmdHandler::Task(void)
 
 bool CWiresxCmdHandler::ReplyToWiresxDxReqPacket(const CIp &Ip, const CWiresxInfo &WiresxInfo, char Module)
 {
-    uint8 DX_RESP[] = {0x5DU, 0x51U, 0x5FU, 0x26U};
+    uint8_t DX_RESP[] = {0x5DU, 0x51U, 0x5FU, 0x26U};
     bool ok;
-    uint8 data[150U];
-    uint8 RoomId;
+    uint8_t data[150U];
+    uint8_t RoomId;
     bool IsLinked;
     
     // linked module
     // module A == 0
     IsLinked = (Module != ' ');
-    RoomId = (uint8)(Module - 'A');
+    RoomId = (uint8_t)(Module - 'A');
     
     // fill data buffer
     ::memset(data, 0x00U, 150U);
@@ -328,8 +328,8 @@ bool CWiresxCmdHandler::ReplyToWiresxDxReqPacket(const CIp &Ip, const CWiresxInf
 bool CWiresxCmdHandler::ReplyToWiresxAllReqPacket(const CIp &Ip, const CWiresxInfo &WiresxInfo, int Start)
 {
     bool ok = false;
-    uint8 ALL_RESP[]  = {0x5DU, 0x46U, 0x5FU, 0x29U};
-    uint8 data[1100U];
+    uint8_t ALL_RESP[]  = {0x5DU, 0x46U, 0x5FU, 0x29U};
+    uint8_t data[1100U];
     
     // fill data buffer
     ::memset(data, 0x00U, 1100U);
@@ -433,14 +433,14 @@ bool CWiresxCmdHandler::ReplyToWiresxAllReqPacket(const CIp &Ip, const CWiresxIn
 
 bool CWiresxCmdHandler::ReplyToWiresxConnReqPacket(const CIp &Ip, const CWiresxInfo &WiresxInfo, char Module)
 {
-    uint8 CONN_RESP[] = {0x5DU, 0x41U, 0x5FU, 0x26U};
+    uint8_t CONN_RESP[] = {0x5DU, 0x41U, 0x5FU, 0x26U};
     bool ok = false;
-    uint8 data[110U];
+    uint8_t data[110U];
     uint RoomId;
 
     // linked room
     // Module A == 0
-    RoomId = (uint8)(Module - 'A');
+    RoomId = (uint8_t)(Module - 'A');
     
     // prepare buffer
     ::memset(data, 0x00U, 110U);
@@ -496,9 +496,9 @@ bool CWiresxCmdHandler::ReplyToWiresxConnReqPacket(const CIp &Ip, const CWiresxI
 
 bool CWiresxCmdHandler::ReplyToWiresxDiscReqPacket(const CIp &Ip, const CWiresxInfo &WiresxInfo)
 {
-    uint8 DISC_RESP[] = {0x5DU, 0x41U, 0x5FU, 0x26U};
+    uint8_t DISC_RESP[] = {0x5DU, 0x41U, 0x5FU, 0x26U};
     bool ok = false;
-    uint8 data[110U];
+    uint8_t data[110U];
     
     // prepare buffer
     ::memset(data, 0x00U, 110U);
@@ -541,21 +541,21 @@ bool CWiresxCmdHandler::ReplyToWiresxDiscReqPacket(const CIp &Ip, const CWiresxI
 
 bool CWiresxCmdHandler::EncodeAndSendWiresxPacket(const CIp &Ip, const CBuffer &DataOrg, const CWiresxInfo &WiresxInfo)
 {
-    uint8 DEFAULT_FICH[] = {0x20U, 0x00U, 0x01U, 0x00U};
-    uint8 NET_HEADER[] = "YSFD                    ALL      ";
+    uint8_t DEFAULT_FICH[] = {0x20U, 0x00U, 0x01U, 0x00U};
+    uint8_t NET_HEADER[] = "YSFD                    ALL      ";
     CYSFFICH fich;
     CYSFPayload payload;
-    uint8 buffer[200U];
+    uint8_t buffer[200U];
 
     
     CBuffer Data(DataOrg);
     
     // seq no
-    uint8 seqNo = 0U;
+    uint8_t seqNo = 0U;
     
     // calculate bt and adjust length
     uint length = (uint)Data.size();
-    uint8 bt = 0;
+    uint8_t bt = 0;
     if (length > 260U)
     {
         bt = 1U;
@@ -575,11 +575,11 @@ bool CWiresxCmdHandler::EncodeAndSendWiresxPacket(const CIp &Ip, const CBuffer &
     }
     if ( length > (uint)Data.size() )
     {
-        Data.Append((uint8)0x20U, (int)(length - (uint)Data.size()));
+        Data.Append((uint8_t)0x20U, (int)(length - (uint)Data.size()));
     }
     
     // ft
-    uint8 ft = WiresxCalcFt(length, 0U);
+    uint8_t ft = WiresxCalcFt(length, 0U);
     
     // Write the header
     {
@@ -608,9 +608,9 @@ bool CWiresxCmdHandler::EncodeAndSendWiresxPacket(const CIp &Ip, const CBuffer &
     // write the payload
     fich.setFI(YSF_FI_COMMUNICATIONS);
     uint offset = 0;
-    for ( uint8 bn = 0; bn <= bt; bn++ )
+    for ( uint8_t bn = 0; bn <= bt; bn++ )
     {
-        for ( uint8 fn = 0; fn <= ft; fn++ )
+        for ( uint8_t fn = 0; fn <= ft; fn++ )
         {
             // fich
             fich.setFT(ft);
@@ -639,7 +639,7 @@ bool CWiresxCmdHandler::EncodeAndSendWiresxPacket(const CIp &Ip, const CBuffer &
                 }
                 else
                 {
-                   uint8 temp[20U];
+                   uint8_t temp[20U];
                    temp[0U] = 0x00U;
                    ::memcpy(temp + 1U, Data.data() + offset, 19U);
                    payload.writeDataFRModeData2(temp, buffer + 35U);
@@ -681,7 +681,7 @@ bool CWiresxCmdHandler::EncodeAndSendWiresxPacket(const CIp &Ip, const CBuffer &
 }
 
 
-uint8 CWiresxCmdHandler::WiresxCalcFt(uint length, uint offset) const
+uint8_t CWiresxCmdHandler::WiresxCalcFt(uint length, uint offset) const
 {
     length -= offset;
     if (length > 220U) return 7U;
@@ -694,7 +694,7 @@ uint8 CWiresxCmdHandler::WiresxCalcFt(uint length, uint offset) const
 }
 
 
-void CWiresxCmdHandler::SendPacket(const CIp &Ip, uint8 *Buffer)
+void CWiresxCmdHandler::SendPacket(const CIp &Ip, uint8_t *Buffer)
 {
     //CBuffer packet(Buffer, 155);
     //DebugTestDecodePacket(packet);
@@ -714,8 +714,8 @@ void CWiresxCmdHandler::SendPacket(const CIp &Ip, uint8 *Buffer)
 #ifdef DEBUG_DUMPFILE
 bool CWiresxCmdHandler::DebugTestDecodePacket(const CBuffer &Buffer)
 {
-    uint8 tag[] = { 'Y','S','F','D' };
-    static uint8 command[4098];
+    uint8_t tag[] = { 'Y','S','F','D' };
+    static uint8_t command[4098];
     static int len;
     CYSFFICH Fich;
     CYSFPayload payload;

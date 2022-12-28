@@ -321,7 +321,7 @@ void CReflector::CloseStream(CPacketStream *stream)
 void CReflector::RouterThread(CReflector *This, CPacketStream *streamIn)
 {
     // get our module
-    uint8 uiModuleId = This->GetStreamModule(streamIn);
+    uint8_t uiModuleId = This->GetStreamModule(streamIn);
 
     // get on input queue
     CPacket *packet;
@@ -433,7 +433,7 @@ void CReflector::JsonReportThread(CReflector *This)
             if ( Socket.Receive(&Buffer, &Ip, 50) != -1 )
             {
                 // check verb
-                if ( Buffer.Compare((uint8 *)"hello", 5) == 0 )
+                if ( Buffer.Compare((uint8_t *)"hello", 5) == 0 )
                 {
                     std::cout << "Monitor socket connected with " << Ip << std::endl;
 
@@ -447,7 +447,7 @@ void CReflector::JsonReportThread(CReflector *This)
 					This->SendJsonNodesObject(Socket, Ip);
 					This->SendJsonStationsObject(Socket, Ip);
                 }
-                else if ( Buffer.Compare((uint8 *)"bye", 3) == 0 )
+                else if ( Buffer.Compare((uint8_t *)"bye", 3) == 0 )
                 {
                     std::cout << "Monitor socket disconnected" << std::endl;
 
@@ -667,7 +667,7 @@ void CReflector::SendJsonReflectorObject(CUdpSocket &Socket, CIp &Ip)
  	char mod[8] = "\"A\"";
 
  	// get reflector callsign
-    m_Callsign.GetCallsign((uint8 *)cs);
+    m_Callsign.GetCallsign((uint8_t *)cs);
     cs[CALLSIGN_LEN] = 0;
 
 	// build string

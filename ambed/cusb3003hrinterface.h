@@ -41,7 +41,7 @@ class CUsb3003HRInterface : public CUsb3003Interface
 {
 public:
     // constructors
-    CUsb3003HRInterface(uint32, uint32, const char *, const char *);
+    CUsb3003HRInterface(uint32_t, uint32_t, const char *, const char *);
     
     // destructor
     virtual ~CUsb3003HRInterface() {}

@@ -41,9 +41,9 @@ public:
     virtual ~CYsfUtils() {};
     
     // code / decode
-    static void DecodeVD2Vchs(uint8 *, uint8 **);
-    static void DecodeVD2Vch(uint8 *, uint8 *);
-    static void EncodeVD2Vch(uint8 *, uint8 *);
+    static void DecodeVD2Vchs(uint8_t *, uint8_t **);
+    static void DecodeVD2Vch(uint8_t *, uint8_t *);
+    static void EncodeVD2Vch(uint8_t *, uint8_t *);
     
 protected:
     // data

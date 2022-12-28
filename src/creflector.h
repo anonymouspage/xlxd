@@ -60,7 +60,7 @@ public:
     void SetListenIp(const CIp &ip)                 { m_Ip = ip; UpdateListenMac(); }
     void SetTranscoderIp(const CIp &ip)             { m_AmbedIp = ip; }
     const CIp &GetListenIp(void) const              { return m_Ip; }
-    const uint8 *GetListenMac(void) const           { return (const uint8 *)m_Mac; }
+    const uint8_t *GetListenMac(void) const           { return (const uint8_t *)m_Mac; }
     const CIp &GetTranscoderIp(void) const          { return m_AmbedIp; }
     
     // operation
@@ -124,7 +124,7 @@ protected:
     // identity
     CCallsign       m_Callsign;
     CIp             m_Ip;
-    uint8           m_Mac[6];
+    uint8_t           m_Mac[6];
     CIp             m_AmbedIp;
     
     // objects

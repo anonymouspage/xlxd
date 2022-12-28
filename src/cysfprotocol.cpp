@@ -52,7 +52,7 @@ bool CYsfProtocol::Init(void)
     ok = CProtocol::Init();
     
     // update the reflector callsign
-    m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"YSF", 3);
+    m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"YSF", 3);
     
     // create our socket
     ok &= m_Socket.Open(YSF_PORT);
@@ -341,7 +341,7 @@ void CYsfProtocol::HandleQueue(void)
         else
         {
             // update local stream cache or send triplet when needed
-            uint8 sid = packet->GetYsfPacketSubId();
+            uint8_t sid = packet->GetYsfPacketSubId();
             if ( (sid >= 0) && (sid <= 4) )
             {
                 //std::cout << (int)sid;
@@ -418,7 +418,7 @@ void CYsfProtocol::HandleKeepalives(void)
 
 bool CYsfProtocol::IsValidConnectPacket(const CBuffer &Buffer, CCallsign *callsign)
 {
-    uint8 tag[] = { 'Y','S','F','P' };
+    uint8_t tag[] = { 'Y','S','F','P' };
 
     bool valid = false;
     if ( (Buffer.size() == 14) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
@@ -432,7 +432,7 @@ bool CYsfProtocol::IsValidConnectPacket(const CBuffer &Buffer, CCallsign *callsi
 
 bool CYsfProtocol::IsValidDvPacket(const CBuffer &Buffer, CYSFFICH *Fich)
 {
-    uint8 tag[] = { 'Y','S','F','D' };
+    uint8_t tag[] = { 'Y','S','F','D' };
     
     bool valid = false;
 
@@ -459,7 +459,7 @@ bool CYsfProtocol::IsValidDvHeaderPacket(const CIp &Ip, const CYSFFICH &Fich, co
     if ( Fich.getFI() == YSF_FI_HEADER )
     {
         // get stream id
-        uint32 uiStreamId = IpToStreamId(Ip);
+        uint32_t uiStreamId = IpToStreamId(Ip);
         
         // get header data
         CYSFPayload ysfPayload;
@@ -495,10 +495,10 @@ bool CYsfProtocol::IsValidDvHeaderPacket(const CIp &Ip, const CYSFFICH &Fich, co
         }
         // and 2 DV Frames
         {
-            uint8  uiAmbe[AMBE_SIZE];
+            uint8_t  uiAmbe[AMBE_SIZE];
             ::memset(uiAmbe, 0x00, sizeof(uiAmbe));
-            frames[0] = new CDvFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 0, (uint8)0);
-            frames[1] = new CDvFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 1, (uint8)0);
+            frames[0] = new CDvFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 0, (uint8_t)0);
+            frames[1] = new CDvFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 1, (uint8_t)0);
         }
         
         // check validity of packets
@@ -538,19 +538,19 @@ bool CYsfProtocol::IsValidDvFramePacket(const CIp &Ip, const CYSFFICH &Fich, con
     if ( Fich.getFI() == YSF_FI_COMMUNICATIONS )
     {
         // get stream id
-        uint32 uiStreamId = IpToStreamId(Ip);
+        uint32_t uiStreamId = IpToStreamId(Ip);
         
         // get DV frames
-        uint8   ambe0[AMBEPLUS_SIZE];
-        uint8   ambe1[AMBEPLUS_SIZE];
-        uint8   ambe2[AMBEPLUS_SIZE];
-        uint8   ambe3[AMBEPLUS_SIZE];
-        uint8   ambe4[AMBEPLUS_SIZE];
-        uint8 *ambes[5] = { ambe0, ambe1, ambe2, ambe3, ambe4 };
+        uint8_t   ambe0[AMBEPLUS_SIZE];
+        uint8_t   ambe1[AMBEPLUS_SIZE];
+        uint8_t   ambe2[AMBEPLUS_SIZE];
+        uint8_t   ambe3[AMBEPLUS_SIZE];
+        uint8_t   ambe4[AMBEPLUS_SIZE];
+        uint8_t *ambes[5] = { ambe0, ambe1, ambe2, ambe3, ambe4 };
         CYsfUtils::DecodeVD2Vchs((unsigned char *)&(Buffer.data()[35]), ambes);
 
         // get DV frames
-        uint8 fid = Buffer.data()[34];
+        uint8_t fid = Buffer.data()[34];
         frames[0] = new CDvFramePacket(ambe0, uiStreamId, Fich.getFN(), 0, fid);
         frames[1] = new CDvFramePacket(ambe1, uiStreamId, Fich.getFN(), 1, fid);
         frames[2] = new CDvFramePacket(ambe2, uiStreamId, Fich.getFN(), 2, fid);
@@ -595,14 +595,14 @@ bool CYsfProtocol::IsValidDvLastFramePacket(const CIp &Ip, const CYSFFICH &Fich,
     if ( Fich.getFI() == YSF_FI_TERMINATOR )
     {
         // get stream id
-        uint32 uiStreamId = IpToStreamId(Ip);
+        uint32_t uiStreamId = IpToStreamId(Ip);
         
         // get DV frames
         {
-            uint8  uiAmbe[AMBE_SIZE];
+            uint8_t  uiAmbe[AMBE_SIZE];
             ::memset(uiAmbe, 0x00, sizeof(uiAmbe));
-            frames[0] = new CDvFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 0, (uint8)0);
-            frames[1] = new CDvLastFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 1, (uint8)0);
+            frames[0] = new CDvFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 0, (uint8_t)0);
+            frames[1] = new CDvLastFramePacket(uiAmbe, uiStreamId, Fich.getFN(), 1, (uint8_t)0);
         }
         
         // check validity of packets
@@ -630,17 +630,17 @@ bool CYsfProtocol::IsValidDvLastFramePacket(const CIp &Ip, const CYSFFICH &Fich,
 
 void CYsfProtocol::EncodeConnectAckPacket(CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'Y','S','F','P','R','E','F','L','E','C','T','O','R',0x20 };
+    uint8_t tag[] = { 'Y','S','F','P','R','E','F','L','E','C','T','O','R',0x20 };
 
     Buffer->Set(tag, sizeof(tag));
 }
 
 bool CYsfProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer *Buffer) const
 {
-    uint8 tag[]  = { 'Y','S','F','D' };
-    uint8 dest[] = { 'A','L','L',' ',' ',' ',' ',' ',' ',' ' };
+    uint8_t tag[]  = { 'Y','S','F','D' };
+    uint8_t dest[] = { 'A','L','L',' ',' ',' ',' ',' ',' ',' ' };
     char  sz[YSF_CALLSIGN_LENGTH];
-    uint8 fichd[YSF_FICH_LENGTH_BYTES];
+    uint8_t fichd[YSF_FICH_LENGTH_BYTES];
 
     // tag
     Buffer->Set(tag, sizeof(tag));
@@ -648,18 +648,18 @@ bool CYsfProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer *
     ::memset(sz, ' ', sizeof(sz));
     Header.GetRpt1Callsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // my
     ::memset(sz, ' ', sizeof(sz));
     Header.GetMyCallsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // dest
     Buffer->Append(dest, 10);
     // net frame counter
-    Buffer->Append((uint8)0x00);
+    Buffer->Append((uint8_t)0x00);
     // FS
-    Buffer->Append((uint8 *)YSF_SYNC_BYTES, YSF_SYNC_LENGTH_BYTES);
+    Buffer->Append((uint8_t *)YSF_SYNC_BYTES, YSF_SYNC_LENGTH_BYTES);
     // FICH
     CYSFFICH fich;
     fich.setFI(YSF_FI_HEADER);
@@ -682,7 +682,7 @@ bool CYsfProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer *
     ::memcpy(csd1 + YSF_CALLSIGN_LENGTH, sz, ::strlen(sz));
     ::memset(csd2, ' ', YSF_CALLSIGN_LENGTH + YSF_CALLSIGN_LENGTH);
     CYSFPayload payload;
-    uint8 temp[120];
+    uint8_t temp[120];
     payload.writeHeader(temp, csd1, csd2);
     Buffer->Append(temp+30, 120-30);
      
@@ -692,11 +692,11 @@ bool CYsfProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer *
 
 bool CYsfProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFramePacket *DvFrames, CBuffer *Buffer) const
 {
-    uint8 tag[]  = { 'Y','S','F','D' };
-    uint8 dest[] = { 'A','L','L',' ',' ',' ',' ',' ',' ',' ' };
-    uint8 gps[]  = { 0x52,0x22,0x61,0x5F,0x27,0x03,0x5E,0x20,0x20,0x20 };
+    uint8_t tag[]  = { 'Y','S','F','D' };
+    uint8_t dest[] = { 'A','L','L',' ',' ',' ',' ',' ',' ',' ' };
+    uint8_t gps[]  = { 0x52,0x22,0x61,0x5F,0x27,0x03,0x5E,0x20,0x20,0x20 };
     char  sz[YSF_CALLSIGN_LENGTH];
-    uint8 fichd[YSF_FICH_LENGTH_BYTES];
+    uint8_t fichd[YSF_FICH_LENGTH_BYTES];
     
      // tag
     Buffer->Set(tag, sizeof(tag));
@@ -704,18 +704,18 @@ bool CYsfProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrameP
     ::memset(sz, ' ', sizeof(sz));
     Header.GetRpt1Callsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // my
     ::memset(sz, ' ', sizeof(sz));
     Header.GetMyCallsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // dest
     Buffer->Append(dest, 10);
     // net frame counter
     Buffer->Append(DvFrames[0].GetYsfPacketFrameId());
      // FS
-    Buffer->Append((uint8 *)YSF_SYNC_BYTES, YSF_SYNC_LENGTH_BYTES);
+    Buffer->Append((uint8_t *)YSF_SYNC_BYTES, YSF_SYNC_LENGTH_BYTES);
     // FICH
     CYSFFICH fich;
     fich.setFI(YSF_FI_COMMUNICATIONS);
@@ -731,7 +731,7 @@ bool CYsfProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrameP
     Buffer->Append(fichd, YSF_FICH_LENGTH_BYTES);
      // payload
     CYSFPayload payload;
-    uint8 temp[120];
+    uint8_t temp[120];
     ::memset(temp, 0x00, sizeof(temp));
     // DV
     for ( int i = 0; i < 5; i++ )
@@ -784,10 +784,10 @@ bool CYsfProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrameP
 
 bool CYsfProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, CBuffer *Buffer) const
 {
-    uint8 tag[]  = { 'Y','S','F','D' };
-    uint8 dest[] = { 'A','L','L',' ',' ',' ',' ',' ',' ',' ' };
+    uint8_t tag[]  = { 'Y','S','F','D' };
+    uint8_t dest[] = { 'A','L','L',' ',' ',' ',' ',' ',' ',' ' };
     char  sz[YSF_CALLSIGN_LENGTH];
-    uint8 fichd[YSF_FICH_LENGTH_BYTES];
+    uint8_t fichd[YSF_FICH_LENGTH_BYTES];
     
     // tag
     Buffer->Set(tag, sizeof(tag));
@@ -795,18 +795,18 @@ bool CYsfProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, CBuffer *Bu
     ::memset(sz, ' ', sizeof(sz));
     Header.GetRpt1Callsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // my
     ::memset(sz, ' ', sizeof(sz));
     Header.GetMyCallsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // dest
     Buffer->Append(dest, 10);
     // net frame counter
-    Buffer->Append((uint8)0x00);
+    Buffer->Append((uint8_t)0x00);
     // FS
-    Buffer->Append((uint8 *)YSF_SYNC_BYTES, YSF_SYNC_LENGTH_BYTES);
+    Buffer->Append((uint8_t *)YSF_SYNC_BYTES, YSF_SYNC_LENGTH_BYTES);
     // FICH
     CYSFFICH fich;
     fich.setFI(YSF_FI_TERMINATOR);
@@ -829,7 +829,7 @@ bool CYsfProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, CBuffer *Bu
     ::memcpy(csd1 + YSF_CALLSIGN_LENGTH, sz, ::strlen(sz));
     ::memset(csd2, ' ', YSF_CALLSIGN_LENGTH + YSF_CALLSIGN_LENGTH);
     CYSFPayload payload;
-    uint8 temp[120];
+    uint8_t temp[120];
     payload.writeHeader(temp, csd1, csd2);
     Buffer->Append(temp+30, 120-30);
     
@@ -842,12 +842,12 @@ bool CYsfProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, CBuffer *Bu
 
 bool CYsfProtocol::IsValidwirexPacket(const CBuffer &Buffer, CYSFFICH *Fich, CCallsign *Callsign, int *Cmd, int *Arg)
 {
-    uint8 tag[] = { 'Y','S','F','D' };
-    uint8 DX_REQ[]    = {0x5DU, 0x71U, 0x5FU};
-    uint8 CONN_REQ[]  = {0x5DU, 0x23U, 0x5FU};
-    uint8 DISC_REQ[]  = {0x5DU, 0x2AU, 0x5FU};
-    uint8 ALL_REQ[]   = {0x5DU, 0x66U, 0x5FU};
-    uint8 command[300];
+    uint8_t tag[] = { 'Y','S','F','D' };
+    uint8_t DX_REQ[]    = {0x5DU, 0x71U, 0x5FU};
+    uint8_t CONN_REQ[]  = {0x5DU, 0x23U, 0x5FU};
+    uint8_t DISC_REQ[]  = {0x5DU, 0x2AU, 0x5FU};
+    uint8_t ALL_REQ[]   = {0x5DU, 0x66U, 0x5FU};
+    uint8_t command[300];
     CYSFPayload payload;
     bool valid = false;
 
@@ -957,7 +957,7 @@ bool CYsfProtocol::IsValidwirexPacket(const CBuffer &Buffer, CYSFFICH *Fich, CCa
 
 bool CYsfProtocol::IsValidServerStatusPacket(const CBuffer &Buffer) const
 {
-    uint8 tag[] = { 'Y','S','F','S' };
+    uint8_t tag[] = { 'Y','S','F','S' };
      
     return ( (Buffer.size() >= 4) && (Buffer.Compare(tag, sizeof(tag)) == 0) );
 }
@@ -966,9 +966,9 @@ bool CYsfProtocol::IsValidServerStatusPacket(const CBuffer &Buffer) const
 
 bool CYsfProtocol::EncodeServerStatusPacket(CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'Y','S','F','S' };
-    uint8 description[] = { 'X','L','X',' ','r','e','f','l','e','c','t','o','r',' ' };
-    uint8 callsign[16];
+    uint8_t tag[] = { 'Y','S','F','S' };
+    uint8_t description[] = { 'X','L','X',' ','r','e','f','l','e','c','t','o','r',' ' };
+    uint8_t callsign[16];
      
     // tag
     Buffer->Set(tag, sizeof(tag));
@@ -977,7 +977,7 @@ bool CYsfProtocol::EncodeServerStatusPacket(CBuffer *Buffer) const
     g_Reflector.GetCallsign().GetCallsign(callsign);
     char sz[16];
     ::sprintf(sz, "%05u", CalcHash(callsign, 16) % 100000U);
-    Buffer->Append((uint8 *)sz, 5);
+    Buffer->Append((uint8_t *)sz, 5);
     // name
     Buffer->Append(callsign, 16);
     // desscription
@@ -987,15 +987,15 @@ bool CYsfProtocol::EncodeServerStatusPacket(CBuffer *Buffer) const
     int count = MIN(999, clients->GetSize());
     g_Reflector.ReleaseClients();
     ::sprintf(sz, "%03u", count);
-    Buffer->Append((uint8 *)sz, 3);
+    Buffer->Append((uint8_t *)sz, 3);
     
     // done
     return true;
 }
 
-uint32 CYsfProtocol::CalcHash(const uint8 *buffer, int len) const
+uint32_t CYsfProtocol::CalcHash(const uint8_t *buffer, int len) const
 {
-    uint32 hash = 0U;
+    uint32_t hash = 0U;
 
     for ( int i = 0; i < len; i++)
     {
@@ -1016,9 +1016,9 @@ uint32 CYsfProtocol::CalcHash(const uint8 *buffer, int len) const
 
 
 // uiStreamId helpers
-uint32 CYsfProtocol::IpToStreamId(const CIp &ip) const
+uint32_t CYsfProtocol::IpToStreamId(const CIp &ip) const
 {
-    return ip.GetAddr() ^ (uint32)(MAKEDWORD(ip.GetPort(), ip.GetPort()));
+    return ip.GetAddr() ^ (uint32_t)(MAKEDWORD(ip.GetPort(), ip.GetPort()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1027,8 +1027,8 @@ uint32 CYsfProtocol::IpToStreamId(const CIp &ip) const
 #ifdef DEBUG_DUMPFILE
 bool CYsfProtocol::DebugTestDecodePacket(const CBuffer &Buffer)
 {
-    uint8 tag[] = { 'Y','S','F','D' };
-    static uint8 command[4098];
+    uint8_t tag[] = { 'Y','S','F','D' };
+    static uint8_t command[4098];
     static int len;
     CYSFFICH Fich;
     CYSFPayload payload;
@@ -1092,7 +1092,7 @@ bool CYsfProtocol::DebugDumpHeaderPacket(const CBuffer &Buffer)
     bool ok;
     CYSFFICH fich;
     CYSFPayload payload;
-    uint8 data[200];
+    uint8_t data[200];
 
     :: memset(data, 0, sizeof(data));
     
@@ -1113,7 +1113,7 @@ bool CYsfProtocol::DebugDumpDvPacket(const CBuffer &Buffer)
     bool ok;
     CYSFFICH fich;
     CYSFPayload payload;
-    uint8 data[200];
+    uint8_t data[200];
 
     :: memset(data, 0, sizeof(data));
 
@@ -1133,7 +1133,7 @@ bool CYsfProtocol::DebugDumpLastDvPacket(const CBuffer &Buffer)
     bool ok;
     CYSFFICH fich;
     CYSFPayload payload;
-    uint8 data[200];
+    uint8_t data[200];
 
     :: memset(data, 0, sizeof(data));
     

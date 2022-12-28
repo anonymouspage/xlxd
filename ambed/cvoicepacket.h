@@ -42,7 +42,7 @@ class CVoicePacket : public CPacket
 public:
     // constructors
     CVoicePacket();
-    CVoicePacket(const uint8 *, int);
+    CVoicePacket(const uint8_t *, int);
     CVoicePacket(const CVoicePacket &);
     
     // destructor
@@ -52,16 +52,16 @@ public:
     bool IsVoice(void) const         { return true; }
 
     // get
-    uint8 *GetVoice(void)            { return m_uiVoice; }
+    uint8_t *GetVoice(void)            { return m_uiVoice; }
     int   GetVoiceSize(void) const   { return m_iSize; }
     
     // set
-    void   SetVoice(const uint8 *, int);
+    void   SetVoice(const uint8_t *, int);
     
 protected:
     // data
     int     m_iSize;
-    uint8   m_uiVoice[VOICE_SIZEMAX];
+    uint8_t   m_uiVoice[VOICE_SIZEMAX];
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

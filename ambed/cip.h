@@ -34,7 +34,7 @@ class CIp
 public:
     // constructors
     CIp();
-    //CIp(uint8, uint8, uint8, uint8);
+    //CIp(uint8_t, uint8_t, uint8_t, uint8_t);
     CIp(const struct sockaddr_in *);
     CIp(const char *);
     CIp(const CIp &);

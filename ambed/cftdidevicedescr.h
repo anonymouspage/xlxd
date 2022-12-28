@@ -47,7 +47,7 @@ class CFtdiDeviceDescr
 public:
     // constructors
     CFtdiDeviceDescr(void);
-    CFtdiDeviceDescr(uint32, uint32, const char *, const char *);
+    CFtdiDeviceDescr(uint32_t, uint32_t, const char *, const char *);
     CFtdiDeviceDescr(const CFtdiDeviceDescr &);
     
     // destructor
@@ -60,8 +60,8 @@ public:
     // get
     bool IsUsed(void) const                         { return m_bUsed; }
     int  GetNbChannels(void) const;
-    uint32 GetVid(void) const                       { return m_uiVid; }
-    uint32 GetPid(void) const                       { return m_uiPid; }
+    uint32_t GetVid(void) const                       { return m_uiVid; }
+    uint32_t GetPid(void) const                       { return m_uiPid; }
     const char *GetDescription(void) const          { return m_szDescription; }
     const char *GetSerialNumber(void) const         { return m_szSerial; }
     const char * GetChannelDescription(int) const;
@@ -87,8 +87,8 @@ protected:
     bool    m_bUsed;
     
     // data
-    uint32  m_uiVid;
-    uint32  m_uiPid;
+    uint32_t  m_uiVid;
+    uint32_t  m_uiPid;
     char    m_szDescription[FTDI_MAX_STRINGLENGTH];
     char    m_szSerial[FTDI_MAX_STRINGLENGTH];
 };

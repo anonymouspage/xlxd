@@ -37,7 +37,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // constructor
 
-CUsb3000Interface::CUsb3000Interface(uint32 uiVid, uint32 uiPid, const char *szDeviceName, const char *szDeviceSerial)
+CUsb3000Interface::CUsb3000Interface(uint32_t uiVid, uint32_t uiPid, const char *szDeviceName, const char *szDeviceSerial)
 : CUsb3xxxInterface(uiVid, uiPid, szDeviceName, szDeviceSerial)
 {
     m_uiChCodec = CODEC_NONE;
@@ -46,7 +46,7 @@ CUsb3000Interface::CUsb3000Interface(uint32 uiVid, uint32 uiPid, const char *szD
 ////////////////////////////////////////////////////////////////////////////////////////
 // initialization
 
-bool CUsb3000Interface::Init(uint8 uiOddCodec)
+bool CUsb3000Interface::Init(uint8_t uiOddCodec)
 {
     bool ok = true;
     
@@ -67,7 +67,7 @@ bool CUsb3000Interface::Init(uint8 uiOddCodec)
 ////////////////////////////////////////////////////////////////////////////////////////
 // manage Channels
 
-uint8 CUsb3000Interface::GetChannelCodec(int iCh) const
+uint8_t CUsb3000Interface::GetChannelCodec(int iCh) const
 {
     return (iCh == 0) ? m_uiChCodec : CODEC_NONE;
 }
@@ -115,7 +115,7 @@ CVocodecChannel *CUsb3000Interface::GetChannelWithChannelOut(int iCh)
 bool CUsb3000Interface::IsValidChannelPacket(const CBuffer &buffer, int *ch, CAmbePacket *packet)
 {
     bool valid = false;
-    uint8 tag[] = { PKT_HEADER,0x00,0x0B,PKT_CHANNEL };
+    uint8_t tag[] = { PKT_HEADER,0x00,0x0B,PKT_CHANNEL };
     
     if ( (buffer.size() == 15) && (buffer.Compare(tag, sizeof(tag)) == 0))
     {
@@ -149,27 +149,27 @@ bool CUsb3000Interface::IsValidSpeechPacket(const CBuffer &buffer, int *ch, CVoi
 
 void CUsb3000Interface::EncodeChannelPacket(CBuffer *buffer, int ch, CAmbePacket *packet)
 {
-    uint size = (uint16)packet->GetAmbeSize() + 2;
+    uint size = (uint16_t)packet->GetAmbeSize() + 2;
     buffer->clear();
-    buffer->Append((uint8)PKT_HEADER);
-    buffer->Append((uint8)HIBYTE(size));
-    buffer->Append((uint8)LOBYTE(size));
-    buffer->Append((uint8)PKT_CHANNEL);
-    buffer->Append((uint8)(PKT_CHAND));
-    buffer->Append((uint8)(packet->GetAmbeSize()*8));
+    buffer->Append((uint8_t)PKT_HEADER);
+    buffer->Append((uint8_t)HIBYTE(size));
+    buffer->Append((uint8_t)LOBYTE(size));
+    buffer->Append((uint8_t)PKT_CHANNEL);
+    buffer->Append((uint8_t)(PKT_CHAND));
+    buffer->Append((uint8_t)(packet->GetAmbeSize()*8));
     buffer->Append(packet->GetAmbe(), packet->GetAmbeSize());
 }
 
 void CUsb3000Interface::EncodeSpeechPacket(CBuffer *buffer, int ch, CVoicePacket *packet)
 {
-    uint16 size = (uint16)packet->GetVoiceSize() + 2;
+    uint16_t size = (uint16_t)packet->GetVoiceSize() + 2;
     buffer->clear();
-    buffer->Append((uint8)PKT_HEADER);
-    buffer->Append((uint8)HIBYTE(size));
-    buffer->Append((uint8)LOBYTE(size));
-    buffer->Append((uint8)PKT_SPEECH);
-    buffer->Append((uint8)PKT_SPEECHD);
-    buffer->Append((uint8)(packet->GetVoiceSize()/2));
+    buffer->Append((uint8_t)PKT_HEADER);
+    buffer->Append((uint8_t)HIBYTE(size));
+    buffer->Append((uint8_t)LOBYTE(size));
+    buffer->Append((uint8_t)PKT_SPEECH);
+    buffer->Append((uint8_t)PKT_SPEECHD);
+    buffer->Append((uint8_t)(packet->GetVoiceSize()/2));
     buffer->Append(packet->GetVoice(), packet->GetVoiceSize());
 }
 
@@ -275,8 +275,8 @@ bool CUsb3000Interface::ResetDevice(void)
 bool CUsb3000Interface::ConfigureDevice(void)
 {
     bool ok = true;
-    uint8 pkt_ratep_ambeplus[]  = { 0x01,0x30,0x07,0x63,0x40,0x00,0x00,0x00,0x00,0x00,0x00,0x48 };
-    uint8 pkt_ratep_ambe2plus[] = { 0x04,0x31,0x07,0x54,0x24,0x00,0x00,0x00,0x00,0x00,0x6F,0x48 };
+    uint8_t pkt_ratep_ambeplus[]  = { 0x01,0x30,0x07,0x63,0x40,0x00,0x00,0x00,0x00,0x00,0x00,0x48 };
+    uint8_t pkt_ratep_ambe2plus[] = { 0x04,0x31,0x07,0x54,0x24,0x00,0x00,0x00,0x00,0x00,0x6F,0x48 };
     
     // configure the channel for desired codec
     switch ( m_uiChCodec )

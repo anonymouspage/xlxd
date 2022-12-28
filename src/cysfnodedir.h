@@ -69,7 +69,7 @@ public:
     virtual bool RefreshContent(const CBuffer &)    { return false; }
 
     // find
-    bool FindFrequencies(const CCallsign &, uint32 *, uint32 *);
+    bool FindFrequencies(const CCallsign &, uint32_t *, uint32_t *);
 
 protected:
     // thread

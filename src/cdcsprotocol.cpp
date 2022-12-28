@@ -40,7 +40,7 @@ bool CDcsProtocol::Init(void)
     ok = CProtocol::Init();
     
     // update the reflector callsign
-    m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"DCS", 3);
+    m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"DCS", 3);
     
     // create our socket
     ok &= m_Socket.Open(DCS_PORT);
@@ -418,7 +418,7 @@ bool CDcsProtocol::IsValidKeepAlivePacket(const CBuffer &Buffer, CCallsign *call
 
 bool CDcsProtocol::IsValidDvPacket(const CBuffer &Buffer, CDvHeaderPacket **header, CDvFramePacket **frame)
 {
-    uint8 tag[] = { '0','0','0','1' };
+    uint8_t tag[] = { '0','0','0','1' };
     
     bool valid = false;
     *header = NULL;
@@ -428,20 +428,20 @@ bool CDcsProtocol::IsValidDvPacket(const CBuffer &Buffer, CDvHeaderPacket **head
     {
         // get the header
         *header = new CDvHeaderPacket((struct dstar_header *)&(Buffer.data()[4]),
-                                     *((uint16 *)&(Buffer.data()[43])), 0x80);
+                                     *((uint16_t *)&(Buffer.data()[43])), 0x80);
         
         // get the frame
         if ( ((Buffer.data()[45]) & 0x40) != 0 )
         {
             // it's the last frame
             *frame = new CDvLastFramePacket((struct dstar_dvframe *)&(Buffer.data()[46]),
-                                             *((uint16 *)&(Buffer.data()[43])), Buffer.data()[45]);
+                                             *((uint16_t *)&(Buffer.data()[43])), Buffer.data()[45]);
         }
         else
         {
             // it's a regular DV frame
             *frame = new CDvFramePacket((struct dstar_dvframe *)&(Buffer.data()[46]),
-                                         *((uint16 *)&(Buffer.data()[43])), Buffer.data()[45]);
+                                         *((uint16_t *)&(Buffer.data()[43])), Buffer.data()[45]);
         }
         
         // check validity of packets
@@ -464,7 +464,7 @@ bool CDcsProtocol::IsValidDvPacket(const CBuffer &Buffer, CDvHeaderPacket **head
 bool CDcsProtocol::IsIgnorePacket(const CBuffer &Buffer)
 {
     bool valid = false;
-    uint8 tag[] = { 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, };
+    uint8_t tag[] = { 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, };
     
     if ( Buffer.size() == 15 )
     {
@@ -484,75 +484,75 @@ void CDcsProtocol::EncodeKeepAlivePacket(CBuffer *Buffer)
 
 void CDcsProtocol::EncodeKeepAlivePacket(CBuffer *Buffer, CClient *Client)
 {
-    uint8 tag[] = { 0x0A,0x00,0x20,0x20 };
+    uint8_t tag[] = { 0x0A,0x00,0x20,0x20 };
     
-    Buffer->Set((uint8 *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN-1);
-    Buffer->Append((uint8)Client->GetReflectorModule());
-    Buffer->Append((uint8)' ');
-    Buffer->Append((uint8 *)(const char *)Client->GetCallsign(), CALLSIGN_LEN-1);
-    Buffer->Append((uint8)Client->GetModule());
-    Buffer->Append((uint8)Client->GetModule());
+    Buffer->Set((uint8_t *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN-1);
+    Buffer->Append((uint8_t)Client->GetReflectorModule());
+    Buffer->Append((uint8_t)' ');
+    Buffer->Append((uint8_t *)(const char *)Client->GetCallsign(), CALLSIGN_LEN-1);
+    Buffer->Append((uint8_t)Client->GetModule());
+    Buffer->Append((uint8_t)Client->GetModule());
     Buffer->Append(tag, sizeof(tag));
 }
 
 void CDcsProtocol::EncodeConnectAckPacket(const CCallsign &Callsign, char ReflectorModule, CBuffer *Buffer)
 {
-    uint8 tag[] = { 'A','C','K',0x00 };
-    uint8 cs[CALLSIGN_LEN];
+    uint8_t tag[] = { 'A','C','K',0x00 };
+    uint8_t cs[CALLSIGN_LEN];
     
     Callsign.GetCallsign(cs);
     Buffer->Set(cs, CALLSIGN_LEN-1);
-    Buffer->Append((uint8)' ');
-    Buffer->Append((uint8)Callsign.GetModule());
-    Buffer->Append((uint8)ReflectorModule);
+    Buffer->Append((uint8_t)' ');
+    Buffer->Append((uint8_t)Callsign.GetModule());
+    Buffer->Append((uint8_t)ReflectorModule);
     Buffer->Append(tag, sizeof(tag));
 }
 
 void CDcsProtocol::EncodeConnectNackPacket(const CCallsign &Callsign, char ReflectorModule, CBuffer *Buffer)
 {
-    uint8 tag[] = { 'N','A','K',0x00 };
-    uint8 cs[CALLSIGN_LEN];
+    uint8_t tag[] = { 'N','A','K',0x00 };
+    uint8_t cs[CALLSIGN_LEN];
     
     Callsign.GetCallsign(cs);
     Buffer->Set(cs, CALLSIGN_LEN-1);
-    Buffer->Append((uint8)' ');
-    Buffer->Append((uint8)Callsign.GetModule());
-    Buffer->Append((uint8)ReflectorModule);
+    Buffer->Append((uint8_t)' ');
+    Buffer->Append((uint8_t)Callsign.GetModule());
+    Buffer->Append((uint8_t)ReflectorModule);
     Buffer->Append(tag, sizeof(tag));
 }
 
 void CDcsProtocol::EncodeDisconnectPacket(CBuffer *Buffer, CClient *Client)
 {
-    Buffer->Set((uint8 *)(const char *)Client->GetCallsign(), CALLSIGN_LEN-1);
-    Buffer->Append((uint8)' ');
-    Buffer->Append((uint8)Client->GetModule());
-    Buffer->Append((uint8)0x00);
-    Buffer->Append((uint8 *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN-1);
-    Buffer->Append((uint8)' ');
-    Buffer->Append((uint8)0x00);
+    Buffer->Set((uint8_t *)(const char *)Client->GetCallsign(), CALLSIGN_LEN-1);
+    Buffer->Append((uint8_t)' ');
+    Buffer->Append((uint8_t)Client->GetModule());
+    Buffer->Append((uint8_t)0x00);
+    Buffer->Append((uint8_t *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN-1);
+    Buffer->Append((uint8_t)' ');
+    Buffer->Append((uint8_t)0x00);
 }
 
-void CDcsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFramePacket &DvFrame, uint32 iSeq, CBuffer *Buffer) const
+void CDcsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFramePacket &DvFrame, uint32_t iSeq, CBuffer *Buffer) const
 {
-    uint8 tag[] = { '0','0','0','1' };
+    uint8_t tag[] = { '0','0','0','1' };
     struct dstar_header DstarHeader;
 
     Header.ConvertToDstarStruct(&DstarHeader);
 
     Buffer->Set(tag, sizeof(tag));
-    Buffer->Append((uint8 *)&DstarHeader, sizeof(struct dstar_header) - sizeof(uint16));
+    Buffer->Append((uint8_t *)&DstarHeader, sizeof(struct dstar_header) - sizeof(uint16_t));
     Buffer->Append(DvFrame.GetStreamId());
-    Buffer->Append((uint8)(DvFrame.GetPacketId() % 21));
-    Buffer->Append((uint8 *)DvFrame.GetAmbe(), AMBE_SIZE);
-    Buffer->Append((uint8 *)DvFrame.GetDvData(), DVDATA_SIZE);
-    Buffer->Append((uint8)((iSeq >> 0) & 0xFF));
-    Buffer->Append((uint8)((iSeq >> 8) & 0xFF));
-    Buffer->Append((uint8)((iSeq >> 16) & 0xFF));
-    Buffer->Append((uint8)0x01);
-    Buffer->Append((uint8)0x00, 38);
+    Buffer->Append((uint8_t)(DvFrame.GetPacketId() % 21));
+    Buffer->Append((uint8_t *)DvFrame.GetAmbe(), AMBE_SIZE);
+    Buffer->Append((uint8_t *)DvFrame.GetDvData(), DVDATA_SIZE);
+    Buffer->Append((uint8_t)((iSeq >> 0) & 0xFF));
+    Buffer->Append((uint8_t)((iSeq >> 8) & 0xFF));
+    Buffer->Append((uint8_t)((iSeq >> 16) & 0xFF));
+    Buffer->Append((uint8_t)0x01);
+    Buffer->Append((uint8_t)0x00, 38);
 }
 
-void CDcsProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, const CDvFramePacket &DvFrame, uint32 iSeq, CBuffer *Buffer) const
+void CDcsProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, const CDvFramePacket &DvFrame, uint32_t iSeq, CBuffer *Buffer) const
 {
     EncodeDvPacket(Header, DvFrame, iSeq, Buffer);
     (Buffer->data())[45] |= 0x40;

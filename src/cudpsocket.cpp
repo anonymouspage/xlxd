@@ -50,7 +50,7 @@ CUdpSocket::~CUdpSocket()
 ////////////////////////////////////////////////////////////////////////////////////////
 // open & close
 
-bool CUdpSocket::Open(uint16 uiPort)
+bool CUdpSocket::Open(uint16_t uiPort)
 {
     bool open = false;
     
@@ -152,7 +152,7 @@ int CUdpSocket::Send(const char *Buffer, const CIp &Ip)
            0, (struct sockaddr *)temp.GetSockAddr(), sizeof(struct sockaddr_in));
 }
 
-int CUdpSocket::Send(const CBuffer &Buffer, const CIp &Ip, uint16 destport)
+int CUdpSocket::Send(const CBuffer &Buffer, const CIp &Ip, uint16_t destport)
 {
     CIp temp(Ip);
     temp.GetSockAddr()->sin_port = htons(destport);
@@ -161,7 +161,7 @@ int CUdpSocket::Send(const CBuffer &Buffer, const CIp &Ip, uint16 destport)
                          0, (struct sockaddr *)temp.GetSockAddr(), sizeof(struct sockaddr_in));
 }
 
-int CUdpSocket::Send(const char *Buffer, const CIp &Ip, uint16 destport)
+int CUdpSocket::Send(const char *Buffer, const CIp &Ip, uint16_t destport)
 {
     CIp temp(Ip);
     temp.GetSockAddr()->sin_port = htons(destport);

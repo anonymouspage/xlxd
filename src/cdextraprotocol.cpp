@@ -41,7 +41,7 @@ bool CDextraProtocol::Init(void)
     ok = CProtocol::Init();
     
     // update the reflector callsign
-    m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"XRF", 3);
+    m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"XRF", 3);
     
     // create our socket
     ok &= m_Socket.Open(DEXTRA_PORT);
@@ -439,12 +439,12 @@ CDvHeaderPacket *CDextraProtocol::IsValidDvHeaderPacket(const CBuffer &Buffer)
 {
     CDvHeaderPacket *header = NULL;
     
-    if ( (Buffer.size() == 56) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+    if ( (Buffer.size() == 56) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x10) && (Buffer.data()[8] == 0x20) )
     {
         // create packet
         header = new CDvHeaderPacket((struct dstar_header *)&(Buffer.data()[15]),
-                                *((uint16 *)&(Buffer.data()[12])), 0x80);
+                                *((uint16_t *)&(Buffer.data()[12])), 0x80);
         // check validity of packet
         if ( !header->IsValid() )
         {
@@ -459,13 +459,13 @@ CDvFramePacket *CDextraProtocol::IsValidDvFramePacket(const CBuffer &Buffer)
 {
     CDvFramePacket *dvframe = NULL;
     
-    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x20) && (Buffer.data()[8] == 0x20) &&
          ((Buffer.data()[14] & 0x40) == 0) )
     {
         // create packet
         dvframe = new CDvFramePacket((struct dstar_dvframe *)&(Buffer.data()[15]),
-                                     *((uint16 *)&(Buffer.data()[12])), Buffer.data()[14]);
+                                     *((uint16_t *)&(Buffer.data()[12])), Buffer.data()[14]);
         // check validity of packet
         if ( !dvframe->IsValid() )
         {
@@ -480,13 +480,13 @@ CDvLastFramePacket *CDextraProtocol::IsValidDvLastFramePacket(const CBuffer &Buf
 {
     CDvLastFramePacket *dvframe = NULL;
     
-    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x20) && (Buffer.data()[8] == 0x20) &&
          ((Buffer.data()[14] & 0x40) != 0) )
     {
         // create packet
         dvframe = new CDvLastFramePacket((struct dstar_dvframe *)&(Buffer.data()[15]),
-                                         *((uint16 *)&(Buffer.data()[12])), Buffer.data()[14]);
+                                         *((uint16_t *)&(Buffer.data()[12])), Buffer.data()[14]);
         // check validity of packet
         if ( !dvframe->IsValid() )
         {
@@ -511,18 +511,18 @@ void CDextraProtocol::EncodeConnectAckPacket(CBuffer *Buffer, int ProtRev)
     if ( ProtRev == 2 )
     {
         // XRFxxx
-        uint8 rm = (Buffer->data())[8];
-        uint8 lm = (Buffer->data())[9];
+        uint8_t rm = (Buffer->data())[8];
+        uint8_t lm = (Buffer->data())[9];
         Buffer->clear();
-        Buffer->Set((uint8 *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN);
+        Buffer->Set((uint8_t *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN);
         Buffer->Append(lm);
         Buffer->Append(rm);
-        Buffer->Append((uint8)0);
+        Buffer->Append((uint8_t)0);
     }
     else
     {
         // regular repeater
-        uint8 tag[] = { 'A','C','K',0 };
+        uint8_t tag[] = { 'A','C','K',0 };
         Buffer->resize(Buffer->size()-1);
         Buffer->Append(tag, sizeof(tag));
     }
@@ -530,47 +530,47 @@ void CDextraProtocol::EncodeConnectAckPacket(CBuffer *Buffer, int ProtRev)
 
 void CDextraProtocol::EncodeConnectNackPacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'N','A','K',0 };
+    uint8_t tag[] = { 'N','A','K',0 };
     Buffer->resize(Buffer->size()-1);
     Buffer->Append(tag, sizeof(tag));
 }
 
 void CDextraProtocol::EncodeDisconnectPacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',0 };
+    uint8_t tag[] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',0 };
     Buffer->Set(tag, sizeof(tag));
 }
 
 void CDextraProtocol::EncodeDisconnectedPacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'D','I','S','C','O','N','N','E','C','T','E','D' };
+    uint8_t tag[] = { 'D','I','S','C','O','N','N','E','C','T','E','D' };
     Buffer->Set(tag, sizeof(tag));
 }
 
 bool CDextraProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag[]	= { 'D','S','V','T',0x10,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag[]	= { 'D','S','V','T',0x10,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
     struct dstar_header DstarHeader;
     
     Packet.ConvertToDstarStruct(&DstarHeader);
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)0x80);
-    Buffer->Append((uint8 *)&DstarHeader, sizeof(struct dstar_header));
+    Buffer->Append((uint8_t)0x80);
+    Buffer->Append((uint8_t *)&DstarHeader, sizeof(struct dstar_header));
     
     return true;
 }
 
 bool CDextraProtocol::EncodeDvFramePacket(const CDvFramePacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)(Packet.GetPacketId() % 21));
-    Buffer->Append((uint8 *)Packet.GetAmbe(), AMBE_SIZE);
-    Buffer->Append((uint8 *)Packet.GetDvData(), DVDATA_SIZE);
+    Buffer->Append((uint8_t)(Packet.GetPacketId() % 21));
+    Buffer->Append((uint8_t *)Packet.GetAmbe(), AMBE_SIZE);
+    Buffer->Append((uint8_t *)Packet.GetDvData(), DVDATA_SIZE);
     
     return true;
     
@@ -578,12 +578,12 @@ bool CDextraProtocol::EncodeDvFramePacket(const CDvFramePacket &Packet, CBuffer 
 
 bool CDextraProtocol::EncodeDvLastFramePacket(const CDvLastFramePacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag1[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
-    uint8 tag2[] = { 0x55,0xC8,0x7A,0x00,0x00,0x00,0x00,0x00,0x00,0x25,0x1A,0xC6 };
+    uint8_t tag1[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag2[] = { 0x55,0xC8,0x7A,0x00,0x00,0x00,0x00,0x00,0x00,0x25,0x1A,0xC6 };
     
     Buffer->Set(tag1, sizeof(tag1));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)((Packet.GetPacketId() % 21) | 0x40));
+    Buffer->Append((uint8_t)((Packet.GetPacketId() % 21) | 0x40));
     Buffer->Append(tag2, sizeof(tag2));
     
     return true;

@@ -40,7 +40,7 @@ class CUdpMsgSocket : public CUdpSocket
 {
 public:
     // open
-    bool Open(uint16);
+    bool Open(uint16_t);
 
     // read
     int Receive(CBuffer *, CIp *, int);

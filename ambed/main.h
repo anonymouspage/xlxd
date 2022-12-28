@@ -81,25 +81,16 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// typedefs
-
-typedef unsigned char           uint8;
-typedef unsigned short          uint16;
-typedef unsigned int            uint32;
-typedef unsigned int            uint;
-
-
-////////////////////////////////////////////////////////////////////////////////////////
 // macros
 
 #define MIN(a,b) 				((a) < (b))?(a):(b)
 #define MAX(a,b) 				((a) > (b))?(a):(b)
-#define MAKEWORD(low, high)		((uint16)(((uint8)(low)) | (((uint16)((uint8)(high))) << 8)))
-#define MAKEDWORD(low, high)	((uint32)(((uint16)(low)) | (((uint32)((uint16)(high))) << 16)))
-#define LOBYTE(w)				((uint8)(uint16)(w & 0x00FF))
-#define HIBYTE(w)				((uint8)((((uint16)(w)) >> 8) & 0xFF))
-#define LOWORD(dw)				((uint16)(uint32)(dw & 0x0000FFFF))
-#define HIWORD(dw)				((uint16)((((uint32)(dw)) >> 16) & 0xFFFF))
+#define MAKEWORD(low, high)		((uint16_t)(((uint8_t)(low)) | (((uint16_t)((uint8_t)(high))) << 8)))
+#define MAKEDWORD(low, high)	((uint32_t)(((uint16_t)(low)) | (((uint32_t)((uint16_t)(high))) << 16)))
+#define LOBYTE(w)				((uint8_t)(uint16_t)(w & 0x00FF))
+#define HIBYTE(w)				((uint8_t)((((uint16_t)(w)) >> 8) & 0xFF))
+#define LOWORD(dw)				((uint16_t)(uint32_t)(dw & 0x0000FFFF))
+#define HIWORD(dw)				((uint16_t)((((uint32_t)(dw)) >> 16) & 0xFFFF))
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // FIR Filter coefficients computed to be the closest to the recommended filter in 

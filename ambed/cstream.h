@@ -37,20 +37,20 @@ class CStream
 public:
     // constructors
     CStream();
-    CStream(uint16, const CCallsign &, const CIp &, uint8, uint8);
+    CStream(uint16_t, const CCallsign &, const CIp &, uint8_t, uint8_t);
     
     // destructor
     virtual ~CStream();
     
     // initialization
-    bool Init(uint16);
+    bool Init(uint16_t);
     void Close(void);
     
     // get
-    uint16  GetId(void) const           { return m_uiId; }
-    uint16  GetPort(void) const         { return m_uiPort; }
-    uint8   GetCodecIn(void) const      { return m_uiCodecIn; }
-    uint8   GetCodecOut(void) const     { return m_uiCodecOut; }
+    uint16_t  GetId(void) const           { return m_uiId; }
+    uint16_t  GetPort(void) const         { return m_uiPort; }
+    uint8_t   GetCodecIn(void) const      { return m_uiCodecIn; }
+    uint8_t   GetCodecOut(void) const     { return m_uiCodecOut; }
     
     // activity timer
     bool    IsActive(void) const        { return m_LastActivity.DurationSinceNow() <= STREAM_ACTIVITY_TIMEOUT; }
@@ -61,19 +61,19 @@ public:
 
 protected:
     // packet decoding helpers
-    bool IsValidDvFramePacket(const CBuffer &, uint8 *, uint8 *);
+    bool IsValidDvFramePacket(const CBuffer &, uint8_t *, uint8_t *);
     
     // packet encodeing helpers
-    void EncodeDvFramePacket(CBuffer *, uint8, uint8 *);
+    void EncodeDvFramePacket(CBuffer *, uint8_t, uint8_t *);
     
     
 protected:
     // data
-    uint16          m_uiId;
+    uint16_t          m_uiId;
     CUdpSocket      m_Socket;
-    uint16          m_uiPort;
-    uint8           m_uiCodecIn;
-    uint8           m_uiCodecOut;
+    uint16_t          m_uiPort;
+    uint8_t           m_uiCodecIn;
+    uint8_t           m_uiCodecOut;
     CVocodecChannel *m_VocodecChannel;
     
     // client details

@@ -474,7 +474,7 @@ const unsigned char WHITENING_DATA[] = {0x93U, 0xD7U, 0x51U, 0x21U, 0x9CU, 0x2FU
 ////////////////////////////////////////////////////////////////////////////////////////
 // decode
 
-void CYsfUtils::DecodeVD2Vchs(uint8 *data, uint8 **ambe)
+void CYsfUtils::DecodeVD2Vchs(uint8_t *data, uint8_t **ambe)
 {
     int frame = 0;
     
@@ -555,7 +555,7 @@ void CYsfUtils::DecodeVD2Vchs(uint8 *data, uint8 **ambe)
     }
 }
 
-void CYsfUtils::DecodeVD2Vch(uint8 *data, uint8 *ambe)
+void CYsfUtils::DecodeVD2Vch(uint8_t *data, uint8_t *ambe)
 {
     unsigned char vch[13U];
     unsigned int dat_a = 0U;
@@ -629,7 +629,7 @@ void CYsfUtils::DecodeVD2Vch(uint8 *data, uint8 *ambe)
 ////////////////////////////////////////////////////////////////////////////////////////
 // encode
 
-void CYsfUtils::EncodeVD2Vch(uint8 *ambe, uint8 *data)
+void CYsfUtils::EncodeVD2Vch(uint8_t *ambe, uint8_t *data)
 {
     // convert from ambe2plus
     unsigned int a = 0U;

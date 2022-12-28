@@ -55,9 +55,9 @@ public:
     void SetListenIp(const CIp &ip)     { m_Ip = ip; }
 
     // streams management
-    CStream *OpenStream(const CCallsign &, const CIp &, uint8, uint8);
+    CStream *OpenStream(const CCallsign &, const CIp &, uint8_t, uint8_t);
     void CloseStream(CStream *);
-    void CloseStream(uint16);
+    void CloseStream(uint16_t);
     
     // task
     static void Thread(CController *);
@@ -66,8 +66,8 @@ public:
 protected:
     // packet decoding helpers    
     bool IsValidKeepAlivePacket(const CBuffer &, CCallsign *);
-    bool IsValidOpenstreamPacket(const CBuffer &, CCallsign *, uint8 *, uint8 *);
-    bool IsValidClosestreamPacket(const CBuffer &, uint16 *);
+    bool IsValidOpenstreamPacket(const CBuffer &, CCallsign *, uint8_t *, uint8_t *);
+    bool IsValidClosestreamPacket(const CBuffer &, uint16_t *);
     
     // packet encoding helpers
     void EncodeKeepAlivePacket(CBuffer *);
@@ -75,8 +75,8 @@ protected:
     void EncodeNoStreamAvailablePacket(CBuffer *);
 
     // codec helpers
-    bool IsValidCodecIn(uint8);
-    bool IsValidCodecOut(uint8);
+    bool IsValidCodecIn(uint8_t);
+    bool IsValidCodecOut(uint8_t);
     
 protected:
     // control socket
@@ -84,7 +84,7 @@ protected:
     CUdpSocket      m_Socket;
     
     // streams
-    uint16                 m_uiLastStreamId;
+    uint16_t                 m_uiLastStreamId;
     std::mutex             m_Mutex;
     std::vector<CStream *> m_Streams;
 

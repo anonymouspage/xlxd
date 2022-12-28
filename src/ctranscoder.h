@@ -59,7 +59,7 @@ public:
     bool IsConnected(void) const        { return m_bConnected; }
     
     // manage streams
-    CCodecStream *GetStream(CPacketStream *, uint8);
+    CCodecStream *GetStream(CPacketStream *, uint8_t);
     void ReleaseStream(CCodecStream *);
     
     // task
@@ -72,13 +72,13 @@ protected:
 
     // packet decoding helpers
     bool IsValidKeepAlivePacket(const CBuffer &);
-    bool IsValidStreamDescrPacket(const CBuffer &, uint16 *, uint16 *);
+    bool IsValidStreamDescrPacket(const CBuffer &, uint16_t *, uint16_t *);
     bool IsValidNoStreamAvailablePacket(const CBuffer&);
 
     // packet encoding helpers
     void EncodeKeepAlivePacket(CBuffer *);
-    void EncodeOpenstreamPacket(CBuffer *, uint8, uint8);
-    void EncodeClosestreamPacket(CBuffer *, uint16);
+    void EncodeOpenstreamPacket(CBuffer *, uint8_t, uint8_t);
+    void EncodeClosestreamPacket(CBuffer *, uint16_t);
     
 protected:
     // streams
@@ -88,8 +88,8 @@ protected:
     // sync objects for Openstream
     CSemaphore      m_SemaphoreOpenStream;
     bool            m_bStreamOpened;
-    uint16          m_StreamidOpenStream;
-    uint16          m_PortOpenStream;
+    uint16_t          m_StreamidOpenStream;
+    uint16_t          m_PortOpenStream;
     
     // thread
     bool            m_bStopThread;

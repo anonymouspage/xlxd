@@ -47,7 +47,7 @@ bool CG3Protocol::Init(void)
     ok = CProtocol::Init();
 
     // update reflector callsign
-    m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"XLX", 3);
+    m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"XLX", 3);
 
     // create our DV socket
     ok &= m_Socket.Open(G3_DV_PORT);
@@ -177,7 +177,7 @@ void CG3Protocol::PresenceTask(void)
 
             if (m_GwAddress == 0)
             {
-                Buffer.Append(*(uint32 *)m_ConfigSocket.GetLocalAddr()); 
+                Buffer.Append(*(uint32_t *)m_ConfigSocket.GetLocalAddr()); 
             }
             else
             {
@@ -304,24 +304,24 @@ void CG3Protocol::ConfigTask(void)
 
             // UR
             Buffer.resize(8);
-            Buffer.Append((uint8 *)(const char *)Call, CALLSIGN_LEN - 1);
-            Buffer.Append((uint8)module);
+            Buffer.Append((uint8_t *)(const char *)Call, CALLSIGN_LEN - 1);
+            Buffer.Append((uint8_t)module);
 
             // RPT1
-            Buffer.Append((uint8 *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN - 1);
-            Buffer.Append((uint8)'G');
+            Buffer.Append((uint8_t *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN - 1);
+            Buffer.Append((uint8_t)'G');
 
             // RPT2
-            Buffer.Append((uint8 *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN - 1);
+            Buffer.Append((uint8_t *)(const char *)GetReflectorCallsign(), CALLSIGN_LEN - 1);
 
             if (isRepeaterCall)
             {
-                Buffer.Append((uint8)Call.GetModule());
+                Buffer.Append((uint8_t)Call.GetModule());
             }
             else
             {
                 // routed - no module for now
-                Buffer.Append((uint8)' ');
+                Buffer.Append((uint8_t)' ');
             }
 
             if (Buffer.data()[3] == 0x00)
@@ -330,7 +330,7 @@ void CG3Protocol::ConfigTask(void)
 
                 if (m_GwAddress == 0)
                 {
-                    Buffer.Append(*(uint32 *)m_ConfigSocket.GetLocalAddr()); 
+                    Buffer.Append(*(uint32_t *)m_ConfigSocket.GetLocalAddr()); 
                 }
                 else
                 {
@@ -532,7 +532,7 @@ void CG3Protocol::HandleKeepalives(void)
     // G3 Terminal mode does not support keepalive
     // We will send some short packed and expect
     // A ICMP unreachable on failure
-    CBuffer keepalive((uint8 *)"PING", 4);
+    CBuffer keepalive((uint8_t *)"PING", 4);
 
     // iterate on clients
     CClients *clients = g_Reflector.GetClients();
@@ -656,12 +656,12 @@ CDvHeaderPacket *CG3Protocol::IsValidDvHeaderPacket(const CBuffer &Buffer)
 {
     CDvHeaderPacket *header = NULL;
     
-    if ( (Buffer.size() == 56) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+    if ( (Buffer.size() == 56) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x10) && (Buffer.data()[8] == 0x20) )
     {
         // create packet
         header = new CDvHeaderPacket((struct dstar_header *)&(Buffer.data()[15]),
-                                *((uint16 *)&(Buffer.data()[12])), 0x80);
+                                *((uint16_t *)&(Buffer.data()[12])), 0x80);
         // check validity of packet
         if ( !header->IsValid() )
         {
@@ -676,13 +676,13 @@ CDvFramePacket *CG3Protocol::IsValidDvFramePacket(const CBuffer &Buffer)
 {
     CDvFramePacket *dvframe = NULL;
     
-    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x20) && (Buffer.data()[8] == 0x20) &&
          ((Buffer.data()[14] & 0x40) == 0) )
     {
         // create packet
         dvframe = new CDvFramePacket((struct dstar_dvframe *)&(Buffer.data()[15]),
-                                     *((uint16 *)&(Buffer.data()[12])), Buffer.data()[14]);
+                                     *((uint16_t *)&(Buffer.data()[12])), Buffer.data()[14]);
         // check validity of packet
         if ( !dvframe->IsValid() )
         {
@@ -697,13 +697,13 @@ CDvLastFramePacket *CG3Protocol::IsValidDvLastFramePacket(const CBuffer &Buffer)
 {
     CDvLastFramePacket *dvframe = NULL;
     
-    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+    if ( (Buffer.size() == 27) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x20) && (Buffer.data()[8] == 0x20) &&
          ((Buffer.data()[14] & 0x40) != 0) )
     {
         // create packet
         dvframe = new CDvLastFramePacket((struct dstar_dvframe *)&(Buffer.data()[15]),
-                                         *((uint16 *)&(Buffer.data()[12])), Buffer.data()[14]);
+                                         *((uint16_t *)&(Buffer.data()[12])), Buffer.data()[14]);
         // check validity of packet
         if ( !dvframe->IsValid() )
         {
@@ -719,28 +719,28 @@ CDvLastFramePacket *CG3Protocol::IsValidDvLastFramePacket(const CBuffer &Buffer)
 
 bool CG3Protocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag[]	= { 'D','S','V','T',0x10,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag[]	= { 'D','S','V','T',0x10,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
     struct dstar_header DstarHeader;
     
     Packet.ConvertToDstarStruct(&DstarHeader);
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)0x80);
-    Buffer->Append((uint8 *)&DstarHeader, sizeof(struct dstar_header));
+    Buffer->Append((uint8_t)0x80);
+    Buffer->Append((uint8_t *)&DstarHeader, sizeof(struct dstar_header));
     
     return true;
 }
 
 bool CG3Protocol::EncodeDvFramePacket(const CDvFramePacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)(Packet.GetPacketId() % 21));
-    Buffer->Append((uint8 *)Packet.GetAmbe(), AMBE_SIZE);
-    Buffer->Append((uint8 *)Packet.GetDvData(), DVDATA_SIZE);
+    Buffer->Append((uint8_t)(Packet.GetPacketId() % 21));
+    Buffer->Append((uint8_t *)Packet.GetAmbe(), AMBE_SIZE);
+    Buffer->Append((uint8_t *)Packet.GetDvData(), DVDATA_SIZE);
     
     return true;
     
@@ -748,12 +748,12 @@ bool CG3Protocol::EncodeDvFramePacket(const CDvFramePacket &Packet, CBuffer *Buf
 
 bool CG3Protocol::EncodeDvLastFramePacket(const CDvLastFramePacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag1[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
-    uint8 tag2[] = { 0x55,0xC8,0x7A,0x00,0x00,0x00,0x00,0x00,0x00,0x25,0x1A,0xC6 };
+    uint8_t tag1[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag2[] = { 0x55,0xC8,0x7A,0x00,0x00,0x00,0x00,0x00,0x00,0x25,0x1A,0xC6 };
     
     Buffer->Set(tag1, sizeof(tag1));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)((Packet.GetPacketId() % 21) | 0x40));
+    Buffer->Append((uint8_t)((Packet.GetPacketId() % 21) | 0x40));
     Buffer->Append(tag2, sizeof(tag2));
     
     return true;

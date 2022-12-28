@@ -46,7 +46,7 @@ public:
     ~CDPlusStreamCacheItem()    {}
     
     CDvHeaderPacket m_dvHeader;
-    uint8           m_iSeqCounter;
+    uint8_t           m_iSeqCounter;
 };
 
 class CDplusProtocol : public CProtocol

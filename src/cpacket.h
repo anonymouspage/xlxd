@@ -40,11 +40,11 @@ class CPacket
 public:
     // constructor
     CPacket();
-    CPacket(uint16 sid, uint8 dstarpid);
-    CPacket(uint16 sid, uint8 dmrpid, uint8 dmrsubpid);
-    CPacket(uint16 sid, uint8 ysfpid, uint8 ysfsubpid, uint8 ysffrid);
-    CPacket(uint16 sid, uint8 imrspid, uint8 imrssubid, uint16 imrsfrid);
-    CPacket(uint16 sid, uint8 dstarpid, uint8 dmrpid, uint8 dmrsubpid, uint8 ysfpid, uint8 ysfsubpid, uint8 ysffrid, uint8 imrspid, uint8 imrssubid, uint16 imrsfrid);
+    CPacket(uint16_t sid, uint8_t dstarpid);
+    CPacket(uint16_t sid, uint8_t dmrpid, uint8_t dmrsubpid);
+    CPacket(uint16_t sid, uint8_t ysfpid, uint8_t ysfsubpid, uint8_t ysffrid);
+    CPacket(uint16_t sid, uint8_t imrspid, uint8_t imrssubid, uint16_t imrsfrid);
+    CPacket(uint16_t sid, uint8_t dstarpid, uint8_t dmrpid, uint8_t dmrsubpid, uint8_t ysfpid, uint8_t ysfsubpid, uint8_t ysffrid, uint8_t imrspid, uint8_t imrssubid, uint16_t imrsfrid);
     
     // destructor
     virtual ~CPacket() {};
@@ -60,44 +60,44 @@ public:
     
     // get
     virtual bool IsValid(void) const                { return true; }
-    uint16 GetStreamId(void) const                  { return m_uiStreamId; }
-    uint8  GetPacketId(void) const                  { return m_uiDstarPacketId; }
-    uint8  GetDstarPacketId(void) const             { return m_uiDstarPacketId; }
-    uint8  GetDmrPacketId(void) const               { return m_uiDmrPacketId; }
-    uint8  GetDmrPacketSubid(void) const            { return m_uiDmrPacketSubid; }
-    uint8  GetYsfPacketId(void) const               { return m_uiYsfPacketId; }
-    uint8  GetYsfPacketSubId(void) const            { return m_uiYsfPacketSubId; }
-    uint8  GetYsfPacketFrameId(void) const          { return m_uiYsfPacketFrameId; }
-    uint8  GetImrsPacketId(void) const              { return m_uiImrsPacketId; }
-    uint16 GetImrsPacketFrameId(void) const         { return m_uiImrsPacketFrameId; }
-    uint8  GetImrsPacketSubId(void) const           { return m_uiImrsPacketSubId; }
-    uint8  GetModuleId(void) const                  { return m_uiModuleId; }
+    uint16_t GetStreamId(void) const                  { return m_uiStreamId; }
+    uint8_t  GetPacketId(void) const                  { return m_uiDstarPacketId; }
+    uint8_t  GetDstarPacketId(void) const             { return m_uiDstarPacketId; }
+    uint8_t  GetDmrPacketId(void) const               { return m_uiDmrPacketId; }
+    uint8_t  GetDmrPacketSubid(void) const            { return m_uiDmrPacketSubid; }
+    uint8_t  GetYsfPacketId(void) const               { return m_uiYsfPacketId; }
+    uint8_t  GetYsfPacketSubId(void) const            { return m_uiYsfPacketSubId; }
+    uint8_t  GetYsfPacketFrameId(void) const          { return m_uiYsfPacketFrameId; }
+    uint8_t  GetImrsPacketId(void) const              { return m_uiImrsPacketId; }
+    uint16_t GetImrsPacketFrameId(void) const         { return m_uiImrsPacketFrameId; }
+    uint8_t  GetImrsPacketSubId(void) const           { return m_uiImrsPacketSubId; }
+    uint8_t  GetModuleId(void) const                  { return m_uiModuleId; }
     bool   IsLocalOrigin(void) const                { return (m_uiOriginId == ORIGIN_LOCAL); }
     
     // set
-    void UpdatePids(uint32);
-    void SetModuleId(uint8 uiId)                    { m_uiModuleId = uiId; }
+    void UpdatePids(uint32_t);
+    void SetModuleId(uint8_t uiId)                    { m_uiModuleId = uiId; }
     void SetLocalOrigin(void)                       { m_uiOriginId = ORIGIN_LOCAL; }
     void SetRemotePeerOrigin(void)                  { m_uiOriginId = ORIGIN_PEER; }
     
 protected:
     // common
-    uint16  m_uiStreamId;
-    uint8   m_uiModuleId;
-    uint8   m_uiOriginId;
+    uint16_t  m_uiStreamId;
+    uint8_t   m_uiModuleId;
+    uint8_t   m_uiOriginId;
     // dstar
-    uint8   m_uiDstarPacketId;
+    uint8_t   m_uiDstarPacketId;
     // dmr
-    uint8   m_uiDmrPacketId;
-    uint8   m_uiDmrPacketSubid;
+    uint8_t   m_uiDmrPacketId;
+    uint8_t   m_uiDmrPacketSubid;
     // ysf
-    uint8   m_uiYsfPacketId;
-    uint8   m_uiYsfPacketSubId;
-    uint8   m_uiYsfPacketFrameId;
+    uint8_t   m_uiYsfPacketId;
+    uint8_t   m_uiYsfPacketSubId;
+    uint8_t   m_uiYsfPacketFrameId;
     // imrs
-    uint8   m_uiImrsPacketId;
-    uint16  m_uiImrsPacketFrameId;
-    uint8   m_uiImrsPacketSubId;
+    uint8_t   m_uiImrsPacketId;
+    uint16_t  m_uiImrsPacketFrameId;
+    uint8_t   m_uiImrsPacketSubId;
 };
 
 

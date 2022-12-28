@@ -42,7 +42,7 @@ class CAmbePacket : public CPacket
 public:
     // constructors
     CAmbePacket();
-    CAmbePacket(uint8, uint8, const uint8 *);
+    CAmbePacket(uint8_t, uint8_t, const uint8_t *);
     CAmbePacket(const CAmbePacket &);
     
     // destructor
@@ -52,18 +52,18 @@ public:
     bool IsAmbe(void) const         { return true; }
     
     // get
-    uint8  GetCodec(void) const     { return m_uiCodec; }
-    uint8 *GetAmbe(void)            { return m_uiAmbe; }
+    uint8_t  GetCodec(void) const     { return m_uiCodec; }
+    uint8_t *GetAmbe(void)            { return m_uiAmbe; }
     int   GetAmbeSize(void) const   { return AMBE_SIZE; }
     
     // set
-    void   SetCodec(uint8 c)        { m_uiCodec = c; }
-    void   SetAmbe(const uint8 *);
+    void   SetCodec(uint8_t c)        { m_uiCodec = c; }
+    void   SetAmbe(const uint8_t *);
     
 protected:
     // data
-    uint8   m_uiCodec;
-    uint8   m_uiAmbe[AMBE_SIZE];
+    uint8_t   m_uiCodec;
+    uint8_t   m_uiAmbe[AMBE_SIZE];
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

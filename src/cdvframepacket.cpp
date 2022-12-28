@@ -41,7 +41,7 @@ CDvFramePacket::CDvFramePacket()
 
 // dstar constructor
 
-CDvFramePacket::CDvFramePacket(const struct dstar_dvframe *dvframe, uint16 sid, uint8 pid)
+CDvFramePacket::CDvFramePacket(const struct dstar_dvframe *dvframe, uint16_t sid, uint8_t pid)
     : CPacket(sid, pid)
 {
     ::memcpy(m_uiAmbe, dvframe->AMBE, sizeof(m_uiAmbe));
@@ -52,7 +52,7 @@ CDvFramePacket::CDvFramePacket(const struct dstar_dvframe *dvframe, uint16 sid, 
 
 // dmr constructor
 
-CDvFramePacket::CDvFramePacket(const uint8 *ambe, const uint8 *sync, uint16 sid, uint8 pid, uint8 spid)
+CDvFramePacket::CDvFramePacket(const uint8_t *ambe, const uint8_t *sync, uint16_t sid, uint8_t pid, uint8_t spid)
     : CPacket(sid, pid, spid)
 {
     ::memcpy(m_uiAmbePlus, ambe, sizeof(m_uiAmbePlus));
@@ -63,7 +63,7 @@ CDvFramePacket::CDvFramePacket(const uint8 *ambe, const uint8 *sync, uint16 sid,
 
 // ysf constructor
 
-CDvFramePacket::CDvFramePacket(const uint8 *ambe, uint16 sid, uint8 pid, uint8 spid, uint8 fid)
+CDvFramePacket::CDvFramePacket(const uint8_t *ambe, uint16_t sid, uint8_t pid, uint8_t spid, uint8_t fid)
 : CPacket(sid, pid, spid, fid)
 {
     ::memcpy(m_uiAmbePlus, ambe, sizeof(m_uiAmbePlus));
@@ -74,7 +74,7 @@ CDvFramePacket::CDvFramePacket(const uint8 *ambe, uint16 sid, uint8 pid, uint8 s
 
 // imrs constructor
 
-CDvFramePacket::CDvFramePacket(const uint8 *ambe, uint16 sid, uint8 pid, uint8 spid, uint16 fid)
+CDvFramePacket::CDvFramePacket(const uint8_t *ambe, uint16_t sid, uint8_t pid, uint8_t spid, uint16_t fid)
 : CPacket(sid, pid, spid, fid)
 {
     ::memcpy(m_uiAmbePlus, ambe, sizeof(m_uiAmbePlus));
@@ -86,9 +86,9 @@ CDvFramePacket::CDvFramePacket(const uint8 *ambe, uint16 sid, uint8 pid, uint8 s
 // xlx constructor
 
 CDvFramePacket::CDvFramePacket
-    (uint16 sid,
-     uint8 dstarpid, const uint8 *dstarambe, const uint8 *dstardvdata,
-     uint8 dmrpid, uint8 dprspid, const uint8 *dmrambe, const uint8 *dmrsync)
+    (uint16_t sid,
+     uint8_t dstarpid, const uint8_t *dstarambe, const uint8_t *dstardvdata,
+     uint8_t dmrpid, uint8_t dprspid, const uint8_t *dmrambe, const uint8_t *dmrsync)
 : CPacket(sid, dstarpid, dmrpid, dprspid, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFFFF)
 {
     ::memcpy(m_uiAmbe, dstarambe, sizeof(m_uiAmbe));
@@ -119,7 +119,7 @@ CPacket *CDvFramePacket::Duplicate(void) const
 ////////////////////////////////////////////////////////////////////////////////////////
 // get
 
-const uint8 *CDvFramePacket::GetAmbe(uint8 uiCodec) const
+const uint8_t *CDvFramePacket::GetAmbe(uint8_t uiCodec) const
 {
     switch (uiCodec)
     {
@@ -132,12 +132,12 @@ const uint8 *CDvFramePacket::GetAmbe(uint8 uiCodec) const
 ////////////////////////////////////////////////////////////////////////////////////////
 // set
 
-void CDvFramePacket::SetDvData(uint8 *DvData)
+void CDvFramePacket::SetDvData(uint8_t *DvData)
 {
     ::memcpy(m_uiDvData, DvData, sizeof(m_uiDvData));
 }
 
-void CDvFramePacket::SetAmbe(uint8 uiCodec, uint8 *Ambe)
+void CDvFramePacket::SetAmbe(uint8_t uiCodec, uint8_t *Ambe)
 {
     switch (uiCodec)
     {

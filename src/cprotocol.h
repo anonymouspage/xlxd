@@ -103,7 +103,7 @@ protected:
     virtual void OnDvLastFramePacketIn(CDvLastFramePacket *, const CIp * = NULL);
     
     // stream handle helpers
-    CPacketStream *GetStream(uint16, const CIp * = NULL);
+    CPacketStream *GetStream(uint16_t, const CIp * = NULL);
     void CheckStreamsTimeout(void);
     
     // queue helper
@@ -118,8 +118,8 @@ protected:
     bool IsSpace(char) const;
     
     // dmr DstId to Module helper
-    virtual char DmrDstIdToModule(uint32) const;
-    virtual uint32 ModuleToDmrDestId(char) const;
+    virtual char DmrDstIdToModule(uint32_t) const;
+    virtual uint32_t ModuleToDmrDestId(char) const;
 
 protected:
     // socket

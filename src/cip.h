@@ -34,7 +34,7 @@ class CIp
 public:
     // constructors
     CIp();
-    //CIp(uint8, uint8, uint8, uint8);
+    //CIp(uint8_t, uint8_t, uint8_t, uint8_t);
     CIp(const struct sockaddr_in *);
     CIp(const char *);
     CIp(const CIp &);
@@ -47,11 +47,11 @@ public:
     struct sockaddr_in *GetSockAddr(void)     { return &m_Addr; }
     
     // get
-    uint32 GetAddr(void) const                { return m_Addr.sin_addr.s_addr; }
-    uint16 GetPort(void) const                { return m_Addr.sin_port; }
+    uint32_t GetAddr(void) const                { return m_Addr.sin_addr.s_addr; }
+    uint16_t GetPort(void) const                { return m_Addr.sin_port; }
     
     // set
-    void SetPort(uint16 port)                 { m_Addr.sin_port = port; }
+    void SetPort(uint16_t port)                 { m_Addr.sin_port = port; }
     
     // operator
     bool operator ==(const CIp &) const;

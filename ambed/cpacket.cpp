@@ -35,7 +35,7 @@ CPacket::CPacket()
     m_uiPid = 0;
 };
 
-CPacket::CPacket(uint8 uiPid)
+CPacket::CPacket(uint8_t uiPid)
 {
     m_iCh = 0;
     m_uiPid = uiPid;

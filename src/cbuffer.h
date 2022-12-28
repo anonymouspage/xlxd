@@ -27,35 +27,35 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-class CBuffer : public std::vector<uint8>
+class CBuffer : public std::vector<uint8_t>
 {
 public:
     // constructor
     CBuffer() {};
-    CBuffer(const uint8 *, int);
+    CBuffer(const uint8_t *, int);
     
     // destructor
     virtual ~CBuffer() {};
     
     // set
-    void Set(const uint8 *, int);
+    void Set(const uint8_t *, int);
     void Set(const char *);
     void SetFromAsciiHex(const char *, int);
-    void Append(const uint8 *, int);
-    void Append(uint8, int);
-    void Append(uint8);
-    void Append(uint16);
-    void Append(uint32);
+    void Append(const uint8_t *, int);
+    void Append(uint8_t, int);
+    void Append(uint8_t);
+    void Append(uint16_t);
+    void Append(uint32_t);
     void Append(const char *);
-    void AppendAsAsciiHex(uint8 *, int);
-    void ReplaceAt(int, uint8);
-    void ReplaceAt(int, uint16);
-    void ReplaceAt(int, uint32);
-    void ReplaceAt(int, const uint8 *, int);
+    void AppendAsAsciiHex(uint8_t *, int);
+    void ReplaceAt(int, uint8_t);
+    void ReplaceAt(int, uint16_t);
+    void ReplaceAt(int, uint32_t);
+    void ReplaceAt(int, const uint8_t *, int);
     
     // operation
-    int Compare(const uint8 *, int) const;
-    int Compare(const uint8 *, int, int) const;
+    int Compare(const uint8_t *, int) const;
+    int Compare(const uint8_t *, int, int) const;
     
     // operator
     bool operator ==(const CBuffer &) const;

@@ -38,15 +38,15 @@ public:
     virtual ~CWiresxInfo() {}
     
     // get
-    const uint8 *GetCallsign(void) const    { return m_callsign; }
-    const uint8 *GetNode(void) const        { return m_node; }
-    const uint8 *GetName(void) const        { return m_name; }
-    const uint8 *GetId(void) const          { return m_id; }
+    const uint8_t *GetCallsign(void) const    { return m_callsign; }
+    const uint8_t *GetNode(void) const        { return m_node; }
+    const uint8_t *GetName(void) const        { return m_name; }
+    const uint8_t *GetId(void) const          { return m_id; }
     uint        GetTxFrequency(void) const  { return m_txFrequency; }
     uint        GetRxFrequency(void) const  { return m_rxFrequency; }
-    const uint8 *GetCsd1(void) const        { return m_csd1; }
-    const uint8 *GetCsd2(void) const        { return m_csd2; }
-    const uint8 *GetCsd3(void) const        { return m_csd3; }
+    const uint8_t *GetCsd1(void) const        { return m_csd1; }
+    const uint8_t *GetCsd2(void) const        { return m_csd2; }
+    const uint8_t *GetCsd3(void) const        { return m_csd3; }
     
     // set
     void SetCallsign(const CCallsign &);
@@ -60,16 +60,16 @@ public:
     
 protected:
     // data
-    uint8 m_callsign[YSF_CALLSIGN_LENGTH];
-    uint8 m_node[YSF_CALLSIGN_LENGTH];
-    uint8 m_name[14];
-    uint8 m_id[6];
+    uint8_t m_callsign[YSF_CALLSIGN_LENGTH];
+    uint8_t m_node[YSF_CALLSIGN_LENGTH];
+    uint8_t m_name[14];
+    uint8_t m_id[6];
     uint  m_txFrequency;
     uint  m_rxFrequency;
 
-    uint8 m_csd1[20];
-    uint8 m_csd2[20];
-    uint8 m_csd3[20];
+    uint8_t m_csd1[20];
+    uint8_t m_csd2[20];
+    uint8_t m_csd3[20];
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

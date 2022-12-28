@@ -50,7 +50,7 @@ CRawSocket::~CRawSocket()
 ////////////////////////////////////////////////////////////////////////////////////////
 // open & close
 
-bool CRawSocket::Open(uint16 uiProto)
+bool CRawSocket::Open(uint16_t uiProto)
 {
     bool open = false;
     int on = 1;

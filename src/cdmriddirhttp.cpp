@@ -68,12 +68,12 @@ bool CDmridDirHttp::RefreshContent(const CBuffer &buffer)
                 if ( ((callsign = ::strtok(NULL, ";")) != NULL) )
                 {
                     // new entry
-                    uint32 ui = atoi(dmrid);
+                    uint32_t ui = atoi(dmrid);
                     CCallsign cs(callsign, ui);
                     if ( cs.IsValid() )
                     {
-                        m_CallsignMap.insert(std::pair<uint32,CCallsign>(ui, cs));
-                        m_DmridMap.insert(std::pair<CCallsign,uint32>(cs,ui));
+                        m_CallsignMap.insert(std::pair<uint32_t,CCallsign>(ui, cs));
+                        m_DmridMap.insert(std::pair<CCallsign,uint32_t>(cs,ui));
                     }
                 }
             }
@@ -148,14 +148,14 @@ bool CDmridDirHttp::HttpGet(const char *hostname, const char *filename, int port
                     len = read(sock_id, buf, 1440);
                     if ( len > 0 )
                     {
-                        buffer->Append((uint8 *)buf, (int)len);
+                        buffer->Append((uint8_t *)buf, (int)len);
                         ok = true;
                     }
                     //}
                     done = (len <= 0);
                     
                 } while (!done);
-                buffer->Append((uint8)0);
+                buffer->Append((uint8_t)0);
                 
                 // and disconnect
                 close(sock_id);

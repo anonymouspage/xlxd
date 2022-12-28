@@ -49,7 +49,7 @@ public:
     CVocodecInterface *GetInterface(int);
     
     // manage channels
-    CVocodecChannel *OpenChannel(uint8, uint8);
+    CVocodecChannel *OpenChannel(uint8_t, uint8_t);
     void AddChannel(CVocodecChannel *ch)            { m_Channels.push_back(ch); }
     void CloseChannel(CVocodecChannel *);
 

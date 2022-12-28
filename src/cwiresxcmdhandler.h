@@ -70,8 +70,8 @@ protected:
     
     // packet encoding helpers
     bool EncodeAndSendWiresxPacket(const CIp &, const CBuffer &, const CWiresxInfo &);
-    uint8 WiresxCalcFt(uint, uint) const;
-    void SendPacket(const CIp &, uint8 *);
+    uint8_t WiresxCalcFt(uint, uint) const;
+    void SendPacket(const CIp &, uint8_t *);
 
     // debug
     bool DebugTestDecodePacket(const CBuffer &);

@@ -307,7 +307,7 @@ bool CVocodecs::DiscoverFtdiDevices(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // manage channels
 
-CVocodecChannel *CVocodecs::OpenChannel(uint8 uiCodecIn, uint8 uiCodecOut)
+CVocodecChannel *CVocodecs::OpenChannel(uint8_t uiCodecIn, uint8_t uiCodecOut)
 {
     CVocodecChannel *Channel = NULL;
     bool done = false;

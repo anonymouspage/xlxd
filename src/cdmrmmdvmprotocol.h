@@ -59,7 +59,7 @@ public:
     CDvFramePacket  m_dvFrame0;
     CDvFramePacket  m_dvFrame1;
     
-    uint8  m_uiSeqId;
+    uint8_t  m_uiSeqId;
 };
 
 
@@ -86,7 +86,7 @@ protected:
     void HandleKeepalives(void);
     
     // stream helpers
-    bool OnDvHeaderPacketIn(CDvHeaderPacket *, const CIp &, uint8, uint8);
+    bool OnDvHeaderPacketIn(CDvHeaderPacket *, const CIp &, uint8_t, uint8_t);
     
     // packet decoding helpers
     bool IsValidConnectPacket(const CBuffer &, CCallsign *, const CIp &);
@@ -96,30 +96,30 @@ protected:
     bool IsValidOptionPacket(const CBuffer &, CCallsign *);
     bool IsValidKeepAlivePacket(const CBuffer &, CCallsign *);
     bool IsValidRssiPacket(const CBuffer &, CCallsign *, int *);
-    bool IsValidDvHeaderPacket(const CBuffer &, CDvHeaderPacket **, uint8 *, uint8 *);
+    bool IsValidDvHeaderPacket(const CBuffer &, CDvHeaderPacket **, uint8_t *, uint8_t *);
     bool IsValidDvFramePacket(const CBuffer &, CDvFramePacket **);
     bool IsValidDvLastFramePacket(const CBuffer &, CDvLastFramePacket **);
     
     // packet encoding helpers
     void EncodeKeepAlivePacket(CBuffer *, CClient *);
     void EncodeAckPacket(CBuffer *, const CCallsign &);
-    void EncodeConnectAckPacket(CBuffer *, const CCallsign &, uint32);
+    void EncodeConnectAckPacket(CBuffer *, const CCallsign &, uint32_t);
     void EncodeNackPacket(CBuffer *, const CCallsign &);
     void EncodeClosePacket(CBuffer *, CClient *);
-    bool EncodeDvHeaderPacket(const CDvHeaderPacket &, uint8, CBuffer *) const;
-    void EncodeDvPacket(const CDvHeaderPacket &, const CDvFramePacket &, const CDvFramePacket &, const CDvFramePacket &, uint8, CBuffer *) const;
-    void EncodeDvLastPacket(const CDvHeaderPacket &, uint8, CBuffer *) const;
+    bool EncodeDvHeaderPacket(const CDvHeaderPacket &, uint8_t, CBuffer *) const;
+    void EncodeDvPacket(const CDvHeaderPacket &, const CDvFramePacket &, const CDvFramePacket &, const CDvFramePacket &, uint8_t, CBuffer *) const;
+    void EncodeDvLastPacket(const CDvHeaderPacket &, uint8_t, CBuffer *) const;
   
     // dmr DstId to Module helper
-    char DmrDstIdToModule(uint32) const;
-    uint32 ModuleToDmrDestId(char) const;
+    char DmrDstIdToModule(uint32_t) const;
+    uint32_t ModuleToDmrDestId(char) const;
     
     // Buffer & LC helpers
-    void AppendVoiceLCToBuffer(CBuffer *, uint32) const;
-    void AppendTerminatorLCToBuffer(CBuffer *, uint32) const;
-    void ReplaceEMBInBuffer(CBuffer *, uint8) const;
-    void AppendDmrIdToBuffer(CBuffer *, uint32) const;
-    void AppendDmrRptrIdToBuffer(CBuffer *, uint32) const;
+    void AppendVoiceLCToBuffer(CBuffer *, uint32_t) const;
+    void AppendTerminatorLCToBuffer(CBuffer *, uint32_t) const;
+    void ReplaceEMBInBuffer(CBuffer *, uint8_t) const;
+    void AppendDmrIdToBuffer(CBuffer *, uint32_t) const;
+    void AppendDmrRptrIdToBuffer(CBuffer *, uint32_t) const;
 
 
 protected:
@@ -127,13 +127,13 @@ protected:
     CTimePoint          m_LastKeepaliveTime;
     
     // for stream id
-    uint16              m_uiStreamId;
+    uint16_t              m_uiStreamId;
     
     // for queue header caches
     std::array<CDmrmmdvmStreamCacheItem, NB_OF_MODULES>    m_StreamsCache;
     
     // for authentication
-    uint32              m_uiAuthSeed;
+    uint32_t              m_uiAuthSeed;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

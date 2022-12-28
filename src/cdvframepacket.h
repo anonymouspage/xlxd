@@ -40,8 +40,8 @@
 
 struct __attribute__ ((__packed__))dstar_dvframe
 {
-    uint8	AMBE[AMBE_SIZE];
-    uint8	DVDATA[DVDATA_SIZE];
+    uint8_t	AMBE[AMBE_SIZE];
+    uint8_t	DVDATA[DVDATA_SIZE];
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -53,11 +53,11 @@ friend class CCodecStream;
 public:
     // constructor
     CDvFramePacket();
-    CDvFramePacket(const struct dstar_dvframe *, uint16, uint8);
-    CDvFramePacket(const uint8 *, const uint8 *, uint16, uint8, uint8);
-    CDvFramePacket(const uint8 *, uint16, uint8, uint8, uint8);
-    CDvFramePacket(const uint8 *, uint16, uint8, uint8, uint16);
-    CDvFramePacket(uint16, uint8, const uint8 *, const uint8 *, uint8, uint8, const uint8 *, const uint8 *);
+    CDvFramePacket(const struct dstar_dvframe *, uint16_t, uint8_t);
+    CDvFramePacket(const uint8_t *, const uint8_t *, uint16_t, uint8_t, uint8_t);
+    CDvFramePacket(const uint8_t *, uint16_t, uint8_t, uint8_t, uint8_t);
+    CDvFramePacket(const uint8_t *, uint16_t, uint8_t, uint8_t, uint16_t);
+    CDvFramePacket(uint16_t, uint8_t, const uint8_t *, const uint8_t *, uint8_t, uint8_t, const uint8_t *, const uint8_t *);
     CDvFramePacket(const CDvFramePacket &);
     
     // destructor
@@ -71,31 +71,31 @@ public:
     bool HaveTranscodableAmbe(void) const   { return true; }
     
     // get
-    const uint8 *GetAmbe(uint8) const;
-    const uint8 *GetAmbe(void) const        { return m_uiAmbe; }
-    const uint8 *GetAmbePlus(void) const    { return m_uiAmbePlus; }
-    const uint8 *GetDvData(void) const      { return m_uiDvData; }
-    const uint8 *GetDvSync(void) const      { return m_uiDvSync; }
+    const uint8_t *GetAmbe(uint8_t) const;
+    const uint8_t *GetAmbe(void) const        { return m_uiAmbe; }
+    const uint8_t *GetAmbePlus(void) const    { return m_uiAmbePlus; }
+    const uint8_t *GetDvData(void) const      { return m_uiDvData; }
+    const uint8_t *GetDvSync(void) const      { return m_uiDvSync; }
     
     // set
-    void SetDvData(uint8 *);
-    void SetAmbe(uint8, uint8 *);
+    void SetDvData(uint8_t *);
+    void SetAmbe(uint8_t, uint8_t *);
 
     // operators
     bool operator ==(const CDvFramePacket &) const;
 
 protected:
     // get
-    uint8 *GetAmbeData(void)                { return m_uiAmbe; }
-    uint8 *GetAmbePlusData(void)            { return m_uiAmbePlus; }
+    uint8_t *GetAmbeData(void)                { return m_uiAmbe; }
+    uint8_t *GetAmbePlusData(void)            { return m_uiAmbePlus; }
     
 protected:
     // data (dstar)
-    uint8       m_uiAmbe[AMBE_SIZE];
-    uint8       m_uiDvData[DVDATA_SIZE];
+    uint8_t       m_uiAmbe[AMBE_SIZE];
+    uint8_t       m_uiDvData[DVDATA_SIZE];
     // data (dmr)
-    uint8       m_uiAmbePlus[AMBEPLUS_SIZE];
-    uint8       m_uiDvSync[DVSYNC_SIZE];
+    uint8_t       m_uiAmbePlus[AMBEPLUS_SIZE];
+    uint8_t       m_uiDvSync[DVSYNC_SIZE];
 };
 
 

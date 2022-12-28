@@ -123,9 +123,9 @@ void CController::Task(void)
     CBuffer     Buffer;
     CIp         Ip;
     CCallsign   Callsign;
-    uint8       CodecIn;
-    uint8       CodecOut;
-    uint16      StreamId;
+    uint8_t       CodecIn;
+    uint8_t       CodecOut;
+    uint16_t      StreamId;
     CStream     *Stream;
     
     // anything coming in from codec client ?
@@ -202,7 +202,7 @@ void CController::Task(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // streams management
 
-CStream *CController::OpenStream(const CCallsign &Callsign, const CIp &Ip, uint8 CodecIn, uint8 CodecOut)
+CStream *CController::OpenStream(const CCallsign &Callsign, const CIp &Ip, uint8_t CodecIn, uint8_t CodecOut)
 {
     CStream *stream = NULL;
     
@@ -252,7 +252,7 @@ void CController::CloseStream(CStream *stream)
     Unlock();
 }
 
-void CController::CloseStream(uint16 StreamId)
+void CController::CloseStream(uint16_t StreamId)
 {
     Lock();
     {
@@ -281,7 +281,7 @@ void CController::CloseStream(uint16 StreamId)
 
 bool CController::IsValidKeepAlivePacket(const CBuffer &Buffer, CCallsign *Callsign)
 {
-    uint8 tag[] = { 'A','M','B','E','D','P','I','N','G' };
+    uint8_t tag[] = { 'A','M','B','E','D','P','I','N','G' };
     
     bool valid = false;
     if ( (Buffer.size() == 17) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
@@ -293,9 +293,9 @@ bool CController::IsValidKeepAlivePacket(const CBuffer &Buffer, CCallsign *Calls
     return valid;
 }
 
-bool CController::IsValidOpenstreamPacket(const CBuffer &Buffer, CCallsign *Callsign, uint8 *CodecIn, uint8 *CodecOut)
+bool CController::IsValidOpenstreamPacket(const CBuffer &Buffer, CCallsign *Callsign, uint8_t *CodecIn, uint8_t *CodecOut)
 {
-    uint8 tag[] = { 'A','M','B','E','D','O','S' };
+    uint8_t tag[] = { 'A','M','B','E','D','O','S' };
     
     bool valid = false;
     if ( (Buffer.size() == 17) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
@@ -311,15 +311,15 @@ bool CController::IsValidOpenstreamPacket(const CBuffer &Buffer, CCallsign *Call
     return valid;
 }
 
-bool CController::IsValidClosestreamPacket(const CBuffer &Buffer, uint16 *StreamId)
+bool CController::IsValidClosestreamPacket(const CBuffer &Buffer, uint16_t *StreamId)
 {
-    uint8 tag[] = { 'A','M','B','E','D','C','S' };
+    uint8_t tag[] = { 'A','M','B','E','D','C','S' };
     
     bool valid = false;
     if ( /*(Buffer.size() == 16) &&*/ (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
         // get stream id
-        *StreamId = *(uint16 *)(&Buffer.data()[7]);
+        *StreamId = *(uint16_t *)(&Buffer.data()[7]);
         valid = true;
     }
     return valid;
@@ -330,29 +330,29 @@ bool CController::IsValidClosestreamPacket(const CBuffer &Buffer, uint16 *Stream
 
 void CController::EncodeKeepAlivePacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'A','M','B','E','D','P','O','N','G' };
+    uint8_t tag[] = { 'A','M','B','E','D','P','O','N','G' };
     
     Buffer->Set(tag, sizeof(tag));
 }
 
 void CController::EncodeStreamDescrPacket(CBuffer *Buffer, const CStream &Stream)
 {
-    uint8 tag[] = { 'A','M','B','E','D','S','T','D' };
+    uint8_t tag[] = { 'A','M','B','E','D','S','T','D' };
     
     Buffer->Set(tag, sizeof(tag));
     // id
-    Buffer->Append((uint16)Stream.GetId());
+    Buffer->Append((uint16_t)Stream.GetId());
     // port
-    Buffer->Append((uint16)Stream.GetPort());
+    Buffer->Append((uint16_t)Stream.GetPort());
     // codecin
-    Buffer->Append((uint8)Stream.GetCodecIn());
+    Buffer->Append((uint8_t)Stream.GetCodecIn());
     // codecout
-    Buffer->Append((uint8)Stream.GetCodecOut());
+    Buffer->Append((uint8_t)Stream.GetCodecOut());
 }
 
 void CController::EncodeNoStreamAvailablePacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'A','M','B','E','D','B','U','S','Y' };
+    uint8_t tag[] = { 'A','M','B','E','D','B','U','S','Y' };
     
     Buffer->Set(tag, sizeof(tag));
 }
@@ -361,12 +361,12 @@ void CController::EncodeNoStreamAvailablePacket(CBuffer *Buffer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // codec helpers
 
-bool CController::IsValidCodecIn(uint8 codec)
+bool CController::IsValidCodecIn(uint8_t codec)
 {
     return ((codec == CODEC_AMBEPLUS) || (codec == CODEC_AMBE2PLUS) );
 }
 
-bool CController::IsValidCodecOut(uint8 codec)
+bool CController::IsValidCodecOut(uint8_t codec)
 {
     return ((codec == CODEC_AMBEPLUS) || (codec == CODEC_AMBE2PLUS) );
 }

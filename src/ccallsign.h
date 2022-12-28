@@ -40,7 +40,7 @@ class CCallsign
 public:
     // contructors
     CCallsign();
-    CCallsign(const char *, uint32 = 0);
+    CCallsign(const char *, uint32_t = 0);
     CCallsign(const CCallsign &);
     
     // destructor
@@ -53,22 +53,22 @@ public:
     
     // set
     void SetCallsign(const char *, bool = true);
-    void SetCallsign(const uint8 *, int, bool = true);
+    void SetCallsign(const uint8_t *, int, bool = true);
     void SetYsfCallsign(const char *);
-    void SetDmrid(uint32, bool = true);
-    void SetDmrid(const uint8 *, bool = true);
+    void SetDmrid(uint32_t, bool = true);
+    void SetDmrid(const uint8_t *, bool = true);
     void SetModule(char);
     void SetSuffix(const char *);
-    void SetSuffix(const uint8 *, int);
+    void SetSuffix(const uint8_t *, int);
     
     // modify
-    void PatchCallsign(int, const uint8 *, int);
+    void PatchCallsign(int, const uint8_t *, int);
     
     // get
-    void GetCallsign(uint8 *) const;
+    void GetCallsign(uint8_t *) const;
     void GetCallsignString(char *) const;
-    uint32 GetDmrid(void) const             { return m_uiDmrid; }
-    void GetSuffix(uint8 *) const;
+    uint32_t GetDmrid(void) const             { return m_uiDmrid; }
+    void GetSuffix(uint8_t *) const;
     char GetModule(void) const              { return m_Module; }
     
     // compare
@@ -93,7 +93,7 @@ protected:
     char    m_Suffix[CALLSUFFIX_LEN];
     char    m_Module;
     char	m_sz[CALLSIGN_LEN+CALLSUFFIX_LEN+5];
-    uint32  m_uiDmrid;
+    uint32_t  m_uiDmrid;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

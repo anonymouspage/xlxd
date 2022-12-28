@@ -54,7 +54,7 @@ public:
     CDvHeaderPacket m_dvHeader;
     CDvFramePacket  m_dvFrames[5];
 
-    //uint8  m_uiSeqId;
+    //uint8_t  m_uiSeqId;
 };
 
 class CImrsProtocol : public CProtocol
@@ -99,11 +99,11 @@ protected:
     bool EncodeDvLastPacket(const CDvHeaderPacket &, const CDvLastFramePacket &, CBuffer *) const;
 
     // uiStreamId helpers
-    uint32 IpToStreamId(const CIp &) const;
+    uint32_t IpToStreamId(const CIp &) const;
     
     // DG-ID helper
-    char DgidToModule(uint8 uiDgid) const;
-    uint8 ModuleToDgid(char cModule) const;
+    char DgidToModule(uint8_t uiDgid) const;
+    uint8_t ModuleToDgid(char cModule) const;
         
 protected:
     // for keep alive

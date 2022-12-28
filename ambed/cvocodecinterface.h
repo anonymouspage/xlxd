@@ -49,7 +49,7 @@ public:
     
     // manage channels
     virtual int   GetNbChannels(void) const                     { return 0; }
-    virtual uint8 GetChannelCodec(int) const                    { return CODEC_NONE; }
+    virtual uint8_t GetChannelCodec(int) const                    { return CODEC_NONE; }
     void  AddChannel(CVocodecChannel *);
     virtual CVocodecChannel *GetChannelWithChannelIn(int)       { return NULL; }
     virtual CVocodecChannel *GetChannelWithChannelOut(int)      { return NULL; }

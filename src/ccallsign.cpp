@@ -42,7 +42,7 @@ CCallsign::CCallsign()
     m_uiDmrid = 0;
 }
 
-CCallsign::CCallsign(const char *sz, uint32 dmrid)
+CCallsign::CCallsign(const char *sz, uint32_t dmrid)
 {
     // blank all
     ::memset(m_Callsign, ' ', sizeof(m_Callsign));
@@ -169,7 +169,7 @@ void CCallsign::SetCallsign(const char *sz, bool UpdateDmrid)
     }
 }
 
-void CCallsign::SetCallsign(const uint8 *buffer, int len, bool UpdateDmrid)
+void CCallsign::SetCallsign(const uint8_t *buffer, int len, bool UpdateDmrid)
 {
     // set callsign
     ::memset(m_Callsign, ' ', sizeof(m_Callsign));
@@ -229,7 +229,7 @@ void CCallsign::SetYsfCallsign(const char *sz)
     g_DmridDir.Unlock();
 }
 
-void CCallsign::SetDmrid(uint32 dmrid, bool UpdateCallsign)
+void CCallsign::SetDmrid(uint32_t dmrid, bool UpdateCallsign)
 {
     m_uiDmrid = dmrid;
     if ( UpdateCallsign )
@@ -246,12 +246,12 @@ void CCallsign::SetDmrid(uint32 dmrid, bool UpdateCallsign)
     }
 }
 
-void CCallsign::SetDmrid(const uint8 *buffer, bool UpdateCallsign)
+void CCallsign::SetDmrid(const uint8_t *buffer, bool UpdateCallsign)
 {
     char sz[9];
     ::memcpy(sz, buffer, 8);
     sz[8] = 0;
-    SetDmrid((uint32)::strtol(sz, NULL, 16), UpdateCallsign);
+    SetDmrid((uint32_t)::strtol(sz, NULL, 16), UpdateCallsign);
 }
 
 void CCallsign::SetModule(char c)
@@ -266,7 +266,7 @@ void CCallsign::SetSuffix(const char *sz)
     ::memcpy(m_Suffix, sz, MIN(strlen(sz), sizeof(m_Suffix)));
 }
 
-void CCallsign::SetSuffix(const uint8 *buffer, int len)
+void CCallsign::SetSuffix(const uint8_t *buffer, int len)
 {
     len = MIN(len, sizeof(m_Suffix));
     ::memset(m_Suffix, ' ', sizeof(m_Suffix));
@@ -276,7 +276,7 @@ void CCallsign::SetSuffix(const uint8 *buffer, int len)
 ////////////////////////////////////////////////////////////////////////////////////////
 // modify
 
-void CCallsign::PatchCallsign(int off, const uint8 *patch, int len)
+void CCallsign::PatchCallsign(int off, const uint8_t *patch, int len)
 {
     if ( off < sizeof(m_Callsign) )
     {
@@ -288,7 +288,7 @@ void CCallsign::PatchCallsign(int off, const uint8 *patch, int len)
 ////////////////////////////////////////////////////////////////////////////////////////
 // get
 
-void CCallsign::GetCallsign(uint8 *buffer) const
+void CCallsign::GetCallsign(uint8_t *buffer) const
 {
     ::memcpy(buffer, m_Callsign, sizeof(m_Callsign));
     if ( HasModule() )
@@ -307,7 +307,7 @@ void CCallsign::GetCallsignString(char *sz) const
     sz[i] = 0;
 }
 
-void CCallsign::GetSuffix(uint8 *buffer) const
+void CCallsign::GetSuffix(uint8_t *buffer) const
 {
     ::memcpy(buffer, m_Suffix, sizeof(m_Suffix));
 }

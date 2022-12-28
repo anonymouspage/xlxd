@@ -60,7 +60,7 @@ public:
     ~CRawSocket();
     
     // open & close
-    bool Open(uint16);
+    bool Open(uint16_t);
     void Close(void);
     int  GetSocket(void)        { return m_Socket; }
     

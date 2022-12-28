@@ -65,8 +65,8 @@ public:
     virtual bool RefreshContent(const CBuffer &)    { return false; }
     
     // find
-    const CCallsign *FindCallsign(uint32);
-    uint32 FindDmrid(const CCallsign &);
+    const CCallsign *FindCallsign(uint32_t);
+    uint32_t FindDmrid(const CCallsign &);
     
 protected:
     // thread
@@ -79,8 +79,8 @@ protected:
     
 protected:
 	// data
-    std::map <uint32, CCallsign> m_CallsignMap;
-    std::map <CCallsign, uint32, CDmridDirCallsignCompare> m_DmridMap;
+    std::map <uint32_t, CCallsign> m_CallsignMap;
+    std::map <CCallsign, uint32_t, CDmridDirCallsignCompare> m_DmridMap;
     
     // Lock()
     std::mutex          m_Mutex;

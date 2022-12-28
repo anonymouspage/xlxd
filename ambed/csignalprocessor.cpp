@@ -66,7 +66,7 @@ CSignalProcessor::~CSignalProcessor()
 ////////////////////////////////////////////////////////////////////////////////////////
 // processing
 
-void CSignalProcessor::Process(uint8* voice, int length)
+void CSignalProcessor::Process(uint8_t* voice, int length)
 {
     /*float sample;
     int j;*/

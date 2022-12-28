@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // constructor
 
-CCodecStream::CCodecStream(CPacketStream *PacketStream, uint16 uiId, uint8 uiCodecIn, uint8 uiCodecOut)
+CCodecStream::CCodecStream(CPacketStream *PacketStream, uint16_t uiId, uint8_t uiCodecIn, uint8_t uiCodecOut)
 {
     m_bStopThread = false;
     m_pThread = NULL;
@@ -87,7 +87,7 @@ CCodecStream::~CCodecStream()
 ////////////////////////////////////////////////////////////////////////////////////////
 // initialization
 
-bool CCodecStream::Init(uint16 uiPort)
+bool CCodecStream::Init(uint16_t uiPort)
 {
     bool ok;
     
@@ -158,8 +158,8 @@ void CCodecStream::Task(void)
 {
     CBuffer Buffer;
     CIp     Ip;
-    uint8   Ambe[AMBE_SIZE];
-    uint8   DStarSync[] = { 0x55,0x2D,0x16 };
+    uint8_t   Ambe[AMBE_SIZE];
+    uint8_t   DStarSync[] = { 0x55,0x2D,0x16 };
     
     // any packet from transcoder
     if ( m_Socket.Receive(&Buffer, &Ip, 5) != -1 )
@@ -243,7 +243,7 @@ void CCodecStream::Task(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 /// packet decoding helpers
 
-bool CCodecStream::IsValidAmbePacket(const CBuffer &Buffer, uint8 *Ambe)
+bool CCodecStream::IsValidAmbePacket(const CBuffer &Buffer, uint8_t *Ambe)
 {
     bool valid = false;
     
@@ -258,10 +258,10 @@ bool CCodecStream::IsValidAmbePacket(const CBuffer &Buffer, uint8 *Ambe)
 ////////////////////////////////////////////////////////////////////////////////////////
 /// packet encoding helpers
 
-void CCodecStream::EncodeAmbePacket(CBuffer *Buffer, const uint8 *Ambe)
+void CCodecStream::EncodeAmbePacket(CBuffer *Buffer, const uint8_t *Ambe)
 {
     Buffer->clear();
     Buffer->Append(m_uiCodecIn);
     Buffer->Append(m_uiPid);
-    Buffer->Append((uint8 *)Ambe, 9);
+    Buffer->Append((uint8_t *)Ambe, 9);
 }

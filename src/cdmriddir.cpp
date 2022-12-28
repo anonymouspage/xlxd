@@ -119,7 +119,7 @@ bool CDmridDir::Reload(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // find
 
-const CCallsign *CDmridDir::FindCallsign(uint32 dmrid)
+const CCallsign *CDmridDir::FindCallsign(uint32_t dmrid)
 {
     auto found = m_CallsignMap.find(dmrid);
     if ( found != m_CallsignMap.end() )
@@ -129,7 +129,7 @@ const CCallsign *CDmridDir::FindCallsign(uint32 dmrid)
     return NULL;
 }
 
-uint32 CDmridDir::FindDmrid(const CCallsign &callsign)
+uint32_t CDmridDir::FindDmrid(const CCallsign &callsign)
 {
     auto found = m_DmridMap.find(callsign);
     if ( found != m_DmridMap.end() )

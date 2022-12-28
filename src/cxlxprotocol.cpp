@@ -42,7 +42,7 @@ bool CXlxProtocol::Init(void)
     ok = CProtocol::Init();
     
     // update the reflector callsign
-    m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"XLX", 3);
+    m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"XLX", 3);
     
     // create our socket
     ok &= m_Socket.Open(XLX_PORT);
@@ -497,7 +497,7 @@ bool CXlxProtocol::IsValidConnectPacket(const CBuffer &Buffer, CCallsign *callsi
     bool valid = false;
     if ((Buffer.size() == 39) && (Buffer.data()[0] == 'L') && (Buffer.data()[38] == 0))
     {
-        callsign->SetCallsign((const uint8 *)&(Buffer.data()[1]), 8);
+        callsign->SetCallsign((const uint8_t *)&(Buffer.data()[1]), 8);
         ::strcpy(modules, (const char *)&(Buffer.data()[12]));
         valid = callsign->IsValid();
         *version = CVersion(Buffer.data()[9], Buffer.data()[10], Buffer.data()[11]);
@@ -514,7 +514,7 @@ bool CXlxProtocol::IsValidDisconnectPacket(const CBuffer &Buffer, CCallsign *cal
     bool valid = false;
     if ((Buffer.size() == 10) && (Buffer.data()[0] == 'U') && (Buffer.data()[9] == 0))
     {
-        callsign->SetCallsign((const uint8 *)&(Buffer.data()[1]), 8);
+        callsign->SetCallsign((const uint8_t *)&(Buffer.data()[1]), 8);
         valid = callsign->IsValid();
     }
     return valid;
@@ -525,7 +525,7 @@ bool CXlxProtocol::IsValidAckPacket(const CBuffer &Buffer, CCallsign *callsign, 
     bool valid = false;
     if ((Buffer.size() == 39) && (Buffer.data()[0] == 'A') && (Buffer.data()[38] == 0))
     {
-        callsign->SetCallsign((const uint8 *)&(Buffer.data()[1]), 8);
+        callsign->SetCallsign((const uint8_t *)&(Buffer.data()[1]), 8);
         ::strcpy(modules, (const char *)&(Buffer.data()[12]));
         valid = callsign->IsValid();
         *version = CVersion(Buffer.data()[9], Buffer.data()[10], Buffer.data()[11]);
@@ -542,7 +542,7 @@ bool CXlxProtocol::IsValidNackPacket(const CBuffer &Buffer, CCallsign *callsign)
     bool valid = false;
     if ((Buffer.size() == 10) && (Buffer.data()[0] == 'N') && (Buffer.data()[9] == 0))
     {
-        callsign->SetCallsign((const uint8 *)&(Buffer.data()[1]), 8);
+        callsign->SetCallsign((const uint8_t *)&(Buffer.data()[1]), 8);
         valid = callsign->IsValid();
     }
     return valid;
@@ -557,14 +557,14 @@ CDvFramePacket *CXlxProtocol::IsValidDvFramePacket(const CBuffer &Buffer)
     
     // otherwise try protocol revision 2
     if ( (dvframe == NULL) &&
-         (Buffer.size() == 45) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+         (Buffer.size() == 45) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x20) && (Buffer.data()[8] == 0x20) &&
          ((Buffer.data()[14] & 0x40) == 0) )
     {
         // create packet
         dvframe = new CDvFramePacket(
             // sid
-            *((uint16 *)&(Buffer.data()[12])),
+            *((uint16_t *)&(Buffer.data()[12])),
             // dstar
             Buffer.data()[14], &(Buffer.data()[15]), &(Buffer.data()[24]),
             // dmr
@@ -591,14 +591,14 @@ CDvLastFramePacket *CXlxProtocol::IsValidDvLastFramePacket(const CBuffer &Buffer
     
     // otherwise try protocol revision 2
     if ( (dvframe == NULL) &&
-         (Buffer.size() == 45) && (Buffer.Compare((uint8 *)"DSVT", 4) == 0) &&
+         (Buffer.size() == 45) && (Buffer.Compare((uint8_t *)"DSVT", 4) == 0) &&
          (Buffer.data()[4] == 0x20) && (Buffer.data()[8] == 0x20) &&
          ((Buffer.data()[14] & 0x40) != 0) )
     {
         // create packet
         dvframe = new CDvLastFramePacket(
                                      // sid
-                                     *((uint16 *)&(Buffer.data()[12])),
+                                     *((uint16_t *)&(Buffer.data()[12])),
                                      // dstar
                                      Buffer.data()[14], &(Buffer.data()[15]), &(Buffer.data()[24]),
                                      // dmr
@@ -626,7 +626,7 @@ void CXlxProtocol::EncodeKeepAlivePacket(CBuffer *Buffer)
 
 void CXlxProtocol::EncodeConnectPacket(CBuffer *Buffer, const char *Modules)
 {
-    uint8 tag[] = { 'L' };
+    uint8_t tag[] = { 'L' };
     
     // tag
     Buffer->Set(tag, sizeof(tag));
@@ -634,9 +634,9 @@ void CXlxProtocol::EncodeConnectPacket(CBuffer *Buffer, const char *Modules)
     Buffer->resize(Buffer->size()+8);
     g_Reflector.GetCallsign().GetCallsign(Buffer->data()+1);
     // our version
-    Buffer->Append((uint8)VERSION_MAJOR);
-    Buffer->Append((uint8)VERSION_MINOR);
-    Buffer->Append((uint8)VERSION_REVISION);
+    Buffer->Append((uint8_t)VERSION_MAJOR);
+    Buffer->Append((uint8_t)VERSION_MINOR);
+    Buffer->Append((uint8_t)VERSION_REVISION);
     // the modules we share
     Buffer->Append(Modules);
     Buffer->resize(39);
@@ -644,19 +644,19 @@ void CXlxProtocol::EncodeConnectPacket(CBuffer *Buffer, const char *Modules)
 
 void CXlxProtocol::EncodeDisconnectPacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'U' };
+    uint8_t tag[] = { 'U' };
     
     // tag
     Buffer->Set(tag, sizeof(tag));
     // our callsign
     Buffer->resize(Buffer->size()+8);
     g_Reflector.GetCallsign().GetCallsign(Buffer->data()+1);
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
 }
 
 void CXlxProtocol::EncodeConnectAckPacket(CBuffer *Buffer, const char *Modules)
 {
-    uint8 tag[] = { 'A' };
+    uint8_t tag[] = { 'A' };
     
     // tag
     Buffer->Set(tag, sizeof(tag));
@@ -664,9 +664,9 @@ void CXlxProtocol::EncodeConnectAckPacket(CBuffer *Buffer, const char *Modules)
     Buffer->resize(Buffer->size()+8);
     g_Reflector.GetCallsign().GetCallsign(Buffer->data()+1);
     // our version
-    Buffer->Append((uint8)VERSION_MAJOR);
-    Buffer->Append((uint8)VERSION_MINOR);
-    Buffer->Append((uint8)VERSION_REVISION);
+    Buffer->Append((uint8_t)VERSION_MAJOR);
+    Buffer->Append((uint8_t)VERSION_MINOR);
+    Buffer->Append((uint8_t)VERSION_REVISION);
     // the modules we share
     Buffer->Append(Modules);
     Buffer->resize(39);
@@ -674,30 +674,30 @@ void CXlxProtocol::EncodeConnectAckPacket(CBuffer *Buffer, const char *Modules)
 
 void CXlxProtocol::EncodeConnectNackPacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'N' };
+    uint8_t tag[] = { 'N' };
     
     // tag
     Buffer->Set(tag, sizeof(tag));
     // our callsign
     Buffer->resize(Buffer->size()+8);
     g_Reflector.GetCallsign().GetCallsign(Buffer->data()+1);
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
 }
 
 bool CXlxProtocol::EncodeDvFramePacket(const CDvFramePacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t tag[] = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)(Packet.GetDstarPacketId() % 21));
-    Buffer->Append((uint8 *)Packet.GetAmbe(), AMBE_SIZE);
-    Buffer->Append((uint8 *)Packet.GetDvData(), DVDATA_SIZE);
+    Buffer->Append((uint8_t)(Packet.GetDstarPacketId() % 21));
+    Buffer->Append((uint8_t *)Packet.GetAmbe(), AMBE_SIZE);
+    Buffer->Append((uint8_t *)Packet.GetDvData(), DVDATA_SIZE);
     
-    Buffer->Append((uint8)Packet.GetDmrPacketId());
-    Buffer->Append((uint8)Packet.GetDmrPacketSubid());
-    Buffer->Append((uint8 *)Packet.GetAmbePlus(), AMBEPLUS_SIZE);
-    Buffer->Append((uint8 *)Packet.GetDvSync(), DVSYNC_SIZE);
+    Buffer->Append((uint8_t)Packet.GetDmrPacketId());
+    Buffer->Append((uint8_t)Packet.GetDmrPacketSubid());
+    Buffer->Append((uint8_t *)Packet.GetAmbePlus(), AMBEPLUS_SIZE);
+    Buffer->Append((uint8_t *)Packet.GetDvSync(), DVSYNC_SIZE);
     
     return true;
    
@@ -705,21 +705,21 @@ bool CXlxProtocol::EncodeDvFramePacket(const CDvFramePacket &Packet, CBuffer *Bu
 
 bool CXlxProtocol::EncodeDvLastFramePacket(const CDvLastFramePacket &Packet, CBuffer *Buffer) const
 {
-    uint8 tag[]         = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
-    uint8 dstarambe[]   = { 0x55,0xC8,0x7A,0x00,0x00,0x00,0x00,0x00,0x00 };
-    uint8 dstardvdata[] = { 0x25,0x1A,0xC6 };
+    uint8_t tag[]         = { 'D','S','V','T',0x20,0x00,0x00,0x00,0x20,0x00,0x01,0x02 };
+    uint8_t dstarambe[]   = { 0x55,0xC8,0x7A,0x00,0x00,0x00,0x00,0x00,0x00 };
+    uint8_t dstardvdata[] = { 0x25,0x1A,0xC6 };
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(Packet.GetStreamId());
-    Buffer->Append((uint8)((Packet.GetPacketId() % 21) | 0x40));
+    Buffer->Append((uint8_t)((Packet.GetPacketId() % 21) | 0x40));
     Buffer->Append(dstarambe, sizeof(dstarambe));
     Buffer->Append(dstardvdata, sizeof(dstardvdata));
     
     
-    Buffer->Append((uint8)Packet.GetDmrPacketId());
-    Buffer->Append((uint8)Packet.GetDmrPacketSubid());
-    Buffer->Append((uint8 *)Packet.GetAmbePlus(), AMBEPLUS_SIZE);
-    Buffer->Append((uint8 *)Packet.GetDvSync(), DVSYNC_SIZE);
+    Buffer->Append((uint8_t)Packet.GetDmrPacketId());
+    Buffer->Append((uint8_t)Packet.GetDmrPacketSubid());
+    Buffer->Append((uint8_t *)Packet.GetAmbePlus(), AMBEPLUS_SIZE);
+    Buffer->Append((uint8_t *)Packet.GetDvSync(), DVSYNC_SIZE);
     
     return true;
 }

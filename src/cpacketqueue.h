@@ -51,7 +51,7 @@ public:
 protected:
     // status
     bool        m_bOpen;
-    uint16      m_uiStreamId;
+    uint16_t      m_uiStreamId;
     std::mutex  m_Mutex;
     
     // owner

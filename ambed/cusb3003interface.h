@@ -41,17 +41,17 @@ class CUsb3003Interface : public CUsb3xxxInterface
 {
 public:
     // constructors
-    CUsb3003Interface(uint32, uint32, const char *, const char *);
+    CUsb3003Interface(uint32_t, uint32_t, const char *, const char *);
     
     // destructor
     virtual ~CUsb3003Interface() {}
     
     // initialization
-    bool Init(uint8);
+    bool Init(uint8_t);
     
     // manage channels
     int GetNbChannels(void) const       { return USB3003_NB_CH; }
-    uint8 GetChannelCodec(int) const;
+    uint8_t GetChannelCodec(int) const;
     
     // manage vocodec channels
     CVocodecChannel *GetChannelWithChannelIn(int);
@@ -73,7 +73,7 @@ protected:
     int  GetDeviceFifoSize(void) const             { return 2; }
     
     // data
-    uint8   m_uiChCodecs[USB3003_NB_CH];
+    uint8_t   m_uiChCodecs[USB3003_NB_CH];
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

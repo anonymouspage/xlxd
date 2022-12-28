@@ -61,14 +61,14 @@ public:
     const CIp       *GetOwnerIp(void);
     bool            IsExpired(void) const           { return (m_LastPacketTime.DurationSinceNow() > STREAM_TIMEOUT); }
     bool            IsOpen(void) const              { return m_bOpen; }
-    uint16          GetStreamId(void) const         { return m_uiStreamId; }
+    uint16_t          GetStreamId(void) const         { return m_uiStreamId; }
     const CCallsign &GetUserCallsign(void) const    { return m_DvHeader.GetMyCallsign(); }
 
 protected:
     // data
     bool                m_bOpen;
-    uint16              m_uiStreamId;
-    uint32              m_uiPacketCntr;
+    uint16_t              m_uiStreamId;
+    uint32_t              m_uiPacketCntr;
     CClient             *m_OwnerClient;
     CTimePoint          m_LastPacketTime;
     CDvHeaderPacket     m_DvHeader;

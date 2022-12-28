@@ -43,7 +43,7 @@ CFtdiDeviceDescr::CFtdiDeviceDescr(void)
     ::memset(m_szSerial, 0, sizeof(m_szSerial));
 }
 
-CFtdiDeviceDescr::CFtdiDeviceDescr(uint32 uiVid, uint32 uiPid, const char *szDescription, const char *szSerial)
+CFtdiDeviceDescr::CFtdiDeviceDescr(uint32_t uiVid, uint32_t uiPid, const char *szDescription, const char *szSerial)
 {
     m_bUsed = false;
     m_uiVid = uiVid;

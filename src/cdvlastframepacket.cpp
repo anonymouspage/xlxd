@@ -35,14 +35,14 @@ CDvLastFramePacket::CDvLastFramePacket()
 
 // dstar constructor
 
-CDvLastFramePacket::CDvLastFramePacket(const struct dstar_dvframe *DvFrame, uint16 sid, uint8 pid)
+CDvLastFramePacket::CDvLastFramePacket(const struct dstar_dvframe *DvFrame, uint16_t sid, uint8_t pid)
     : CDvFramePacket(DvFrame, sid, pid)
 {
 }
 
 // dmr constructor
 
-CDvLastFramePacket::CDvLastFramePacket(const uint8 *ambe, const uint8 *sync, uint16 sid, uint8 pid, uint8 spid)
+CDvLastFramePacket::CDvLastFramePacket(const uint8_t *ambe, const uint8_t *sync, uint16_t sid, uint8_t pid, uint8_t spid)
     : CDvFramePacket(ambe, sync, sid, pid, spid)
 {
 }
@@ -50,23 +50,23 @@ CDvLastFramePacket::CDvLastFramePacket(const uint8 *ambe, const uint8 *sync, uin
 // dstar + dmr constructor
 
 CDvLastFramePacket::CDvLastFramePacket
-    (uint16 sid,
-     uint8 dstarpid, const uint8 *dstarambe, const uint8 *dstardvdata,
-     uint8 dmrpid, uint8 dprspid, const uint8 *dmrambe, const uint8 *dmrsync)
+    (uint16_t sid,
+     uint8_t dstarpid, const uint8_t *dstarambe, const uint8_t *dstardvdata,
+     uint8_t dmrpid, uint8_t dprspid, const uint8_t *dmrambe, const uint8_t *dmrsync)
     : CDvFramePacket(sid, dstarpid, dstarambe, dstardvdata, dmrpid, dprspid, dmrambe, dmrsync)
 {
 }
 
 // ysf constructor
 
-CDvLastFramePacket::CDvLastFramePacket(const uint8 *ambe, uint16 sid, uint8 pid, uint8 spid, uint8 fid)
+CDvLastFramePacket::CDvLastFramePacket(const uint8_t *ambe, uint16_t sid, uint8_t pid, uint8_t spid, uint8_t fid)
     : CDvFramePacket(ambe, sid, pid, spid, fid)
 {
 }
 
 // imrs constructor
 
-CDvLastFramePacket::CDvLastFramePacket(const uint8 *ambe, uint16 sid, uint8 pid, uint8 spid, uint16 fid)
+CDvLastFramePacket::CDvLastFramePacket(const uint8_t *ambe, uint16_t sid, uint8_t pid, uint8_t spid, uint16_t fid)
     : CDvFramePacket(ambe, sid, pid, spid, fid)
 {
 }

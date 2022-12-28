@@ -37,7 +37,7 @@ CVoicePacket::CVoicePacket()
     ::memset(m_uiVoice, 0, sizeof(m_uiVoice));
 }
 
-CVoicePacket::CVoicePacket(const uint8 *voice, int size)
+CVoicePacket::CVoicePacket(const uint8_t *voice, int size)
 {
     m_iSize = MIN(size, sizeof(m_uiVoice));
     ::memset(m_uiVoice, 0, sizeof(m_uiVoice));
@@ -62,7 +62,7 @@ CVoicePacket::~CVoicePacket()
 ////////////////////////////////////////////////////////////////////////////////////////
 // Set
 
-void CVoicePacket::SetVoice(const uint8 *voice, int size)
+void CVoicePacket::SetVoice(const uint8_t *voice, int size)
 {
     m_iSize = MIN(size, sizeof(m_uiVoice));
     ::memset(m_uiVoice, 0, sizeof(m_uiVoice));

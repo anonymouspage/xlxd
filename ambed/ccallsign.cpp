@@ -88,7 +88,7 @@ void CCallsign::SetCallsign(const char *sz)
     ::memcpy(m_Callsign, sz, MIN(strlen(sz), sizeof(m_Callsign)));
 }
 
-void CCallsign::SetCallsign(const uint8 *buffer, int len)
+void CCallsign::SetCallsign(const uint8_t *buffer, int len)
 {
     // set callsign
     ::memset(m_Callsign, ' ', sizeof(m_Callsign));
@@ -106,7 +106,7 @@ void CCallsign::SetCallsign(const uint8 *buffer, int len)
 ////////////////////////////////////////////////////////////////////////////////////////
 // modify
 
-void CCallsign::PatchCallsign(int off, const uint8 *patch, int len)
+void CCallsign::PatchCallsign(int off, const uint8_t *patch, int len)
 {
     if ( off < sizeof(m_Callsign) )
     {
@@ -118,7 +118,7 @@ void CCallsign::PatchCallsign(int off, const uint8 *patch, int len)
 ////////////////////////////////////////////////////////////////////////////////////////
 // get
 
-void CCallsign::GetCallsign(uint8 *buffer) const
+void CCallsign::GetCallsign(uint8_t *buffer) const
 {
     ::memcpy(buffer, m_Callsign, sizeof(m_Callsign));
 }

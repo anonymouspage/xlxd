@@ -48,7 +48,7 @@ CPacket::CPacket()
 
 // dstar contrsuctor
 
-CPacket::CPacket(uint16 sid, uint8 dstarpid)
+CPacket::CPacket(uint16_t sid, uint8_t dstarpid)
 {
     m_uiStreamId = sid;
     m_uiDstarPacketId = dstarpid;
@@ -66,7 +66,7 @@ CPacket::CPacket(uint16 sid, uint8 dstarpid)
 
 // dmr constructor
 
-CPacket::CPacket(uint16 sid, uint8 dmrpid, uint8 dmrspid)
+CPacket::CPacket(uint16_t sid, uint8_t dmrpid, uint8_t dmrspid)
 {
     m_uiStreamId = sid;
     m_uiDmrPacketId = dmrpid;
@@ -84,7 +84,7 @@ CPacket::CPacket(uint16 sid, uint8 dmrpid, uint8 dmrspid)
 
 // ysf constructor
 
-CPacket::CPacket(uint16 sid, uint8 ysfpid, uint8 ysfsubpid, uint8 ysffrid)
+CPacket::CPacket(uint16_t sid, uint8_t ysfpid, uint8_t ysfsubpid, uint8_t ysffrid)
 {
     m_uiStreamId = sid;
     m_uiYsfPacketId = ysfpid;
@@ -102,7 +102,7 @@ CPacket::CPacket(uint16 sid, uint8 ysfpid, uint8 ysfsubpid, uint8 ysffrid)
 
 // imrs constructor
 
-CPacket::CPacket(uint16 sid, uint8 imrspid, uint8 imrssubid, uint16 imrsfrid)
+CPacket::CPacket(uint16_t sid, uint8_t imrspid, uint8_t imrssubid, uint16_t imrsfrid)
 {
     m_uiStreamId = sid;
     m_uiImrsPacketId = imrspid;
@@ -120,7 +120,7 @@ CPacket::CPacket(uint16 sid, uint8 imrspid, uint8 imrssubid, uint16 imrsfrid)
 
 // xlx  constructor
 
-CPacket::CPacket(uint16 sid, uint8 dstarpid, uint8 dmrpid, uint8 dmrsubpid, uint8 ysfpid, uint8 ysfsubpid, uint8 ysffrid, uint8 imrspid, uint8 imrssubid, uint16 imrsfrid)
+CPacket::CPacket(uint16_t sid, uint8_t dstarpid, uint8_t dmrpid, uint8_t dmrsubpid, uint8_t ysfpid, uint8_t ysfsubpid, uint8_t ysffrid, uint8_t imrspid, uint8_t imrssubid, uint16_t imrsfrid)
 {
     m_uiStreamId = sid;
     m_uiDstarPacketId = dstarpid;
@@ -148,7 +148,7 @@ CPacket *CPacket::Duplicate(void) const
 ////////////////////////////////////////////////////////////////////////////////////////
 // pid conversion
 
-void CPacket::UpdatePids(uint32 pid)
+void CPacket::UpdatePids(uint32_t pid)
 {
     // called while phusing this packet in a stream queue
     // so now packet sequence number is known and undefined pids can be updated

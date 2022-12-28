@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // constructor
 
-CUsb3xxxInterface::CUsb3xxxInterface(uint32 uiVid, uint32 uiPid, const char *szDeviceName, const char *szDeviceSerial)
+CUsb3xxxInterface::CUsb3xxxInterface(uint32_t uiVid, uint32_t uiPid, const char *szDeviceName, const char *szDeviceSerial)
 {
     m_FtdiHandle = NULL;
     m_uiVid = uiVid;
@@ -390,7 +390,7 @@ bool CUsb3xxxInterface::DisableParity(void)
     return ok;
 }
 
-bool CUsb3xxxInterface::ConfigureChannel(uint8 pkt_ch, const uint8 *pkt_ratep, int in_gain, int out_gain)
+bool CUsb3xxxInterface::ConfigureChannel(uint8_t pkt_ch, const uint8_t *pkt_ratep, int in_gain, int out_gain)
 {
     bool ok = false;
     int len;
@@ -415,8 +415,8 @@ bool CUsb3xxxInterface::ConfigureChannel(uint8 pkt_ch, const uint8 *pkt_ratep, i
     // update packet content
     txpacket[4] = pkt_ch;
     :: memcpy(&(txpacket[14]), pkt_ratep, 12);
-    txpacket[33] = (uint8)(signed char)in_gain;
-    txpacket[34] = (uint8)(signed char)out_gain;
+    txpacket[33] = (uint8_t)(signed char)in_gain;
+    txpacket[34] = (uint8_t)(signed char)out_gain;
     
     // write packet
     if ( FTDI_write_packet(m_FtdiHandle, txpacket, sizeof(txpacket)) )

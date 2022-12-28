@@ -44,7 +44,7 @@ public:
     ~CDcsStreamCacheItem()    {}
     
     CDvHeaderPacket m_dvHeader;
-    uint32          m_iSeqCounter;
+    uint32_t          m_iSeqCounter;
 };
 
 class CDcsProtocol : public CProtocol
@@ -85,8 +85,8 @@ protected:
     void EncodeConnectAckPacket(const CCallsign &, char, CBuffer *);
     void EncodeConnectNackPacket(const CCallsign &, char, CBuffer *);
     void EncodeDisconnectPacket(CBuffer *, CClient *);
-    void EncodeDvPacket(const CDvHeaderPacket &, const CDvFramePacket &, uint32, CBuffer *) const;
-    void EncodeDvLastPacket(const CDvHeaderPacket &, const CDvFramePacket &, uint32, CBuffer *) const;
+    void EncodeDvPacket(const CDvHeaderPacket &, const CDvFramePacket &, uint32_t, CBuffer *) const;
+    void EncodeDvLastPacket(const CDvHeaderPacket &, const CDvFramePacket &, uint32_t, CBuffer *) const;
     
 protected:
     // for keep alive

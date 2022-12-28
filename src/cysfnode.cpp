@@ -36,7 +36,7 @@ CYsfNode::CYsfNode()
     m_uiRxFreq = 0;
 }
 
-CYsfNode::CYsfNode(const CCallsign &callsign, uint32 txfreq, uint32 rxfreq)
+CYsfNode::CYsfNode(const CCallsign &callsign, uint32_t txfreq, uint32_t rxfreq)
 {
     m_Callsign = callsign;
     m_uiTxFreq = txfreq;

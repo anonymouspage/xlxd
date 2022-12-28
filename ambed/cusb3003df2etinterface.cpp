@@ -34,7 +34,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // constructor
 
-CUsb3003DF2ETInterface::CUsb3003DF2ETInterface(uint32 uiVid, uint32 uiPid, const char *szDeviceName, const char *szDeviceSerial)
+CUsb3003DF2ETInterface::CUsb3003DF2ETInterface(uint32_t uiVid, uint32_t uiPid, const char *szDeviceName, const char *szDeviceSerial)
 : CUsb3003Interface(uiVid, uiPid, szDeviceName, szDeviceSerial)
 {
 }

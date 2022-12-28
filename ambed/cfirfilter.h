@@ -38,7 +38,7 @@ public :
     ~CFIRFilter();
 
     // Processing
-    void ProcessSampleBlock(uint8* voice, int length);
+    void ProcessSampleBlock(uint8_t* voice, int length);
 
 private:
     float* m_taps;

@@ -55,7 +55,7 @@ public:
     ~CUdpSocket();
     
     // open & close
-    bool Open(const CIp &, uint16);
+    bool Open(const CIp &, uint16_t);
     void Close(void);
     int  GetSocket(void)        { return m_Socket; }
     
@@ -64,9 +64,9 @@ public:
     
     // write
     int Send(const CBuffer &, const CIp &);
-    int Send(const CBuffer &, const CIp &, uint16);
+    int Send(const CBuffer &, const CIp &, uint16_t);
     int Send(const char *, const CIp &);
-    int Send(const char *, const CIp &, uint16);
+    int Send(const char *, const CIp &, uint16_t);
     
 protected:
     // data

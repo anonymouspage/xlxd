@@ -73,7 +73,7 @@ class CUsb3xxxInterface : public CVocodecInterface
 {
 public:
     // constructors
-    CUsb3xxxInterface(uint32, uint32, const char *, const char *);
+    CUsb3xxxInterface(uint32_t, uint32_t, const char *, const char *);
     
     // destructor
     virtual ~CUsb3xxxInterface();
@@ -103,7 +103,7 @@ protected:
     bool ReadDeviceVersion(void);
     bool DisableParity(void);
     virtual bool ConfigureDevice(void)                      { return false; }
-    bool ConfigureChannel(uint8, const uint8 *, int, int);
+    bool ConfigureChannel(uint8_t, const uint8_t *, int, int);
     virtual int GetDeviceFifoSize(void) const              { return 1; }
     
     // io level
@@ -118,8 +118,8 @@ protected:
     
 protected:
     // data
-    uint32                      m_uiVid;
-    uint32                      m_uiPid;
+    uint32_t                      m_uiVid;
+    uint32_t                      m_uiPid;
     char                        m_szDeviceName[FTDI_MAX_STRINGLENGTH];
     char                        m_szDeviceSerial[FTDI_MAX_STRINGLENGTH];
     FT_HANDLE                   m_FtdiHandle;

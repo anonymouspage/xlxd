@@ -40,11 +40,11 @@ class CDvLastFramePacket : public CDvFramePacket
 public:
     // constructor
     CDvLastFramePacket();
-    CDvLastFramePacket(const struct dstar_dvframe *, uint16, uint8);
-    CDvLastFramePacket(const uint8 *, const uint8 *, uint16, uint8, uint8);
-    CDvLastFramePacket(const uint8 *, uint16, uint8, uint8, uint8);
-    CDvLastFramePacket(const uint8 *, uint16, uint8, uint8, uint16);
-    CDvLastFramePacket(uint16, uint8, const uint8 *, const uint8 *, uint8, uint8, const uint8 *, const uint8 *);
+    CDvLastFramePacket(const struct dstar_dvframe *, uint16_t, uint8_t);
+    CDvLastFramePacket(const uint8_t *, const uint8_t *, uint16_t, uint8_t, uint8_t);
+    CDvLastFramePacket(const uint8_t *, uint16_t, uint8_t, uint8_t, uint8_t);
+    CDvLastFramePacket(const uint8_t *, uint16_t, uint8_t, uint8_t, uint16_t);
+    CDvLastFramePacket(uint16_t, uint8_t, const uint8_t *, const uint8_t *, uint8_t, uint8_t, const uint8_t *, const uint8_t *);
     CDvLastFramePacket(const CDvLastFramePacket &);
     
     // destructor

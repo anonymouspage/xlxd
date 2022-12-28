@@ -39,7 +39,7 @@ public:
     ~CSignalProcessor();
 
     //Processing
-    void Process(uint8* voice, int length);
+    void Process(uint8_t* voice, int length);
 
 private:
     std::vector<CSampleBlockProcessor *> m_sampleProcessors;

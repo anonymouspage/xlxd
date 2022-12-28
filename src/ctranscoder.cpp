@@ -154,8 +154,8 @@ void CTranscoder::Task(void)
 {
     CBuffer     Buffer;
     CIp         Ip;
-    uint16      StreamId;
-    uint16      Port;
+    uint16_t      StreamId;
+    uint16_t      Port;
     
     // anything coming in from codec server ?
     //if ( (m_Socket.Receive(&Buffer, &Ip, 20) != -1) && (Ip == m_Ip) )
@@ -202,7 +202,7 @@ void CTranscoder::Task(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // manage streams
 
-CCodecStream *CTranscoder::GetStream(CPacketStream *PacketStream, uint8 uiCodecIn)
+CCodecStream *CTranscoder::GetStream(CPacketStream *PacketStream, uint8_t uiCodecIn)
 {
     CBuffer     Buffer;
     
@@ -336,7 +336,7 @@ void CTranscoder::HandleKeepalives(void)
 
 bool CTranscoder::IsValidKeepAlivePacket(const CBuffer &Buffer)
 {
-    uint8 tag[] = { 'A','M','B','E','D','P','O','N','G' };
+    uint8_t tag[] = { 'A','M','B','E','D','P','O','N','G' };
     
     bool valid = false;
     if ( (Buffer.size() == 9) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
@@ -346,17 +346,17 @@ bool CTranscoder::IsValidKeepAlivePacket(const CBuffer &Buffer)
     return valid;
 }
 
-bool CTranscoder::IsValidStreamDescrPacket(const CBuffer &Buffer, uint16 *Id, uint16 *Port)
+bool CTranscoder::IsValidStreamDescrPacket(const CBuffer &Buffer, uint16_t *Id, uint16_t *Port)
 {
-    uint8 tag[] = { 'A','M','B','E','D','S','T','D' };
+    uint8_t tag[] = { 'A','M','B','E','D','S','T','D' };
     
     bool valid = false;
     if ( (Buffer.size() == 14) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        *Id = *(uint16 *)(&Buffer.data()[8]);
-        *Port = *(uint16 *)(&Buffer.data()[10]);
-        // uint8 CodecIn = Buffer.data()[12];
-        // uint8 CodecOut = Buffer.data()[13];
+        *Id = *(uint16_t *)(&Buffer.data()[8]);
+        *Port = *(uint16_t *)(&Buffer.data()[10]);
+        // uint8_t CodecIn = Buffer.data()[12];
+        // uint8_t CodecOut = Buffer.data()[13];
         valid = true;
     }
     return valid;
@@ -364,7 +364,7 @@ bool CTranscoder::IsValidStreamDescrPacket(const CBuffer &Buffer, uint16 *Id, ui
 
 bool CTranscoder::IsValidNoStreamAvailablePacket(const CBuffer&Buffer)
 {
-    uint8 tag[] = { 'A','M','B','E','D','B','U','S','Y' };
+    uint8_t tag[] = { 'A','M','B','E','D','B','U','S','Y' };
     
     return  ( (Buffer.size() == 9) && (Buffer.Compare(tag, sizeof(tag)) == 0) );
 }
@@ -375,27 +375,27 @@ bool CTranscoder::IsValidNoStreamAvailablePacket(const CBuffer&Buffer)
 
 void CTranscoder::EncodeKeepAlivePacket(CBuffer *Buffer)
 {
-    uint8 tag[] = { 'A','M','B','E','D','P','I','N','G' };
+    uint8_t tag[] = { 'A','M','B','E','D','P','I','N','G' };
     
     Buffer->Set(tag, sizeof(tag));
-    Buffer->Append((uint8 *)(const char *)g_Reflector.GetCallsign(), CALLSIGN_LEN);
+    Buffer->Append((uint8_t *)(const char *)g_Reflector.GetCallsign(), CALLSIGN_LEN);
 }
 
-void CTranscoder::EncodeOpenstreamPacket(CBuffer *Buffer, uint8 uiCodecIn, uint8 uiCodecOut)
+void CTranscoder::EncodeOpenstreamPacket(CBuffer *Buffer, uint8_t uiCodecIn, uint8_t uiCodecOut)
 {
-    uint8 tag[] = { 'A','M','B','E','D','O','S' };
+    uint8_t tag[] = { 'A','M','B','E','D','O','S' };
 
     Buffer->Set(tag, sizeof(tag));
-    Buffer->Append((uint8 *)(const char *)g_Reflector.GetCallsign(), CALLSIGN_LEN);
-    Buffer->Append((uint8)uiCodecIn);
-    Buffer->Append((uint8)uiCodecOut);
+    Buffer->Append((uint8_t *)(const char *)g_Reflector.GetCallsign(), CALLSIGN_LEN);
+    Buffer->Append((uint8_t)uiCodecIn);
+    Buffer->Append((uint8_t)uiCodecOut);
 }
 
-void CTranscoder::EncodeClosestreamPacket(CBuffer *Buffer, uint16 uiStreamId)
+void CTranscoder::EncodeClosestreamPacket(CBuffer *Buffer, uint16_t uiStreamId)
 {
-    uint8 tag[] = { 'A','M','B','E','D','C','S' };
+    uint8_t tag[] = { 'A','M','B','E','D','C','S' };
     
     Buffer->Set(tag, sizeof(tag));
-    Buffer->Append((uint16)uiStreamId);
+    Buffer->Append((uint16_t)uiStreamId);
 }
 

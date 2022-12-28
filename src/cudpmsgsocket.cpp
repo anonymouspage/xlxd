@@ -28,7 +28,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // open
-bool CUdpMsgSocket::Open(uint16 uiPort)
+bool CUdpMsgSocket::Open(uint16_t uiPort)
 {
     bool ret;
     int on = 1;

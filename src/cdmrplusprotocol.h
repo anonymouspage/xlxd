@@ -50,7 +50,7 @@ public:
     CDvFramePacket  m_dvFrame0;
     CDvFramePacket  m_dvFrame1;
     
-    uint8   m_uiSeqId;
+    uint8_t   m_uiSeqId;
 };
 
 
@@ -72,7 +72,7 @@ public:
 protected:
     // queue helper
     void HandleQueue(void);
-    void SendBufferToClients(const CBuffer &, uint8);
+    void SendBufferToClients(const CBuffer &, uint8_t);
     
     // keepalive helpers
     void HandleKeepalives(void);
@@ -90,24 +90,24 @@ protected:
     void EncodeConnectAckPacket(CBuffer *);
     void EncodeConnectNackPacket(CBuffer *);
     bool EncodeDvHeaderPacket(const CDvHeaderPacket &, CBuffer *) const;
-    void EncodeDvPacket(const CDvHeaderPacket &, const CDvFramePacket &, const CDvFramePacket &, const CDvFramePacket &, uint8, CBuffer *) const;
-    void EncodeDvLastPacket(const CDvHeaderPacket &, const CDvFramePacket &, const CDvFramePacket &, const CDvFramePacket &, uint8, CBuffer *) const;
-    void SwapEndianess(uint8 *, int) const;
+    void EncodeDvPacket(const CDvHeaderPacket &, const CDvFramePacket &, const CDvFramePacket &, const CDvFramePacket &, uint8_t, CBuffer *) const;
+    void EncodeDvLastPacket(const CDvHeaderPacket &, const CDvFramePacket &, const CDvFramePacket &, const CDvFramePacket &, uint8_t, CBuffer *) const;
+    void SwapEndianess(uint8_t *, int) const;
     
     // dmr SeqId helper
-    uint8 GetNextSeqId(uint8) const;
+    uint8_t GetNextSeqId(uint8_t) const;
     
     // dmr DstId to Module helper
-    char DmrDstIdToModule(uint32) const;
-    uint32 ModuleToDmrDestId(char) const;
+    char DmrDstIdToModule(uint32_t) const;
+    uint32_t ModuleToDmrDestId(char) const;
     
     // uiStreamId helpers
-    uint32 IpToStreamId(const CIp &) const;
+    uint32_t IpToStreamId(const CIp &) const;
     
     // Buffer & LC helpers
-    void AppendVoiceLCToBuffer(CBuffer *, uint32) const;
-    void AppendTerminatorLCToBuffer(CBuffer *, uint32) const;
-    void ReplaceEMBInBuffer(CBuffer *, uint8) const;
+    void AppendVoiceLCToBuffer(CBuffer *, uint32_t) const;
+    void AppendTerminatorLCToBuffer(CBuffer *, uint32_t) const;
+    void ReplaceEMBInBuffer(CBuffer *, uint8_t) const;
 
     
 protected:

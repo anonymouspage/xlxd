@@ -64,7 +64,7 @@ public:
     CDvHeaderPacket m_dvHeader;
     CDvFramePacket  m_dvFrames[5];
 
-    //uint8  m_uiSeqId;
+    //uint8_t  m_uiSeqId;
 };
 
 class CYsfProtocol : public CProtocol
@@ -114,13 +114,13 @@ protected:
     
     // server status packet decoding helpers
     bool IsValidServerStatusPacket(const CBuffer &) const;
-    uint32 CalcHash(const uint8 *, int) const;
+    uint32_t CalcHash(const uint8_t *, int) const;
     
     // server status packet encoding helpers
     bool EncodeServerStatusPacket(CBuffer *) const;
     
     // uiStreamId helpers
-    uint32 IpToStreamId(const CIp &) const;
+    uint32_t IpToStreamId(const CIp &) const;
     
     // debug
     bool DebugTestDecodePacket(const CBuffer &);

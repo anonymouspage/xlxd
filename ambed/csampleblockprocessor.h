@@ -32,7 +32,7 @@ class CSampleBlockProcessor
 {
 public:
     //processing
-    virtual void ProcessSampleBlock(uint8* voice, int length) = 0;
+    virtual void ProcessSampleBlock(uint8_t* voice, int length) = 0;
 };
 
 #endif /* csampleprocessor_h */

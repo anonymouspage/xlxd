@@ -62,7 +62,7 @@ float CAGC::GetGain()
 ////////////////////////////////////////////////////////////////////////////////////////
 // process
 
-inline void CAGC::ProcessSampleBlock(uint8* voice, int length) 
+inline void CAGC::ProcessSampleBlock(uint8_t* voice, int length) 
 {
     for(int i = 0; i < length; i += 2)
     {

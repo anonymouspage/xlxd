@@ -83,12 +83,12 @@ void CVocodecChannel::Close(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // get
 
-uint8 CVocodecChannel::GetCodecIn(void) const
+uint8_t CVocodecChannel::GetCodecIn(void) const
 {
     return m_InterfaceIn->GetChannelCodec(m_iChannelIn);
 }
 
-uint8 CVocodecChannel::GetCodecOut(void) const
+uint8_t CVocodecChannel::GetCodecOut(void) const
 {
     return m_InterfaceOut->GetChannelCodec(m_iChannelOut);
 }

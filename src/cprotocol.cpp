@@ -198,7 +198,7 @@ void CProtocol::OnDvLastFramePacketIn(CDvLastFramePacket *Frame, const CIp *Ip)
 ////////////////////////////////////////////////////////////////////////////////////////
 // stream handle helpers
 
-CPacketStream *CProtocol::GetStream(uint16 uiStreamId, const CIp *Ip)
+CPacketStream *CProtocol::GetStream(uint16_t uiStreamId, const CIp *Ip)
 {
     CPacketStream *stream = NULL;
 
@@ -278,13 +278,13 @@ bool CProtocol::IsSpace(char c) const
 ////////////////////////////////////////////////////////////////////////////////////////
 // DestId to Module helper
 
-char CProtocol::DmrDstIdToModule(uint32 tg) const
+char CProtocol::DmrDstIdToModule(uint32_t tg) const
 {
     return ((char)((tg % 26)-1) + 'A');
 }
 
-uint32 CProtocol::ModuleToDmrDestId(char m) const
+uint32_t CProtocol::ModuleToDmrDestId(char m) const
 {
-    return (uint32)(m - 'A')+1;
+    return (uint32_t)(m - 'A')+1;
 }
 

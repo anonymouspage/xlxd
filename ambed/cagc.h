@@ -37,7 +37,7 @@ public:
     CAGC(float initialLeveldB);
 
     //methods
-    void ProcessSampleBlock(uint8* voice, int length) ;
+    void ProcessSampleBlock(uint8_t* voice, int length) ;
     float GetGain();//gets current gain 
     
 private:

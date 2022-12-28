@@ -151,14 +151,14 @@ bool CYsfNodeDirHttp::HttpGet(const char *hostname, const char *filename, int po
                     len = read(sock_id, buf, 1440);
                     if ( len > 0 )
                     {
-                        buffer->Append((uint8 *)buf, (int)len);
+                        buffer->Append((uint8_t *)buf, (int)len);
                         ok = true;
                     }
                     //}
                     done = (len <= 0);
                     
                 } while (!done);
-                buffer->Append((uint8)0);
+                buffer->Append((uint8_t)0);
                 
                 // and disconnect
                 close(sock_id);

@@ -27,33 +27,33 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-class CBuffer : public std::vector<uint8>
+class CBuffer : public std::vector<uint8_t>
 {
 public:
     // constructor
     CBuffer() {};
-    CBuffer(uint8 *, int);
+    CBuffer(uint8_t *, int);
     
     // destructor
     virtual ~CBuffer() {};
     
     // set
-    void Set(uint8 *, int);
+    void Set(uint8_t *, int);
     void Set(const char *);
-    void Append(uint8 *, int);
-    void Append(uint8, int);
-    void Append(uint8);
-    void Append(uint16);
-    void Append(uint32);
+    void Append(uint8_t *, int);
+    void Append(uint8_t, int);
+    void Append(uint8_t);
+    void Append(uint16_t);
+    void Append(uint32_t);
     void Append(const char *);
-    void ReplaceAt(int, uint8);
-    void ReplaceAt(int, uint16);
-    void ReplaceAt(int, uint32);
-    void ReplaceAt(int, const uint8 *, int);
+    void ReplaceAt(int, uint8_t);
+    void ReplaceAt(int, uint16_t);
+    void ReplaceAt(int, uint32_t);
+    void ReplaceAt(int, const uint8_t *, int);
     
     // operation
-    int Compare(uint8 *, int) const;
-    int Compare(uint8 *, int, int) const;
+    int Compare(uint8_t *, int) const;
+    int Compare(uint8_t *, int, int) const;
     
     // operator
     bool operator ==(const CBuffer &) const;

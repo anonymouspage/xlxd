@@ -130,7 +130,7 @@ protected:
     CRawSocket          m_IcmpRawSocket;
 
     // optional params
-    uint32              m_GwAddress;
+    uint32_t              m_GwAddress;
     std::string         m_Modules;
     time_t              m_LastModTime;
 };

@@ -117,7 +117,7 @@ bool CYsfNodeDir::Reload(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // find
 
-bool CYsfNodeDir::FindFrequencies(const CCallsign &callsign, uint32 *txfreq, uint32 *rxfreq)
+bool CYsfNodeDir::FindFrequencies(const CCallsign &callsign, uint32_t *txfreq, uint32_t *rxfreq)
 {
     auto found = find(callsign);
     if ( found != end() )

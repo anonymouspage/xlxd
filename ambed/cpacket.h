@@ -34,7 +34,7 @@ class CPacket
 public:
     // constructors
     CPacket();
-    CPacket(uint8);
+    CPacket(uint8_t);
     CPacket(const CPacket &);
     
     // destructor
@@ -46,16 +46,16 @@ public:
     
     // get
     int   GetChannel(void) const        { return m_iCh; }
-    uint8 GetPid(void) const            { return m_uiPid; }
+    uint8_t GetPid(void) const            { return m_uiPid; }
     
     // set
     void SetChannel(int i)              { m_iCh = i; }
-    void SetPid(uint8 ui)               { m_uiPid = ui; }
+    void SetPid(uint8_t ui)               { m_uiPid = ui; }
     
 protected:
     // data
     int     m_iCh;
-    uint8   m_uiPid;
+    uint8_t   m_uiPid;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

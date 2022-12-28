@@ -43,7 +43,7 @@ bool CImrsProtocol::Init(void)
     ok = CProtocol::Init();
     
     // update the reflector callsign
-    m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"IMR", 3);
+    m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"IMR", 3);
     
     // create our socket
     ok &= m_Socket.Open(IMRS_PORT);
@@ -298,7 +298,7 @@ void CImrsProtocol::HandleQueue(void)
         else
         {
             // update local stream cache or send quintet when needed
-            uint8 sid = packet->GetImrsPacketSubId();
+            uint8_t sid = packet->GetImrsPacketSubId();
             if ( (sid >= 0) && (sid <= 4) )
             {
                 //std::cout << (int)sid;
@@ -377,14 +377,14 @@ void CImrsProtocol::HandleKeepalives(void)
 
 bool CImrsProtocol::IsValidPingPacket(const CBuffer &Buffer)
 {
-    uint8 tag[] = { 0x00,0x00,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, };
+    uint8_t tag[] = { 0x00,0x00,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, };
 
     return ( (Buffer.size() == 16) && (Buffer.Compare(tag, sizeof(tag)) == 0) );
 }
 
 bool CImrsProtocol::IsValidConnectPacket(const CBuffer &Buffer, CCallsign *Callsign)
 {
-    uint8 tag[] = { 0x00,0x2C,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x04,0x00,0x00 };
+    uint8_t tag[] = { 0x00,0x2C,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x04,0x00,0x00 };
 
     bool valid = false;
     if ( (Buffer.size() == 60) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
@@ -406,7 +406,7 @@ bool CImrsProtocol::IsValidDvHeaderPacket(const CIp &Ip, const CBuffer &Buffer, 
     if ( (Buffer.size() == 91) && (Buffer.at(1) == 0x4B) )
     {
         // get stream id
-        uint32 uiStreamId = IpToStreamId(Ip);
+        uint32_t uiStreamId = IpToStreamId(Ip);
         
         // and payload
         CBuffer payload;
@@ -414,7 +414,7 @@ bool CImrsProtocol::IsValidDvHeaderPacket(const CIp &Ip, const CBuffer &Buffer, 
 
         // fich
         CYSFFICH Fich;
-        Fich.load((uint8 *)(payload.data()+2));
+        Fich.load((uint8_t *)(payload.data()+2));
         /*std::cout << "H:"
                   << (int)Fich.getDT() << ","
                   << (int)Fich.getFI() << ","
@@ -451,7 +451,7 @@ bool CImrsProtocol::IsValidDvHeaderPacket(const CIp &Ip, const CBuffer &Buffer, 
             // debug
             #ifdef DEBUG_DUMPFILE
                 CBuffer debug;
-                debug.Set((uint8 *)(Buffer.data()+0), 91);
+                debug.Set((uint8_t *)(Buffer.data()+0), 91);
                 debug.DebugDump(g_Reflector.m_DebugFile);
             #endif
         }
@@ -485,18 +485,18 @@ bool CImrsProtocol::IsValidDvFramePacket(const CIp &Ip, const CBuffer &Buffer, C
     if ( (Buffer.size() == 181) && (Buffer.at(1) == 0xA5) )
     {
         // get stream id
-        uint32 uiStreamId = IpToStreamId(Ip);
+        uint32_t uiStreamId = IpToStreamId(Ip);
 
         // and payload
         CBuffer payload;
         payload.SetFromAsciiHex((const char *)(Buffer.data()+19), 162);
         
         // fid
-        uint16 fid = MAKEWORD(payload.at(1), payload.at(0));
+        uint16_t fid = MAKEWORD(payload.at(1), payload.at(0));
         
         // fich
         CYSFFICH Fich;
-        Fich.load((uint8 *)(payload.data()+2));
+        Fich.load((uint8_t *)(payload.data()+2));
         /*std::cout << "F:"
                   << (int)Fich.getDT() << ","
                   << (int)Fich.getFI() << ","
@@ -509,19 +509,19 @@ bool CImrsProtocol::IsValidDvFramePacket(const CIp &Ip, const CBuffer &Buffer, C
         {
             // dch
             //CBuffer dch;
-            //dch.Set((uint8 *)(payload.data()+6), 10);
+            //dch.Set((uint8_t *)(payload.data()+6), 10);
             
             // ambes
-            uint8   ambe0[AMBEPLUS_SIZE];
-            uint8   ambe1[AMBEPLUS_SIZE];
-            uint8   ambe2[AMBEPLUS_SIZE];
-            uint8   ambe3[AMBEPLUS_SIZE];
-            uint8   ambe4[AMBEPLUS_SIZE];
-            CYsfUtils::DecodeVD2Vch((uint8 *)(payload.data()+16+0), ambe0);
-            CYsfUtils::DecodeVD2Vch((uint8 *)(payload.data()+16+13), ambe1);
-            CYsfUtils::DecodeVD2Vch((uint8 *)(payload.data()+16+26), ambe2);
-            CYsfUtils::DecodeVD2Vch((uint8 *)(payload.data()+16+39), ambe3);
-            CYsfUtils::DecodeVD2Vch((uint8 *)(payload.data()+16+52), ambe4);
+            uint8_t   ambe0[AMBEPLUS_SIZE];
+            uint8_t   ambe1[AMBEPLUS_SIZE];
+            uint8_t   ambe2[AMBEPLUS_SIZE];
+            uint8_t   ambe3[AMBEPLUS_SIZE];
+            uint8_t   ambe4[AMBEPLUS_SIZE];
+            CYsfUtils::DecodeVD2Vch((uint8_t *)(payload.data()+16+0), ambe0);
+            CYsfUtils::DecodeVD2Vch((uint8_t *)(payload.data()+16+13), ambe1);
+            CYsfUtils::DecodeVD2Vch((uint8_t *)(payload.data()+16+26), ambe2);
+            CYsfUtils::DecodeVD2Vch((uint8_t *)(payload.data()+16+39), ambe3);
+            CYsfUtils::DecodeVD2Vch((uint8_t *)(payload.data()+16+52), ambe4);
 
             // and create frames
             frames[0] = new CDvFramePacket(ambe0, uiStreamId, Fich.getFN(), 0, fid);
@@ -534,7 +534,7 @@ bool CImrsProtocol::IsValidDvFramePacket(const CIp &Ip, const CBuffer &Buffer, C
             //std::cout << "F:" << uiStreamId << "," << fid << "," << (int)Fich.getFN() << std::endl;
             #ifdef DEBUG_DUMPFILE
                 CBuffer debug;
-                debug.Set((uint8 *)(Buffer.data()+0), 181);
+                debug.Set((uint8_t *)(Buffer.data()+0), 181);
                 debug.DebugDump(g_Reflector.m_DebugFile);
             #endif
 
@@ -571,25 +571,25 @@ bool CImrsProtocol::IsValidDvFramePacket(const CIp &Ip, const CBuffer &Buffer, C
 bool CImrsProtocol::IsValidDvLastFramePacket(const CIp &Ip, const CBuffer &Buffer, CDvFramePacket **frame)
 {
     bool valid = false;
-    uint8 ambe[AMBEPLUS_SIZE];
+    uint8_t ambe[AMBEPLUS_SIZE];
 
     *frame = NULL;
 
     if ( (Buffer.size() == 31) && (Buffer.at(1) == 0x0F) )
     {
         // get stream id
-        uint32 uiStreamId = IpToStreamId(Ip);
+        uint32_t uiStreamId = IpToStreamId(Ip);
         
         // and payload
         CBuffer payload;
         payload.SetFromAsciiHex((const char *)(Buffer.data()+19), 12);
         
         // fid
-        uint16 fid = MAKEWORD(payload.at(1), payload.at(0));
+        uint16_t fid = MAKEWORD(payload.at(1), payload.at(0));
 
         // fich
         CYSFFICH Fich;
-        Fich.load((uint8 *)(payload.data()+2));
+        Fich.load((uint8_t *)(payload.data()+2));
         
         if ( (Fich.getDT() == YSF_DT_VD_MODE2) && (Fich.getFI() == YSF_FI_TERMINATOR) )
         {
@@ -607,7 +607,7 @@ bool CImrsProtocol::IsValidDvLastFramePacket(const CIp &Ip, const CBuffer &Buffe
             // debug
             #ifdef DEBUG_DUMPFILE
                 CBuffer debug;
-                debug.Set((uint8 *)(Buffer.data()+0), 31);
+                debug.Set((uint8_t *)(Buffer.data()+0), 31);
                 debug.DebugDump(g_Reflector.m_DebugFile);
             #endif
         }
@@ -635,7 +635,7 @@ bool CImrsProtocol::IsValidDvLastFramePacket(const CIp &Ip, const CBuffer &Buffe
 
 void CImrsProtocol::EncodePingPacket(CBuffer *Buffer) const
 {
-    uint8 tag[] = { 0x00,0x00,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, };
+    uint8_t tag[] = { 0x00,0x00,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00, };
 
     // tag
     Buffer->Set(tag, sizeof(tag));
@@ -643,8 +643,8 @@ void CImrsProtocol::EncodePingPacket(CBuffer *Buffer) const
 
 void CImrsProtocol::EncodePongPacket(CBuffer *Buffer) const
 {
-    uint8 tag1[] = { 0x00,0x2C,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x04,0x00,0x00 };
-    uint8 radioid[] = { 'G','0','g','B','J' };
+    uint8_t tag1[] = { 0x00,0x2C,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x04,0x00,0x00 };
+    uint8_t radioid[] = { 'G','0','g','B','J' };
     char  sz[YSF_CALLSIGN_LENGTH];
 
     // tag
@@ -655,13 +655,13 @@ void CImrsProtocol::EncodePongPacket(CBuffer *Buffer) const
     ::memset(sz, ' ', sizeof(sz));
     g_Reflector.GetCallsign().GetCallsignString(sz);
     sz[::strlen(sz)] = ' ';
-    Buffer->Append((uint8 *)sz, YSF_CALLSIGN_LENGTH);
+    Buffer->Append((uint8_t *)sz, YSF_CALLSIGN_LENGTH);
     // radioid
     Buffer->Append(radioid, sizeof(radioid));
     // list of authorised dg-id
     // enable dg-id 2 & 10 -> 10+NBmodules
-    uint32 dgids32 = 0x00000004;
-    uint32 mask32  = 0x00000400;
+    uint32_t dgids32 = 0x00000004;
+    uint32_t mask32  = 0x00000400;
     // modules 10->31
     for ( int i = 0; i < (int)(MIN(NB_OF_MODULES,22)); i++ )
     {
@@ -673,36 +673,36 @@ void CImrsProtocol::EncodePongPacket(CBuffer *Buffer) const
     Buffer->Append(LOBYTE(HIWORD(dgids32)));
     Buffer->Append(HIBYTE(HIWORD(dgids32)));
     // module 32->35
-    uint8 dgids8 = 0x00;
-    uint8 mask8 = 0x01;
+    uint8_t dgids8 = 0x00;
+    uint8_t mask8 = 0x01;
     for ( int i = 22; i < NB_OF_MODULES; i++ )
     {
         dgids8 |= mask8;
         mask8 = mask8 << 1;
     }
     Buffer->Append(dgids8);
-    Buffer->Append((uint8)0x00, 12);
+    Buffer->Append((uint8_t)0x00, 12);
     // and dg-id
-    Buffer->Append((uint8)2);
-    Buffer->Append((uint8)2);
+    Buffer->Append((uint8_t)2);
+    Buffer->Append((uint8_t)2);
 }
 
 bool CImrsProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer *Buffer) const
 {
-    uint8 tag1[] = { 0x00,0x4B,0x00,0x00,0x00,0x00,0x07 };
-    uint8 tag2[] = { 0x00,0x00,0x00,0x00,0x49,0x2a,0x2a };
+    uint8_t tag1[] = { 0x00,0x4B,0x00,0x00,0x00,0x00,0x07 };
+    uint8_t tag2[] = { 0x00,0x00,0x00,0x00,0x49,0x2a,0x2a };
 
     // tag1
     Buffer->Set(tag1, sizeof(tag1));
     
     // time
-    uint32 uiTime = (uint32)Header.GetImrsPacketFrameId() * 100;
+    uint32_t uiTime = (uint32_t)Header.GetImrsPacketFrameId() * 100;
     Buffer->Append(LOBYTE(HIWORD(uiTime)));
     Buffer->Append(HIBYTE(LOWORD(uiTime)));
     Buffer->Append(LOBYTE(LOWORD(uiTime)));
 
     // steamid
-    uint16 uiSid = Header.GetStreamId();
+    uint16_t uiSid = Header.GetStreamId();
     Buffer->Append(HIBYTE(uiSid));
     Buffer->Append(LOBYTE(uiSid));
 
@@ -710,7 +710,7 @@ bool CImrsProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer 
     Buffer->Append(tag2, sizeof(tag2));
     
     // fid
-    uint8 fid[2];
+    uint8_t fid[2];
     fid[0] = HIBYTE(Header.GetImrsPacketFrameId());
     fid[1] = LOBYTE(Header.GetImrsPacketFrameId());
     Buffer->AppendAsAsciiHex(fid, sizeof(fid));
@@ -729,7 +729,7 @@ bool CImrsProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer 
     Fich.setSQL(0U);
     Fich.setSQ(ModuleToDgid(Header.GetModuleId()));
     Fich.setCM(1U);
-    uint8 fich[4];
+    uint8_t fich[4];
     Fich.data(fich);
     Buffer->AppendAsAsciiHex(fich, 4);
 
@@ -737,16 +737,16 @@ bool CImrsProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer 
     //std::cout << "H:" << uiSid << "," << Header.GetImrsPacketFrameId() << "," << uiTime << std::endl;
 
     // header
-    Buffer->Append((uint8)' ', 60);
+    Buffer->Append((uint8_t)' ', 60);
     
     // destination radioid
-    Buffer->ReplaceAt(31+0, (uint8 *)"*****", 5);
+    Buffer->ReplaceAt(31+0, (uint8_t *)"*****", 5);
 
     // source radioid
-    Buffer->ReplaceAt(31+5, (uint8 *)"G0gBJ", 5);
+    Buffer->ReplaceAt(31+5, (uint8_t *)"G0gBJ", 5);
 
     // source callsign = csMY
-    uint8 cs[YSF_CALLSIGN_LENGTH];
+    uint8_t cs[YSF_CALLSIGN_LENGTH];
     ::memset(cs, ' ', sizeof(cs));
     Header.GetMyCallsign().GetCallsign(cs);
     Buffer->ReplaceAt(31+10, cs, YSF_CALLSIGN_LENGTH);
@@ -763,7 +763,7 @@ bool CImrsProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer 
     // voip station id (relay system ID on the internet)
     
     //  transmission source radio id
-    Buffer->ReplaceAt(31+55, (uint8 *)"G0gBJ", 5);
+    Buffer->ReplaceAt(31+55, (uint8_t *)"G0gBJ", 5);
 
     // done
     return true;
@@ -772,20 +772,20 @@ bool CImrsProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Header, CBuffer 
 
 bool CImrsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFramePacket *DvFrames, CBuffer *Buffer) const
 {
-    uint8 tag1[] = { 0x00,0xA5,0x00,0x00,0x00,0x00,0x07 };
-    uint8 tag2[] = { 0x00,0x00,0x00,0x00,0x32,0x2a,0x2a };
+    uint8_t tag1[] = { 0x00,0xA5,0x00,0x00,0x00,0x00,0x07 };
+    uint8_t tag2[] = { 0x00,0x00,0x00,0x00,0x32,0x2a,0x2a };
     
     // tag1
     Buffer->Set(tag1, sizeof(tag1));
     
     // time
-    uint32 uiTime = (uint32)DvFrames[0].GetImrsPacketFrameId() * 100;
+    uint32_t uiTime = (uint32_t)DvFrames[0].GetImrsPacketFrameId() * 100;
     Buffer->Append(LOBYTE(HIWORD(uiTime)));
     Buffer->Append(HIBYTE(LOWORD(uiTime)));
     Buffer->Append(LOBYTE(LOWORD(uiTime)));
 
      // steamid
-     uint16 uiSid = Header.GetStreamId();
+     uint16_t uiSid = Header.GetStreamId();
      Buffer->Append(HIBYTE(uiSid));
      Buffer->Append(LOBYTE(uiSid));
 
@@ -793,7 +793,7 @@ bool CImrsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrame
      Buffer->Append(tag2, sizeof(tag2));
     
     // fid
-    uint8 fid[2];
+    uint8_t fid[2];
     fid[0] = HIBYTE(DvFrames[0].GetImrsPacketFrameId());
     fid[1] = LOBYTE(DvFrames[0].GetImrsPacketFrameId());
     Buffer->AppendAsAsciiHex(fid, sizeof(fid));
@@ -802,8 +802,8 @@ bool CImrsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrame
     // todo: normally FN should be rolling from 0 to 6, but for some
     //       reasons, if done so, the DR-2X interrupt shortly the transmission
     //       after 1 second approx ????
-    //uint8 uiFN = (uint8)DvFrames[0].GetImrsPacketId();
-    uint8 uiFN = 0;
+    //uint8_t uiFN = (uint8_t)DvFrames[0].GetImrsPacketId();
+    uint8_t uiFN = 0;
 
     // fich
     CYSFFICH Fich;
@@ -818,7 +818,7 @@ bool CImrsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrame
     Fich.setDT(YSF_DT_VD_MODE2);
     Fich.setSQL(0U);
     Fich.setSQ(ModuleToDgid(Header.GetModuleId()));
-    uint8 fich[4];
+    uint8_t fich[4];
     Fich.data(fich);
     Buffer->AppendAsAsciiHex(fich, 4);
 
@@ -827,12 +827,12 @@ bool CImrsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrame
 
     // todo: fill with proper content if needed
     // dch
-    Buffer->Append((uint8*)"2A2A2A2A2A4835215245", 20);
+    Buffer->Append((uint8_t*)"2A2A2A2A2A4835215245", 20);
                              
     // ambe frames
     for ( int i = 0; i < 5; i++ )
     {
-        uint8 ambe[13];
+        uint8_t ambe[13];
         CYsfUtils::EncodeVD2Vch((unsigned char *)DvFrames[i].GetAmbePlus(), ambe);
         Buffer->AppendAsAsciiHex(ambe, 13);
     }
@@ -843,19 +843,19 @@ bool CImrsProtocol::EncodeDvPacket(const CDvHeaderPacket &Header, const CDvFrame
 
 bool CImrsProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, const CDvLastFramePacket &LastFrame, CBuffer *Buffer) const
 {
-    uint8 tag1[] = { 0x00,0x0F,0x00,0x00,0x00,0x00,0x00 };
-    uint8 tag2[] = { 0x00,0x00,0x00,0x00,0x54,0x2a,0x2a };
+    uint8_t tag1[] = { 0x00,0x0F,0x00,0x00,0x00,0x00,0x00 };
+    uint8_t tag2[] = { 0x00,0x00,0x00,0x00,0x54,0x2a,0x2a };
 
     // tag1
     Buffer->Set(tag1, sizeof(tag1));
 
     // time
-    Buffer->Append((uint8)0x3e);
-    Buffer->Append((uint8)0x70);
-    Buffer->Append((uint8)0xf0);
+    Buffer->Append((uint8_t)0x3e);
+    Buffer->Append((uint8_t)0x70);
+    Buffer->Append((uint8_t)0xf0);
 
     // steamid
-    uint16 uiSid = Header.GetStreamId();
+    uint16_t uiSid = Header.GetStreamId();
     Buffer->Append(HIBYTE(uiSid));
     Buffer->Append(LOBYTE(uiSid));
 
@@ -863,7 +863,7 @@ bool CImrsProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, const CDvL
     Buffer->Append(tag2, sizeof(tag2));
 
     // fid
-    uint8 fid[2];
+    uint8_t fid[2];
     fid[0] = HIBYTE(LastFrame.GetImrsPacketFrameId());
     fid[1] = LOBYTE(LastFrame.GetImrsPacketFrameId());
     Buffer->AppendAsAsciiHex(fid, sizeof(fid));
@@ -881,7 +881,7 @@ bool CImrsProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, const CDvL
     Fich.setDT(YSF_DT_VD_MODE2);
     Fich.setSQL(0U);
     Fich.setSQ(ModuleToDgid(Header.GetModuleId()));
-    uint8 fich[4];
+    uint8_t fich[4];
     Fich.data(fich);
     Buffer->AppendAsAsciiHex(fich, 4);
 
@@ -896,15 +896,15 @@ bool CImrsProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Header, const CDvL
 ////////////////////////////////////////////////////////////////////////////////////////
 // uiStreamId helpers
 
-uint32 CImrsProtocol::IpToStreamId(const CIp &ip) const
+uint32_t CImrsProtocol::IpToStreamId(const CIp &ip) const
 {
-    return ip.GetAddr() ^ (uint32)(MAKEDWORD(ip.GetPort(), ip.GetPort()));
+    return ip.GetAddr() ^ (uint32_t)(MAKEDWORD(ip.GetPort(), ip.GetPort()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// DG-ID helper
 
-char CImrsProtocol::DgidToModule(uint8 uiDgid) const
+char CImrsProtocol::DgidToModule(uint8_t uiDgid) const
 {
     char cModule = ' ';
     
@@ -915,9 +915,9 @@ char CImrsProtocol::DgidToModule(uint8 uiDgid) const
     return cModule;
     
 }
-uint8 CImrsProtocol::ModuleToDgid(char cModule) const
+uint8_t CImrsProtocol::ModuleToDgid(char cModule) const
 {
-    uint8 uiDgid = 0x00;
+    uint8_t uiDgid = 0x00;
     
     if ( (cModule >= 'A') && (cModule < ('A'+NB_OF_MODULES)) )
     {

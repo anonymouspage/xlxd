@@ -44,10 +44,10 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // constants
 
-static uint8 g_DmrSyncBSVoice[]    = { 0x07,0x55,0xFD,0x7D,0xF7,0x5F,0x70 };
-static uint8 g_DmrSyncBSData[]     = { 0x0D,0xFF,0x57,0xD7,0x5D,0xF5,0xD0 };
-static uint8 g_DmrSyncMSVoice[]    = { 0x07,0xF7,0xD5,0xDD,0x57,0xDF,0xD0 };
-static uint8 g_DmrSyncMSData[]     = { 0x0D,0x5D,0x7F,0x77,0xFD,0x75,0x70 };
+static uint8_t g_DmrSyncBSVoice[]    = { 0x07,0x55,0xFD,0x7D,0xF7,0x5F,0x70 };
+static uint8_t g_DmrSyncBSData[]     = { 0x0D,0xFF,0x57,0xD7,0x5D,0xF5,0xD0 };
+static uint8_t g_DmrSyncMSVoice[]    = { 0x07,0xF7,0xD5,0xDD,0x57,0xDF,0xD0 };
+static uint8_t g_DmrSyncMSData[]     = { 0x0D,0x5D,0x7F,0x77,0xFD,0x75,0x70 };
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ bool CDmrmmdvmProtocol::Init(void)
     ok = CProtocol::Init();
     
     // update the reflector callsign
-    //m_ReflectorCallsign.PatchCallsign(0, (const uint8 *)"DMR", 3);
+    //m_ReflectorCallsign.PatchCallsign(0, (const uint8_t *)"DMR", 3);
     
     // create our socket
     ok &= m_Socket.Open(DMRMMDVM_PORT);
@@ -72,7 +72,7 @@ bool CDmrmmdvmProtocol::Init(void)
     // random number generator
     time_t t;
     ::srand((unsigned) time(&t));
-    m_uiAuthSeed = (uint32)rand();
+    m_uiAuthSeed = (uint32_t)rand();
     
     // done
     return ok;
@@ -89,8 +89,8 @@ void CDmrmmdvmProtocol::Task(void)
     CIp                 Ip;
     CCallsign           Callsign;
     int                 iRssi;
-    uint8               Cmd;
-    uint8               CallType;
+    uint8_t               Cmd;
+    uint8_t               CallType;
     CDvHeaderPacket     *Header;
     CDvFramePacket      *Frames[3];
     CDvLastFramePacket  *LastFrame;
@@ -273,7 +273,7 @@ void CDmrmmdvmProtocol::Task(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // streams helpers
 
-bool CDmrmmdvmProtocol::OnDvHeaderPacketIn(CDvHeaderPacket *Header, const CIp &Ip, uint8 cmd, uint8 CallType)
+bool CDmrmmdvmProtocol::OnDvHeaderPacketIn(CDvHeaderPacket *Header, const CIp &Ip, uint8_t cmd, uint8_t CallType)
 {
     bool newstream = false;
     bool lastheard = false;
@@ -504,12 +504,12 @@ void CDmrmmdvmProtocol::HandleKeepalives(void)
 
 bool CDmrmmdvmProtocol::IsValidKeepAlivePacket(const CBuffer &Buffer, CCallsign *callsign)
 {
-    uint8 tag[] = { 'R','P','T','P','I','N','G' };
+    uint8_t tag[] = { 'R','P','T','P','I','N','G' };
     
     bool valid = false;
     if ( (Buffer.size() == 11) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],Buffer.data()[7]));
+        uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],Buffer.data()[7]));
         callsign->SetDmrid(uiRptrId, true);
         callsign->SetModule(MMDVM_MODULE_ID);
         valid = callsign->IsValid();
@@ -519,12 +519,12 @@ bool CDmrmmdvmProtocol::IsValidKeepAlivePacket(const CBuffer &Buffer, CCallsign 
 
 bool CDmrmmdvmProtocol::IsValidConnectPacket(const CBuffer &Buffer, CCallsign *callsign, const CIp &Ip)
 {
-    uint8 tag[] = { 'R','P','T','L' };
+    uint8_t tag[] = { 'R','P','T','L' };
     
     bool valid = false;
     if ( (Buffer.size() == 8) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
+        uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
         callsign->SetDmrid(uiRptrId, true);
         callsign->SetModule(MMDVM_MODULE_ID);
         valid = callsign->IsValid();
@@ -538,12 +538,12 @@ bool CDmrmmdvmProtocol::IsValidConnectPacket(const CBuffer &Buffer, CCallsign *c
 
 bool CDmrmmdvmProtocol::IsValidAuthenticationPacket(const CBuffer &Buffer, CCallsign *callsign, const CIp &Ip)
 {
-    uint8 tag[] = { 'R','P','T','K' };
+    uint8_t tag[] = { 'R','P','T','K' };
     
     bool valid = false;
     if ( (Buffer.size() == 40) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
+        uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
         callsign->SetDmrid(uiRptrId, true);
         callsign->SetModule(MMDVM_MODULE_ID);
         valid = callsign->IsValid();
@@ -558,12 +558,12 @@ bool CDmrmmdvmProtocol::IsValidAuthenticationPacket(const CBuffer &Buffer, CCall
 
 bool CDmrmmdvmProtocol::IsValidDisconnectPacket(const CBuffer &Buffer, CCallsign *callsign)
 {
-    uint8 tag[] = { 'R','P','T','C','L' };
+    uint8_t tag[] = { 'R','P','T','C','L' };
     
     bool valid = false;
     if ( (Buffer.size() == 13) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
+        uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
         callsign->SetDmrid(uiRptrId, true);
         callsign->SetModule(MMDVM_MODULE_ID);
         valid = callsign->IsValid();
@@ -573,12 +573,12 @@ bool CDmrmmdvmProtocol::IsValidDisconnectPacket(const CBuffer &Buffer, CCallsign
 
 bool CDmrmmdvmProtocol::IsValidConfigPacket(const CBuffer &Buffer, CCallsign *callsign, const CIp &Ip)
 {
-    uint8 tag[] = { 'R','P','T','C' };
+    uint8_t tag[] = { 'R','P','T','C' };
     
     bool valid = false;
     if ( (Buffer.size() == 302) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
+        uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
         callsign->SetDmrid(uiRptrId, true);
         callsign->SetModule(MMDVM_MODULE_ID);
         valid = callsign->IsValid();
@@ -593,12 +593,12 @@ bool CDmrmmdvmProtocol::IsValidConfigPacket(const CBuffer &Buffer, CCallsign *ca
 
 bool CDmrmmdvmProtocol::IsValidOptionPacket(const CBuffer &Buffer, CCallsign *callsign)
 {
-    uint8 tag[] = { 'R','P','T','O' };
+    uint8_t tag[] = { 'R','P','T','O' };
     
     bool valid = false;
     if ( (Buffer.size() >= 8) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
-        uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
+        uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],Buffer.data()[4]));
         callsign->SetDmrid(uiRptrId, true);
         callsign->SetModule(MMDVM_MODULE_ID);
         valid = callsign->IsValid();
@@ -608,7 +608,7 @@ bool CDmrmmdvmProtocol::IsValidOptionPacket(const CBuffer &Buffer, CCallsign *ca
 
 bool CDmrmmdvmProtocol::IsValidRssiPacket(const CBuffer &Buffer, CCallsign *callsign, int *rssi)
 {
-    uint8 tag[] = { 'R','P','T','I','N','T','R' };
+    uint8_t tag[] = { 'R','P','T','I','N','T','R' };
     
     bool valid = false;
     if ( (Buffer.size() == 17) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
@@ -621,9 +621,9 @@ bool CDmrmmdvmProtocol::IsValidRssiPacket(const CBuffer &Buffer, CCallsign *call
     return valid;
 }
 
-bool CDmrmmdvmProtocol::IsValidDvHeaderPacket(const CBuffer &Buffer, CDvHeaderPacket **header, uint8 *cmd, uint8 *CallType)
+bool CDmrmmdvmProtocol::IsValidDvHeaderPacket(const CBuffer &Buffer, CDvHeaderPacket **header, uint8_t *cmd, uint8_t *CallType)
 {
-    uint8 tag[] = { 'D','M','R','D' };
+    uint8_t tag[] = { 'D','M','R','D' };
     
     bool valid = false;
     *header = NULL;
@@ -632,17 +632,17 @@ bool CDmrmmdvmProtocol::IsValidDvHeaderPacket(const CBuffer &Buffer, CDvHeaderPa
     if ( (Buffer.size() == 55) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
         // frame details
-        uint8 uiFrameType = (Buffer.data()[15] & 0x30) >> 4;
-        uint8 uiSlot = (Buffer.data()[15] & 0x80) ? DMR_SLOT2 : DMR_SLOT1;
-        uint8 uiCallType = (Buffer.data()[15] & 0x40) ? DMR_PRIVATE_CALL : DMR_GROUP_CALL;
-        uint8 uiSlotType = Buffer.data()[15] & 0x0F;
+        uint8_t uiFrameType = (Buffer.data()[15] & 0x30) >> 4;
+        uint8_t uiSlot = (Buffer.data()[15] & 0x80) ? DMR_SLOT2 : DMR_SLOT1;
+        uint8_t uiCallType = (Buffer.data()[15] & 0x40) ? DMR_PRIVATE_CALL : DMR_GROUP_CALL;
+        uint8_t uiSlotType = Buffer.data()[15] & 0x0F;
         //std::cout << (int)uiSlot << std::endl;
         if ( (uiFrameType == DMRMMDVM_FRAMETYPE_DATASYNC) &&
              (uiSlot == DMRMMDVM_REFLECTOR_SLOT) &&
              (uiSlotType == MMDVM_SLOTTYPE_HEADER) )
         {
             // extract sync
-            uint8 dmrsync[7];
+            uint8_t dmrsync[7];
             dmrsync[0] = Buffer.data()[33] & 0x0F;
             ::memcpy(&dmrsync[1], &Buffer.data()[34], 5);
             dmrsync[6] = Buffer.data()[39] & 0xF0;
@@ -652,16 +652,16 @@ bool CDmrmmdvmProtocol::IsValidDvHeaderPacket(const CBuffer &Buffer, CDvHeaderPa
             {
                 // get payload
                 //CBPTC19696 bptc;
-                //uint8 lcdata[12];
+                //uint8_t lcdata[12];
                 //bptc.decode(&(Buffer.data()[20]), lcdata);
                 
                 // crack DMR header
-                //uint8 uiSeqId = Buffer.data()[4];
-                uint32 uiSrcId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],0));
-                uint32 uiDstId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],0));
-                uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[14],Buffer.data()[13]),MAKEWORD(Buffer.data()[12],Buffer.data()[11]));
-                //uint8 uiVoiceSeq = (Buffer.data()[15] & 0x0F);
-                uint32 uiStreamId = *(uint32 *)(&Buffer.data()[16]);
+                //uint8_t uiSeqId = Buffer.data()[4];
+                uint32_t uiSrcId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],0));
+                uint32_t uiDstId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],0));
+                uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[14],Buffer.data()[13]),MAKEWORD(Buffer.data()[12],Buffer.data()[11]));
+                //uint8_t uiVoiceSeq = (Buffer.data()[15] & 0x0F);
+                uint32_t uiStreamId = *(uint32_t *)(&Buffer.data()[16]);
                 
                 // call type
                 *CallType = uiCallType;
@@ -704,7 +704,7 @@ bool CDmrmmdvmProtocol::IsValidDvHeaderPacket(const CBuffer &Buffer, CDvHeaderPa
 
 bool CDmrmmdvmProtocol::IsValidDvFramePacket(const CBuffer &Buffer, CDvFramePacket **frames)
 {
-    uint8 tag[] = { 'D','M','R','D' };
+    uint8_t tag[] = { 'D','M','R','D' };
     
     bool valid = false;
     frames[0] = NULL;
@@ -714,25 +714,25 @@ bool CDmrmmdvmProtocol::IsValidDvFramePacket(const CBuffer &Buffer, CDvFramePack
     if ( (Buffer.size() == 55) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
         // frame details
-        uint8 uiFrameType = (Buffer.data()[15] & 0x30) >> 4;
-        uint8 uiSlot = (Buffer.data()[15] & 0x80) ? DMR_SLOT2 : DMR_SLOT1;
-        uint8 uiCallType = (Buffer.data()[15] & 0x40) ? DMR_PRIVATE_CALL : DMR_GROUP_CALL;
+        uint8_t uiFrameType = (Buffer.data()[15] & 0x30) >> 4;
+        uint8_t uiSlot = (Buffer.data()[15] & 0x80) ? DMR_SLOT2 : DMR_SLOT1;
+        uint8_t uiCallType = (Buffer.data()[15] & 0x40) ? DMR_PRIVATE_CALL : DMR_GROUP_CALL;
         if ( ((uiFrameType == DMRMMDVM_FRAMETYPE_VOICE) || (uiFrameType == DMRMMDVM_FRAMETYPE_VOICESYNC)) &&
               (uiSlot == DMRMMDVM_REFLECTOR_SLOT) && (uiCallType == DMR_GROUP_CALL) )
         {
             // crack DMR header
-            //uint8 uiSeqId = Buffer.data()[4];
-            //uint32 uiSrcId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],0));
-            //uint32 uiDstId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],0));
-            //uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[14],Buffer.data()[13]),MAKEWORD(Buffer.data()[12],Buffer.data()[11]));
-            uint8 uiVoiceSeq = (Buffer.data()[15] & 0x0F);
-            uint32 uiStreamId = *(uint32 *)(&Buffer.data()[16]);
+            //uint8_t uiSeqId = Buffer.data()[4];
+            //uint32_t uiSrcId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],0));
+            //uint32_t uiDstId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],0));
+            //uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[14],Buffer.data()[13]),MAKEWORD(Buffer.data()[12],Buffer.data()[11]));
+            uint8_t uiVoiceSeq = (Buffer.data()[15] & 0x0F);
+            uint32_t uiStreamId = *(uint32_t *)(&Buffer.data()[16]);
            
             // crack payload
-            uint8 dmrframe[33];
-            uint8 dmr3ambe[27];
-            uint8 dmrambe[9];
-            uint8 dmrsync[7];
+            uint8_t dmrframe[33];
+            uint8_t dmr3ambe[27];
+            uint8_t dmrambe[9];
+            uint8_t dmrsync[7];
             // get the 33 bytes ambe
             memcpy(dmrframe, &(Buffer.data()[20]), 33);
             // extract the 3 ambe frames
@@ -773,7 +773,7 @@ bool CDmrmmdvmProtocol::IsValidDvFramePacket(const CBuffer &Buffer, CDvFramePack
 
 bool CDmrmmdvmProtocol::IsValidDvLastFramePacket(const CBuffer &Buffer, CDvLastFramePacket **frame)
 {
-    uint8 tag[] = { 'D','M','R','D' };
+    uint8_t tag[] = { 'D','M','R','D' };
     
     bool valid = false;
     *frame = NULL;
@@ -781,17 +781,17 @@ bool CDmrmmdvmProtocol::IsValidDvLastFramePacket(const CBuffer &Buffer, CDvLastF
     if ( (Buffer.size() == 55) && (Buffer.Compare(tag, sizeof(tag)) == 0) )
     {
         // frame details
-        uint8 uiFrameType = (Buffer.data()[15] & 0x30) >> 4;
-        uint8 uiSlot = (Buffer.data()[15] & 0x80) ? DMR_SLOT2 : DMR_SLOT1;
-        //uint8 uiCallType = (Buffer.data()[15] & 0x40) ? DMR_PRIVATE_CALL : DMR_GROUP_CALL;
-        uint8 uiSlotType = Buffer.data()[15] & 0x0F;
+        uint8_t uiFrameType = (Buffer.data()[15] & 0x30) >> 4;
+        uint8_t uiSlot = (Buffer.data()[15] & 0x80) ? DMR_SLOT2 : DMR_SLOT1;
+        //uint8_t uiCallType = (Buffer.data()[15] & 0x40) ? DMR_PRIVATE_CALL : DMR_GROUP_CALL;
+        uint8_t uiSlotType = Buffer.data()[15] & 0x0F;
         //std::cout << (int)uiSlot << std::endl;
         if ( (uiFrameType == DMRMMDVM_FRAMETYPE_DATASYNC) &&
             (uiSlot == DMRMMDVM_REFLECTOR_SLOT) &&
             (uiSlotType == MMDVM_SLOTTYPE_TERMINATOR) )
         {
             // extract sync
-            uint8 dmrsync[7];
+            uint8_t dmrsync[7];
             dmrsync[0] = Buffer.data()[33] & 0x0F;
             ::memcpy(&dmrsync[1], &Buffer.data()[34], 5);
             dmrsync[6] = Buffer.data()[39] & 0xF0;
@@ -801,19 +801,19 @@ bool CDmrmmdvmProtocol::IsValidDvLastFramePacket(const CBuffer &Buffer, CDvLastF
             {
                 // get payload
                 //CBPTC19696 bptc;
-                //uint8 lcdata[12];
+                //uint8_t lcdata[12];
                 //bptc.decode(&(Buffer.data()[20]), lcdata);
                 
                 // crack DMR header
-                //uint8 uiSeqId = Buffer.data()[4];
-                //uint32 uiSrcId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],0));
-                //uint32 uiDstId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],0));
-                //uint32 uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[14],Buffer.data()[13]),MAKEWORD(Buffer.data()[12],Buffer.data()[11]));
-                //uint8 uiVoiceSeq = (Buffer.data()[15] & 0x0F);
-                uint32 uiStreamId = *(uint32 *)(&Buffer.data()[16]);
+                //uint8_t uiSeqId = Buffer.data()[4];
+                //uint32_t uiSrcId = MAKEDWORD(MAKEWORD(Buffer.data()[7],Buffer.data()[6]),MAKEWORD(Buffer.data()[5],0));
+                //uint32_t uiDstId = MAKEDWORD(MAKEWORD(Buffer.data()[10],Buffer.data()[9]),MAKEWORD(Buffer.data()[8],0));
+                //uint32_t uiRptrId = MAKEDWORD(MAKEWORD(Buffer.data()[14],Buffer.data()[13]),MAKEWORD(Buffer.data()[12],Buffer.data()[11]));
+                //uint8_t uiVoiceSeq = (Buffer.data()[15] & 0x0F);
+                uint32_t uiStreamId = *(uint32_t *)(&Buffer.data()[16]);
                 
                 // dummy ambe
-                uint8 ambe[9];
+                uint8_t ambe[9];
                 ::memset(ambe, 0, sizeof(ambe));
                 
                 
@@ -834,23 +834,23 @@ bool CDmrmmdvmProtocol::IsValidDvLastFramePacket(const CBuffer &Buffer, CDvLastF
 
 void CDmrmmdvmProtocol::EncodeKeepAlivePacket(CBuffer *Buffer, CClient *Client)
 {
-    uint8 tag[] = { 'M','S','T','P','O','N','G' };
+    uint8_t tag[] = { 'M','S','T','P','O','N','G' };
     
     Buffer->Set(tag, sizeof(tag));
-    uint32 uiDmrId = Client->GetCallsign().GetDmrid();
-    Buffer->Append((uint8 *)&uiDmrId, 4);
+    uint32_t uiDmrId = Client->GetCallsign().GetDmrid();
+    Buffer->Append((uint8_t *)&uiDmrId, 4);
 }
 
 void CDmrmmdvmProtocol::EncodeAckPacket(CBuffer *Buffer, const CCallsign &Callsign)
 {
-    uint8 tag[] = { 'R','P','T','A','C','K' };
+    uint8_t tag[] = { 'R','P','T','A','C','K' };
     
     Buffer->Set(tag, sizeof(tag));
 }
 
-void CDmrmmdvmProtocol::EncodeConnectAckPacket(CBuffer *Buffer, const CCallsign &Callsign, uint32 AuthSeed)
+void CDmrmmdvmProtocol::EncodeConnectAckPacket(CBuffer *Buffer, const CCallsign &Callsign, uint32_t AuthSeed)
 {
-    uint8 tag[] = { 'R','P','T','A','C','K' };
+    uint8_t tag[] = { 'R','P','T','A','C','K' };
     
     Buffer->Set(tag, sizeof(tag));
     Buffer->Append(AuthSeed);
@@ -858,55 +858,55 @@ void CDmrmmdvmProtocol::EncodeConnectAckPacket(CBuffer *Buffer, const CCallsign 
 
 void CDmrmmdvmProtocol::EncodeNackPacket(CBuffer *Buffer, const CCallsign &Callsign)
 {
-    uint8 tag[] = { 'M','S','T','N','A','K' };
+    uint8_t tag[] = { 'M','S','T','N','A','K' };
     
     Buffer->Set(tag, sizeof(tag));
 }
 
 void CDmrmmdvmProtocol::EncodeClosePacket(CBuffer *Buffer, CClient *Client)
 {
-    uint8 tag[] = { 'M','S','T','C','L' };
+    uint8_t tag[] = { 'M','S','T','C','L' };
     
     Buffer->Set(tag, sizeof(tag));
 }
 
 
-bool CDmrmmdvmProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Packet, uint8 seqid, CBuffer *Buffer) const
+bool CDmrmmdvmProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Packet, uint8_t seqid, CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'D','M','R','D' };
+    uint8_t tag[] = { 'D','M','R','D' };
     
     Buffer->Set(tag, sizeof(tag));
     
     // DMR header
     // uiSeqId
-    Buffer->Append((uint8)seqid);
+    Buffer->Append((uint8_t)seqid);
     // uiSrcId
-    uint32 uiSrcId = Packet.GetMyCallsign().GetDmrid();
+    uint32_t uiSrcId = Packet.GetMyCallsign().GetDmrid();
     AppendDmrIdToBuffer(Buffer, uiSrcId);
     // uiDstId = TG9
-    uint32 uiDstId = 9; // ModuleToDmrDestId(Packet.GetRpt2Module());
+    uint32_t uiDstId = 9; // ModuleToDmrDestId(Packet.GetRpt2Module());
     AppendDmrIdToBuffer(Buffer, uiDstId);
     // uiRptrId
-    uint32 uiRptrId = Packet.GetRpt1Callsign().GetDmrid();
+    uint32_t uiRptrId = Packet.GetRpt1Callsign().GetDmrid();
     AppendDmrRptrIdToBuffer(Buffer, uiRptrId);
     // uiBitField
-    uint8 uiBitField =
+    uint8_t uiBitField =
         (DMRMMDVM_FRAMETYPE_DATASYNC << 4) |
         ((DMRMMDVM_REFLECTOR_SLOT == DMR_SLOT2) ? 0x80 : 0x00) |
         MMDVM_SLOTTYPE_HEADER;
-    Buffer->Append((uint8)uiBitField);
+    Buffer->Append((uint8_t)uiBitField);
     // uiStreamId
-    uint32 uiStreamId = Packet.GetStreamId();
-    Buffer->Append((uint32)uiStreamId);
+    uint32_t uiStreamId = Packet.GetStreamId();
+    Buffer->Append((uint32_t)uiStreamId);
     
     // Payload
     AppendVoiceLCToBuffer(Buffer, uiSrcId);
     
     // BER
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
     
     // RSSI
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
     
     // done
     return true;
@@ -915,25 +915,25 @@ bool CDmrmmdvmProtocol::EncodeDvHeaderPacket(const CDvHeaderPacket &Packet, uint
 void CDmrmmdvmProtocol::EncodeDvPacket(
       const CDvHeaderPacket &Header,
       const CDvFramePacket &DvFrame0, const CDvFramePacket &DvFrame1, const CDvFramePacket &DvFrame2,
-      uint8 seqid, CBuffer *Buffer) const
+      uint8_t seqid, CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'D','M','R','D' };
+    uint8_t tag[] = { 'D','M','R','D' };
     Buffer->Set(tag, sizeof(tag));
     
     // DMR header
     // uiSeqId
-    Buffer->Append((uint8)seqid);
+    Buffer->Append((uint8_t)seqid);
     // uiSrcId
-    uint32 uiSrcId = Header.GetMyCallsign().GetDmrid();
+    uint32_t uiSrcId = Header.GetMyCallsign().GetDmrid();
     AppendDmrIdToBuffer(Buffer, uiSrcId);
     // uiDstId = TG9
-    uint32 uiDstId = 9; // ModuleToDmrDestId(Header.GetRpt2Module());
+    uint32_t uiDstId = 9; // ModuleToDmrDestId(Header.GetRpt2Module());
     AppendDmrIdToBuffer(Buffer, uiDstId);
     // uiRptrId
-    uint32 uiRptrId = Header.GetRpt1Callsign().GetDmrid();
+    uint32_t uiRptrId = Header.GetRpt1Callsign().GetDmrid();
     AppendDmrRptrIdToBuffer(Buffer, uiRptrId);
     // uiBitField
-    uint8 uiBitField =
+    uint8_t uiBitField =
         ((DMRMMDVM_REFLECTOR_SLOT == DMR_SLOT2) ? 0x80 : 0x00);
     if ( DvFrame0.GetDmrPacketId() == 0 )
     {
@@ -944,21 +944,21 @@ void CDmrmmdvmProtocol::EncodeDvPacket(
         uiBitField |= (DMRMMDVM_FRAMETYPE_VOICE << 4);
     }
     uiBitField |= (DvFrame0.GetDmrPacketId() & 0x0F);
-    Buffer->Append((uint8)uiBitField);
+    Buffer->Append((uint8_t)uiBitField);
     
     // uiStreamId
-    uint32 uiStreamId = Header.GetStreamId();
-    Buffer->Append((uint32)uiStreamId);
+    uint32_t uiStreamId = Header.GetStreamId();
+    Buffer->Append((uint32_t)uiStreamId);
     
     // Payload
     // frame0
     Buffer->ReplaceAt(20, DvFrame0.GetAmbePlus(), 9);
     // 1/2 frame1
     Buffer->ReplaceAt(29, DvFrame1.GetAmbePlus(), 5);
-    Buffer->ReplaceAt(33, (uint8)(Buffer->at(33) & 0xF0));
+    Buffer->ReplaceAt(33, (uint8_t)(Buffer->at(33) & 0xF0));
     // 1/2 frame1
     Buffer->ReplaceAt(39, DvFrame1.GetAmbePlus()+4, 5);
-    Buffer->ReplaceAt(39, (uint8)(Buffer->at(39) & 0x0F));
+    Buffer->ReplaceAt(39, (uint8_t)(Buffer->at(39) & 0x0F));
     // frame2
     Buffer->ReplaceAt(44, DvFrame2.GetAmbePlus(), 9);
     
@@ -971,56 +971,56 @@ void CDmrmmdvmProtocol::EncodeDvPacket(
     //dump.DebugDump(g_Reflector.m_DebugFile);
 
     // BER
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
     
     // RSSI
-    Buffer->Append((uint8)0);    
+    Buffer->Append((uint8_t)0);    
 }
 
 
-void CDmrmmdvmProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Packet, uint8 seqid, CBuffer *Buffer) const
+void CDmrmmdvmProtocol::EncodeDvLastPacket(const CDvHeaderPacket &Packet, uint8_t seqid, CBuffer *Buffer) const
 {
-    uint8 tag[] = { 'D','M','R','D' };
+    uint8_t tag[] = { 'D','M','R','D' };
     
     Buffer->Set(tag, sizeof(tag));
     
     // DMR header
     // uiSeqId
-    Buffer->Append((uint8)seqid);
+    Buffer->Append((uint8_t)seqid);
     // uiSrcId
-    uint32 uiSrcId = Packet.GetMyCallsign().GetDmrid();
+    uint32_t uiSrcId = Packet.GetMyCallsign().GetDmrid();
     AppendDmrIdToBuffer(Buffer, uiSrcId);
     // uiDstId
-    uint32 uiDstId = 9; //ModuleToDmrDestId(Packet.GetRpt2Module());
+    uint32_t uiDstId = 9; //ModuleToDmrDestId(Packet.GetRpt2Module());
     AppendDmrIdToBuffer(Buffer, uiDstId);
     // uiRptrId
-    uint32 uiRptrId = Packet.GetRpt1Callsign().GetDmrid();
+    uint32_t uiRptrId = Packet.GetRpt1Callsign().GetDmrid();
     AppendDmrRptrIdToBuffer(Buffer, uiRptrId);
     // uiBitField
-    uint8 uiBitField =
+    uint8_t uiBitField =
         (DMRMMDVM_FRAMETYPE_DATASYNC << 4) |
         ((DMRMMDVM_REFLECTOR_SLOT == DMR_SLOT2) ? 0x80 : 0x00) |
         MMDVM_SLOTTYPE_TERMINATOR;
-    Buffer->Append((uint8)uiBitField);
+    Buffer->Append((uint8_t)uiBitField);
     // uiStreamId
-    uint32 uiStreamId = Packet.GetStreamId();
-    Buffer->Append((uint32)uiStreamId);
+    uint32_t uiStreamId = Packet.GetStreamId();
+    Buffer->Append((uint32_t)uiStreamId);
     
     // Payload
     AppendTerminatorLCToBuffer(Buffer, uiSrcId);
     
     // BER
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
     
     // RSSI
-    Buffer->Append((uint8)0);
+    Buffer->Append((uint8_t)0);
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // DestId to Module helper
 
-char CDmrmmdvmProtocol::DmrDstIdToModule(uint32 tg) const
+char CDmrmmdvmProtocol::DmrDstIdToModule(uint32_t tg) const
 {
     // is it a 4xxx ?
     if ( (tg >= 4001) && (tg <= (4000 + NB_OF_MODULES)) )
@@ -1030,33 +1030,33 @@ char CDmrmmdvmProtocol::DmrDstIdToModule(uint32 tg) const
     return ' ';
 }
 
-uint32 CDmrmmdvmProtocol::ModuleToDmrDestId(char m) const
+uint32_t CDmrmmdvmProtocol::ModuleToDmrDestId(char m) const
 {
-    return (uint32)(m - 'A')+4001;
+    return (uint32_t)(m - 'A')+4001;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Buffer & LC helpers
 
-void CDmrmmdvmProtocol::AppendVoiceLCToBuffer(CBuffer *buffer, uint32 uiSrcId) const
+void CDmrmmdvmProtocol::AppendVoiceLCToBuffer(CBuffer *buffer, uint32_t uiSrcId) const
 {
-    uint8 payload[33];
+    uint8_t payload[33];
     
     // fill payload
     CBPTC19696 bptc;
     ::memset(payload, 0, sizeof(payload));
     // LC data
-    uint8 lc[12];
+    uint8_t lc[12];
     {
         ::memset(lc, 0, sizeof(lc));
         // uiDstId = TG9
         lc[5] = 9;
         // uiSrcId
-        lc[6] = (uint8)LOBYTE(HIWORD(uiSrcId));
-        lc[7] = (uint8)HIBYTE(LOWORD(uiSrcId));
-        lc[8] = (uint8)LOBYTE(LOWORD(uiSrcId));
+        lc[6] = (uint8_t)LOBYTE(HIWORD(uiSrcId));
+        lc[7] = (uint8_t)HIBYTE(LOWORD(uiSrcId));
+        lc[8] = (uint8_t)LOBYTE(LOWORD(uiSrcId));
         // parity
-        uint8 parity[4];
+        uint8_t parity[4];
         CRS129::encode(lc, 9, parity);
         lc[9]  = parity[2] ^ DMR_VOICE_LC_HEADER_CRC_MASK;
         lc[10] = parity[1] ^ DMR_VOICE_LC_HEADER_CRC_MASK;
@@ -1067,7 +1067,7 @@ void CDmrmmdvmProtocol::AppendVoiceLCToBuffer(CBuffer *buffer, uint32 uiSrcId) c
     // slot type
     {
         // slot type
-        uint8 slottype[3];
+        uint8_t slottype[3];
         ::memset(slottype, 0, sizeof(slottype));
         slottype[0]  = (DMRMMDVM_REFLECTOR_COLOUR << 4) & 0xF0;
         slottype[0] |= (DMR_DT_VOICE_LC_HEADER  << 0) & 0x0FU;
@@ -1085,25 +1085,25 @@ void CDmrmmdvmProtocol::AppendVoiceLCToBuffer(CBuffer *buffer, uint32 uiSrcId) c
     buffer->Append(payload, sizeof(payload));
 }
 
-void CDmrmmdvmProtocol::AppendTerminatorLCToBuffer(CBuffer *buffer, uint32 uiSrcId) const
+void CDmrmmdvmProtocol::AppendTerminatorLCToBuffer(CBuffer *buffer, uint32_t uiSrcId) const
 {
-    uint8 payload[33];
+    uint8_t payload[33];
     
     // fill payload
     CBPTC19696 bptc;
     ::memset(payload, 0, sizeof(payload));
     // LC data
-    uint8 lc[12];
+    uint8_t lc[12];
     {
         ::memset(lc, 0, sizeof(lc));
         // uiDstId = TG9
         lc[5] = 9;
         // uiSrcId
-        lc[6] = (uint8)LOBYTE(HIWORD(uiSrcId));
-        lc[7] = (uint8)HIBYTE(LOWORD(uiSrcId));
-        lc[8] = (uint8)LOBYTE(LOWORD(uiSrcId));
+        lc[6] = (uint8_t)LOBYTE(HIWORD(uiSrcId));
+        lc[7] = (uint8_t)HIBYTE(LOWORD(uiSrcId));
+        lc[8] = (uint8_t)LOBYTE(LOWORD(uiSrcId));
         // parity
-        uint8 parity[4];
+        uint8_t parity[4];
         CRS129::encode(lc, 9, parity);
         lc[9]  = parity[2] ^ DMR_TERMINATOR_WITH_LC_CRC_MASK;
         lc[10] = parity[1] ^ DMR_TERMINATOR_WITH_LC_CRC_MASK;
@@ -1114,7 +1114,7 @@ void CDmrmmdvmProtocol::AppendTerminatorLCToBuffer(CBuffer *buffer, uint32 uiSrc
     // slot type
     {
         // slot type
-        uint8 slottype[3];
+        uint8_t slottype[3];
         ::memset(slottype, 0, sizeof(slottype));
         slottype[0]  = (DMRMMDVM_REFLECTOR_COLOUR << 4) & 0xF0;
         slottype[0] |= (DMR_DT_TERMINATOR_WITH_LC  << 0) & 0x0FU;
@@ -1131,21 +1131,21 @@ void CDmrmmdvmProtocol::AppendTerminatorLCToBuffer(CBuffer *buffer, uint32 uiSrc
     buffer->Append(payload, sizeof(payload));
 }
 
-void CDmrmmdvmProtocol::ReplaceEMBInBuffer(CBuffer *buffer, uint8 uiDmrPacketId) const
+void CDmrmmdvmProtocol::ReplaceEMBInBuffer(CBuffer *buffer, uint8_t uiDmrPacketId) const
 {
     // voice packet A ?
     if ( uiDmrPacketId == 0 )
     {
         // sync
-        buffer->ReplaceAt(33, (uint8)(buffer->at(33) | (g_DmrSyncBSVoice[0] & 0x0F)));
+        buffer->ReplaceAt(33, (uint8_t)(buffer->at(33) | (g_DmrSyncBSVoice[0] & 0x0F)));
         buffer->ReplaceAt(34, g_DmrSyncBSVoice+1, 5);
-        buffer->ReplaceAt(39, (uint8)(buffer->at(39) | (g_DmrSyncBSVoice[6] & 0xF0)));
+        buffer->ReplaceAt(39, (uint8_t)(buffer->at(39) | (g_DmrSyncBSVoice[6] & 0xF0)));
     }
     // voice packet B,C,D,E ?
     else if ( (uiDmrPacketId >= 1) && (uiDmrPacketId <= 4 ) )
     {
         // EMB LC
-        uint8 emb[2];
+        uint8_t emb[2];
         emb[0]  = (DMRMMDVM_REFLECTOR_COLOUR << 4) & 0xF0;
         //emb[0] |= PI ? 0x08U : 0x00;
         //emb[0] |= (LCSS << 1) & 0x06;
@@ -1153,21 +1153,21 @@ void CDmrmmdvmProtocol::ReplaceEMBInBuffer(CBuffer *buffer, uint8 uiDmrPacketId)
         // encode
         CQR1676::encode(emb);
         // and append
-        buffer->ReplaceAt(33, (uint8)((buffer->at(33) & 0xF0) | ((emb[0U] >> 4) & 0x0F)));
-        buffer->ReplaceAt(34, (uint8)((buffer->at(34) & 0x0F) | ((emb[0U] << 4) & 0xF0)));
-        buffer->ReplaceAt(34, (uint8)(buffer->at(34) & 0xF0));
-        buffer->ReplaceAt(35, (uint8)0);
-        buffer->ReplaceAt(36, (uint8)0);
-        buffer->ReplaceAt(37, (uint8)0);
-        buffer->ReplaceAt(38, (uint8)(buffer->at(38) & 0x0F));
-        buffer->ReplaceAt(38, (uint8)((buffer->at(38) & 0xF0) | ((emb[1U] >> 4) & 0x0F)));
-        buffer->ReplaceAt(39, (uint8)((buffer->at(39) & 0x0F) | ((emb[1U] << 4) & 0xF0)));
+        buffer->ReplaceAt(33, (uint8_t)((buffer->at(33) & 0xF0) | ((emb[0U] >> 4) & 0x0F)));
+        buffer->ReplaceAt(34, (uint8_t)((buffer->at(34) & 0x0F) | ((emb[0U] << 4) & 0xF0)));
+        buffer->ReplaceAt(34, (uint8_t)(buffer->at(34) & 0xF0));
+        buffer->ReplaceAt(35, (uint8_t)0);
+        buffer->ReplaceAt(36, (uint8_t)0);
+        buffer->ReplaceAt(37, (uint8_t)0);
+        buffer->ReplaceAt(38, (uint8_t)(buffer->at(38) & 0x0F));
+        buffer->ReplaceAt(38, (uint8_t)((buffer->at(38) & 0xF0) | ((emb[1U] >> 4) & 0x0F)));
+        buffer->ReplaceAt(39, (uint8_t)((buffer->at(39) & 0x0F) | ((emb[1U] << 4) & 0xF0)));
     }
     // voice packet F
     else
     {
         // NULL
-        uint8 emb[2];
+        uint8_t emb[2];
         emb[0]  = (DMRMMDVM_REFLECTOR_COLOUR << 4) & 0xF0;
         //emb[0] |= PI ? 0x08U : 0x00;
         //emb[0] |= (LCSS << 1) & 0x06;
@@ -1175,29 +1175,29 @@ void CDmrmmdvmProtocol::ReplaceEMBInBuffer(CBuffer *buffer, uint8 uiDmrPacketId)
         // encode
         CQR1676::encode(emb);
         // and append
-        buffer->ReplaceAt(33, (uint8)((buffer->at(33) & 0xF0) | ((emb[0U] >> 4) & 0x0F)));
-        buffer->ReplaceAt(34, (uint8)((buffer->at(34) & 0x0F) | ((emb[0U] << 4) & 0xF0)));
-        buffer->ReplaceAt(34, (uint8)(buffer->at(34) & 0xF0));
-        buffer->ReplaceAt(35, (uint8)0);
-        buffer->ReplaceAt(36, (uint8)0);
-        buffer->ReplaceAt(37, (uint8)0);
-        buffer->ReplaceAt(38, (uint8)(buffer->at(38) & 0x0F));
-        buffer->ReplaceAt(38, (uint8)((buffer->at(38) & 0xF0) | ((emb[1U] >> 4) & 0x0F)));
-        buffer->ReplaceAt(39, (uint8)((buffer->at(39) & 0x0F) | ((emb[1U] << 4) & 0xF0)));
+        buffer->ReplaceAt(33, (uint8_t)((buffer->at(33) & 0xF0) | ((emb[0U] >> 4) & 0x0F)));
+        buffer->ReplaceAt(34, (uint8_t)((buffer->at(34) & 0x0F) | ((emb[0U] << 4) & 0xF0)));
+        buffer->ReplaceAt(34, (uint8_t)(buffer->at(34) & 0xF0));
+        buffer->ReplaceAt(35, (uint8_t)0);
+        buffer->ReplaceAt(36, (uint8_t)0);
+        buffer->ReplaceAt(37, (uint8_t)0);
+        buffer->ReplaceAt(38, (uint8_t)(buffer->at(38) & 0x0F));
+        buffer->ReplaceAt(38, (uint8_t)((buffer->at(38) & 0xF0) | ((emb[1U] >> 4) & 0x0F)));
+        buffer->ReplaceAt(39, (uint8_t)((buffer->at(39) & 0x0F) | ((emb[1U] << 4) & 0xF0)));
     }
 }
 
-void CDmrmmdvmProtocol::AppendDmrIdToBuffer(CBuffer *buffer, uint32 id) const
+void CDmrmmdvmProtocol::AppendDmrIdToBuffer(CBuffer *buffer, uint32_t id) const
 {
-    buffer->Append((uint8)LOBYTE(HIWORD(id)));
-    buffer->Append((uint8)HIBYTE(LOWORD(id)));
-    buffer->Append((uint8)LOBYTE(LOWORD(id)));
+    buffer->Append((uint8_t)LOBYTE(HIWORD(id)));
+    buffer->Append((uint8_t)HIBYTE(LOWORD(id)));
+    buffer->Append((uint8_t)LOBYTE(LOWORD(id)));
 }
 
-void CDmrmmdvmProtocol::AppendDmrRptrIdToBuffer(CBuffer *buffer, uint32 id) const
+void CDmrmmdvmProtocol::AppendDmrRptrIdToBuffer(CBuffer *buffer, uint32_t id) const
 {
-    buffer->Append((uint8)HIBYTE(HIWORD(id)));
-    buffer->Append((uint8)LOBYTE(HIWORD(id)));
-    buffer->Append((uint8)HIBYTE(LOWORD(id)));
-    buffer->Append((uint8)LOBYTE(LOWORD(id)));
+    buffer->Append((uint8_t)HIBYTE(HIWORD(id)));
+    buffer->Append((uint8_t)LOBYTE(HIWORD(id)));
+    buffer->Append((uint8_t)HIBYTE(LOWORD(id)));
+    buffer->Append((uint8_t)LOBYTE(LOWORD(id)));
 }

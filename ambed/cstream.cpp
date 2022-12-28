@@ -50,7 +50,7 @@ CStream::CStream()
     m_iLostPackets = 0;
 }
 
-CStream::CStream(uint16 uiId, const CCallsign &Callsign, const CIp &Ip, uint8 uiCodecIn, uint8 uiCodecOut)
+CStream::CStream(uint16_t uiId, const CCallsign &Callsign, const CIp &Ip, uint8_t uiCodecIn, uint8_t uiCodecOut)
 {
     m_uiId = uiId;
     m_Callsign = Callsign;
@@ -91,7 +91,7 @@ CStream::~CStream()
 ////////////////////////////////////////////////////////////////////////////////////////
 // initialization
 
-bool CStream::Init(uint16 uiPort)
+bool CStream::Init(uint16_t uiPort)
 {
     bool ok;
     
@@ -175,8 +175,8 @@ void CStream::Task(void)
 {
     CBuffer     Buffer;
     static CIp  Ip;
-    uint8       uiPid;
-    uint8       Ambe[AMBE_FRAME_SIZE];
+    uint8_t       uiPid;
+    uint8_t       Ambe[AMBE_FRAME_SIZE];
     CAmbePacket *packet;
     CPacketQueue *queue;
     
@@ -217,13 +217,13 @@ void CStream::Task(void)
 ////////////////////////////////////////////////////////////////////////////////////////
 // packet decoding helpers
 
-bool CStream::IsValidDvFramePacket(const CBuffer &Buffer, uint8 *pid, uint8 *ambe)
+bool CStream::IsValidDvFramePacket(const CBuffer &Buffer, uint8_t *pid, uint8_t *ambe)
 {
     bool valid = false;
     
     if ( Buffer.size() == 11 )
     {
-        uint8 codec = Buffer.data()[0];
+        uint8_t codec = Buffer.data()[0];
         *pid = Buffer.data()[1];
         ::memcpy(ambe, &(Buffer.data()[2]), 9);
         valid = (codec == GetCodecIn());
@@ -235,11 +235,11 @@ bool CStream::IsValidDvFramePacket(const CBuffer &Buffer, uint8 *pid, uint8 *amb
 ////////////////////////////////////////////////////////////////////////////////////////
 // packet encodeing helpers
 
-void CStream::EncodeDvFramePacket(CBuffer *Buffer, uint8 Pid, uint8 *Ambe)
+void CStream::EncodeDvFramePacket(CBuffer *Buffer, uint8_t Pid, uint8_t *Ambe)
 {
     Buffer->clear();
-    Buffer->Append((uint8)GetCodecOut());
-    Buffer->Append((uint8)Pid);
+    Buffer->Append((uint8_t)GetCodecOut());
+    Buffer->Append((uint8_t)Pid);
     Buffer->Append(Ambe, 9);
 }
 

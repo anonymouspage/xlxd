@@ -39,7 +39,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // constructor
 
-CUsb3003Interface::CUsb3003Interface(uint32 uiVid, uint32 uiPid, const char *szDeviceName, const char *szDeviceSerial)
+CUsb3003Interface::CUsb3003Interface(uint32_t uiVid, uint32_t uiPid, const char *szDeviceName, const char *szDeviceSerial)
 : CUsb3xxxInterface(uiVid, uiPid, szDeviceName, szDeviceSerial)
 {
     m_uiChCodecs[0]= CODEC_AMBEPLUS;
@@ -50,7 +50,7 @@ CUsb3003Interface::CUsb3003Interface(uint32 uiVid, uint32 uiPid, const char *szD
 ////////////////////////////////////////////////////////////////////////////////////////
 // initialization
 
-bool CUsb3003Interface::Init(uint8 uiOddCodec)
+bool CUsb3003Interface::Init(uint8_t uiOddCodec)
 {
     bool ok = true;
     
@@ -71,9 +71,9 @@ bool CUsb3003Interface::Init(uint8 uiOddCodec)
 ////////////////////////////////////////////////////////////////////////////////////////
 // manage Channels
 
-uint8 CUsb3003Interface::GetChannelCodec(int iCh) const
+uint8_t CUsb3003Interface::GetChannelCodec(int iCh) const
 {
-    uint8 uiCodec = CODEC_NONE;
+    uint8_t uiCodec = CODEC_NONE;
     if ( (iCh >= 0) && (iCh <= USB3003_NB_CH) )
     {
         uiCodec = m_uiChCodecs[iCh];
@@ -131,7 +131,7 @@ CVocodecChannel *CUsb3003Interface::GetChannelWithChannelOut(int iCh)
 bool CUsb3003Interface::IsValidChannelPacket(const CBuffer &buffer, int *ch, CAmbePacket *packet)
 {
     bool valid = false;
-    uint8 tag[] = { PKT_HEADER,0x00,0x0C,PKT_CHANNEL };
+    uint8_t tag[] = { PKT_HEADER,0x00,0x0C,PKT_CHANNEL };
     
     if ( (buffer.size() == 16) && (buffer.Compare(tag, sizeof(tag)) == 0))
     {
@@ -170,29 +170,29 @@ bool CUsb3003Interface::IsValidSpeechPacket(const CBuffer &buffer, int *ch, CVoi
 
 void CUsb3003Interface::EncodeChannelPacket(CBuffer *buffer, int ch, CAmbePacket *packet)
 {
-    uint size = (uint16)packet->GetAmbeSize() + 3;
+    uint size = (uint16_t)packet->GetAmbeSize() + 3;
     buffer->clear();
-    buffer->Append((uint8)PKT_HEADER);
-    buffer->Append((uint8)HIBYTE(size));
-    buffer->Append((uint8)LOBYTE(size));
-    buffer->Append((uint8)PKT_CHANNEL);
-    buffer->Append((uint8)(PKT_CHANNEL0+ch));
-    buffer->Append((uint8)(PKT_CHAND));
-    buffer->Append((uint8)(packet->GetAmbeSize()*8));
+    buffer->Append((uint8_t)PKT_HEADER);
+    buffer->Append((uint8_t)HIBYTE(size));
+    buffer->Append((uint8_t)LOBYTE(size));
+    buffer->Append((uint8_t)PKT_CHANNEL);
+    buffer->Append((uint8_t)(PKT_CHANNEL0+ch));
+    buffer->Append((uint8_t)(PKT_CHAND));
+    buffer->Append((uint8_t)(packet->GetAmbeSize()*8));
     buffer->Append(packet->GetAmbe(), packet->GetAmbeSize());
 }
 
 void CUsb3003Interface::EncodeSpeechPacket(CBuffer *buffer, int ch, CVoicePacket *packet)
 {
-    uint16 size = (uint16)packet->GetVoiceSize() + 3;
+    uint16_t size = (uint16_t)packet->GetVoiceSize() + 3;
     buffer->clear();
-    buffer->Append((uint8)PKT_HEADER);
-    buffer->Append((uint8)HIBYTE(size));
-    buffer->Append((uint8)LOBYTE(size));
-    buffer->Append((uint8)PKT_SPEECH);
-    buffer->Append((uint8)(PKT_CHANNEL0+ch));
-    buffer->Append((uint8)PKT_SPEECHD);
-    buffer->Append((uint8)(packet->GetVoiceSize()/2));
+    buffer->Append((uint8_t)PKT_HEADER);
+    buffer->Append((uint8_t)HIBYTE(size));
+    buffer->Append((uint8_t)LOBYTE(size));
+    buffer->Append((uint8_t)PKT_SPEECH);
+    buffer->Append((uint8_t)(PKT_CHANNEL0+ch));
+    buffer->Append((uint8_t)PKT_SPEECHD);
+    buffer->Append((uint8_t)(packet->GetVoiceSize()/2));
     buffer->Append(packet->GetVoice(), packet->GetVoiceSize());
 }
 
@@ -298,8 +298,8 @@ bool CUsb3003Interface::ResetDevice(void)
 bool CUsb3003Interface::ConfigureDevice(void)
 {
     bool ok = true;
-    uint8 pkt_ratep_ambeplus[]  = { 0x01,0x30,0x07,0x63,0x40,0x00,0x00,0x00,0x00,0x00,0x00,0x48 };
-    uint8 pkt_ratep_ambe2plus[] = { 0x04,0x31,0x07,0x54,0x24,0x00,0x00,0x00,0x00,0x00,0x6F,0x48 };
+    uint8_t pkt_ratep_ambeplus[]  = { 0x01,0x30,0x07,0x63,0x40,0x00,0x00,0x00,0x00,0x00,0x00,0x48 };
+    uint8_t pkt_ratep_ambe2plus[] = { 0x04,0x31,0x07,0x54,0x24,0x00,0x00,0x00,0x00,0x00,0x6F,0x48 };
     
     // configure each channels for desired codec
     for ( int i = 0; i < USB3003_NB_CH; i++ )
